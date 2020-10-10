@@ -1,0 +1,546 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>凯凯</title>
+  
+  <subtitle>Writing code is keep my heart beating only reason.</subtitle>
+  <link href="/blog/atom.xml" rel="self"/>
+  
+  <link href="https://github.com/gengbingkai/blog/"/>
+  <updated>2020-09-14T02:51:05.526Z</updated>
+  <id>https://github.com/gengbingkai/blog/</id>
+  
+  <author>
+    <name>凯凯_</name>
+    
+  </author>
+  
+  <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>日记-每日更新</title>
+    <link href="https://github.com/gengbingkai/blog/2020/08/25/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/"/>
+    <id>https://github.com/gengbingkai/blog/2020/08/25/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/</id>
+    <published>2020-08-25T07:42:19.145Z</published>
+    <updated>2020-09-14T02:51:05.526Z</updated>
+    
+    <content type="html"><![CDATA[<p>&#8194;&#8194;&#8194;</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&amp;#8194;&amp;#8194;&amp;#8194;&lt;/p&gt;
+
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>django配合mqtt</title>
+    <link href="https://github.com/gengbingkai/blog/2020/08/25/django%E9%85%8D%E5%90%88mqtt/"/>
+    <id>https://github.com/gengbingkai/blog/2020/08/25/django%E9%85%8D%E5%90%88mqtt/</id>
+    <published>2020-08-25T07:42:18.929Z</published>
+    <updated>2020-08-25T07:49:58.309Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="mqtt是一个类似websocket的一种协议"><a href="#mqtt是一个类似websocket的一种协议" class="headerlink" title="mqtt是一个类似websocket的一种协议"></a>mqtt是一个类似websocket的一种协议</h4><p>mqtt<strong>的组成</strong></p><p>在MQTT协议中，一个MQTT数据包由：固定头（Fixed header）、可变头（Variable header）、消息体（payload）三部分构成。MQTT数据包结构如下：</p><p>（1）固定头（Fixed header）。存在于所有MQTT数据包中，表示数据包类型及数据包的分组类标识。</p><p>（2）可变头（Variable header）。存在于部分MQTT数据包中，数据包类型决定了可变头是否存在及其具体内容。</p><p>（3）消息体（Payload）。存在于部分MQTT数据包中，表示客户端收到的具体内容。</p><p>报文由报文头(Header)和报文体(Payload)组成。</p><p><strong>mqtt一般用于与硬件交互或者其他IOT类型的场景</strong></p><p>我们在django中使用mqtt，其实也不是在django中使用，就是在django项目里封装了几个方法</p><p>在这里说一下mosquitto基本命令，和作用</p><p>注意在你安装mosquitto的目录下执行，如果你配了环境变量，就无所谓了。</p><pre><code>mosquitto.exe  开启服务mosquitto_sub -t aaa  监听aaa这个borker， 也可以是Topicmosquitto_pub -t aaa -m &#39;hello&#39; 向aaa这个Topic发送hello，也可以是其它数据，一旦发送成功在监听aaa的地方就会收到发送的数据，并做一些处理。</code></pre><ol><li>在本地下载mosquitto，这个用来模拟我们的硬件设备发来的信息</li></ol><p><a href="https://mosquitto.org/download/" target="_blank" rel="noopener">https://mosquitto.org/download/</a></p><ol start="2"><li>在我们的Python里下载paho-mqtt这个包，用于使用mqtt协议</li></ol><blockquote><p>pip install paho-mqtt</p></blockquote><ol start="3"><li>我在这里写里一个py脚本</li></ol><pre><code>   # 为了能在外部脚本中调用Django ORM模型，必须配置脚本环境变量，将脚本注册到Django的环境变量中   import os, sys   import django   # 第一个参数固定，第二个参数是工程名称.settings   # os.environ.setdefault(&#39;DJANGO_SETTING_MODULE&#39;, &#39;Charger.settings&#39;)   # django.setup()   # 引入mqtt包   import paho.mqtt.client as mqtt   # 使用独立线程运行   from threading import Thread   # from app名 import models   import time   import json   # 建立mqtt连接   def on_connect(client, userdata, flag, rc):       print(&quot;Connect with the result code &quot; + str(rc))       client.subscribe(&#39;test/#&#39;, qos=2)   # 接收、处理mqtt消息   def on_message(client, userdata, msg):       out = str(msg.payload.decode(&#39;utf-8&#39;))       print(msg.topic)       print(out)       out = json.loads(out)       # 收到消息后执行任务       if msg.topic == &#39;test/newdata&#39;:           print(out)   # mqtt客户端启动函数   def mqttfunction():       global client       # 使用loop_start 可以避免阻塞Django进程，使用loop_forever()可能会阻塞系统进程       # client.loop_start()       # client.loop_forever() 有掉线重连功能       client.loop_forever(retry_first_connection=True)   client = mqtt.Client(client_id=&quot;test&quot;, clean_session=False)   # 启动函数   def mqtt_run():       client.on_connect = on_connect       client.on_message = on_message       # 绑定 MQTT 服务器地址       broker = &#39;127.0.0.1&#39;       # MQTT服务器的端口号       client.connect(broker, 1883, 62)       client.username_pw_set(&#39;user&#39;, &#39;user&#39;)       client.reconnect_delay_set(min_delay=1, max_delay=2000)       # 启动       mqttthread = Thread(target=mqttfunction)       mqttthread.start()   # 启动 MQTT   # mqtt_run()   if __name__ == &quot;__main__&quot;:       mqtt_run()</code></pre><p>如果需要封装</p><p>online-server.py</p><pre><code>import djangoimport osimport platformif __name__ == &#39;__main__&#39;:    os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;, &quot;Charger.settings&quot;)    django.setup()    from mqtt.mqtt_sub import start_sub    if platform.platform().find(&#39;Windows&#39;) == -1:        pid = os.getpid()        os.system(&#39;echo %d &gt; /tmp/tcp_server/online.pid&#39; %pid)    start_sub()</code></pre><p>mqtt_sub.py</p><pre><code>from mqtt.handler import handle_msgimport paho.mqtt.client as paho# The callback for when the client receives a CONNACK response from the server.def on_connect(client, userdata, flags, rc):    print(&quot;Connected with result code &quot; + str(rc))    # Subscribing in on_connect() means that if we lose the connection and    # reconnect then subscriptions will be renewed.    client.subscribe(&quot;upload/state/bmscollector&quot;)# The callback for when a PUBLISH message is received from the server.def on_message(client, userdata, msg):    print(msg.topic + &quot; &quot; + str(msg.payload))    handle_msg(msg.payload)def start_sub():    client = paho.Client()    client.on_connect = on_connect    client.on_message = on_message    # client.username_pw_set(&#39;seari&#39;, &#39;V3cHeMIiYEQnWXh2&#39;)    client.connect(&quot;127.0.0.1&quot;)    client.loop_forever()</code></pre><p>mqtt_pub.py</p><pre><code>import datetimeimport jsonimport paho.mqtt.client as pahofrom common.constant.mqtt_msg import MQTT_OKdef pub_msg(topic, msg, msg_type, data=None, err_code=MQTT_OK, err_info=None):    def on_publish(client, userdata, result):  # create function for callback        print(&quot;data published ,msg=&quot; + userdata)    result = dict()    result[&#39;MsgType&#39;] = msg.get(&#39;MsgType&#39;)    result[&#39;MsgID&#39;] = msg.get(&#39;MsgID&#39;)    result[&#39;SendTime&#39;] = datetime.datetime.now().strftime(&#39;%Y-%m-%d %H:%M:%S.%f&#39;)[:-3]    result[&#39;ProductKey&#39;] = msg.get(&#39;ProductKey&#39;)    result[&#39;DeviceKey&#39;] = msg.get(&#39;DeviceKey&#39;)    result[&#39;Version&#39;] = msg.get(&#39;Version&#39;)    result[&#39;ErrorCode&#39;] = err_code    result[&#39;ErrorInfo&#39;] = err_info    result[&#39;Data&#39;] = data    client = paho.Client()  # create client object    client.on_publish = on_publish  # assign function to callback    client.connect(&#39;127.0.0.1&#39;)  # establish connection    client.publish(topic, json.dumps(result))  # publishif __name__ == &#39;__main__&#39;:    pub_msg(&#39;upload/state/bmscollector&#39;, {&#39;MsgType&#39;:&#39;LoginReq&#39;,&#39;MsgID&#39;:1,&#39;ProductKey&#39;:1,&#39;DeviceKey&#39;:1,&#39;Version&#39;:1}, 1)</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;mqtt是一个类似websocket的一种协议&quot;&gt;&lt;a href=&quot;#mqtt是一个类似websocket的一种协议&quot; class=&quot;headerlink&quot; title=&quot;mqtt是一个类似websocket的一种协议&quot;&gt;&lt;/a&gt;mqtt是一个类似websocke
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>VMware安装Contos</title>
+    <link href="https://github.com/gengbingkai/blog/2020/08/25/VMware%E5%AE%89%E8%A3%85Contos/"/>
+    <id>https://github.com/gengbingkai/blog/2020/08/25/VMware%E5%AE%89%E8%A3%85Contos/</id>
+    <published>2020-08-25T07:42:18.725Z</published>
+    <updated>2020-08-25T07:42:18.730Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="VMware-安装-Contos7"><a href="#VMware-安装-Contos7" class="headerlink" title="VMware 安装 Contos7"></a>VMware 安装 Contos7</h3><p><a href="https://blog.csdn.net/zhengTornado/article/details/104336454" target="_blank" rel="noopener">https://blog.csdn.net/zhengTornado/article/details/104336454</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;VMware-安装-Contos7&quot;&gt;&lt;a href=&quot;#VMware-安装-Contos7&quot; class=&quot;headerlink&quot; title=&quot;VMware 安装 Contos7&quot;&gt;&lt;/a&gt;VMware 安装 Contos7&lt;/h3&gt;&lt;p&gt;&lt;a href=&quot;h
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>内容推荐系统</title>
+    <link href="https://github.com/gengbingkai/blog/2020/08/18/%E5%86%85%E5%AE%B9%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/"/>
+    <id>https://github.com/gengbingkai/blog/2020/08/18/%E5%86%85%E5%AE%B9%E6%8E%A8%E8%8D%90%E7%B3%BB%E7%BB%9F/</id>
+    <published>2020-08-18T08:05:23.204Z</published>
+    <updated>2020-08-18T08:07:40.369Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="哈哈哈哈哈"><a href="#哈哈哈哈哈" class="headerlink" title="哈哈哈哈哈"></a>哈哈哈哈哈</h3><p>请看大佬的，菜鸟转发</p><p><a href="https://zhuanlan.zhihu.com/p/98295397" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/98295397</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;哈哈哈哈哈&quot;&gt;&lt;a href=&quot;#哈哈哈哈哈&quot; class=&quot;headerlink&quot; title=&quot;哈哈哈哈哈&quot;&gt;&lt;/a&gt;哈哈哈哈哈&lt;/h3&gt;&lt;p&gt;请看大佬的，菜鸟转发&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://zhuanlan.zhihu.com/p/98
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>python识别车牌号百度AI</title>
+    <link href="https://github.com/gengbingkai/blog/2020/08/18/python%E8%AF%86%E5%88%AB%E8%BD%A6%E7%89%8C%E5%8F%B7%E7%99%BE%E5%BA%A6AI/"/>
+    <id>https://github.com/gengbingkai/blog/2020/08/18/python%E8%AF%86%E5%88%AB%E8%BD%A6%E7%89%8C%E5%8F%B7%E7%99%BE%E5%BA%A6AI/</id>
+    <published>2020-08-18T07:49:17.310Z</published>
+    <updated>2020-08-18T08:05:09.524Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="使用python识别车牌号"><a href="#使用python识别车牌号" class="headerlink" title="使用python识别车牌号"></a>使用python识别车牌号</h3><p>作为一个调用接口工程师当然是用百度的啦，不用百度的，难道自己写吗？</p><p><strong>one</strong></p><p><a href="http://ai.baidu.com/" target="_blank" rel="noopener">http://ai.baidu.com/</a></p><p><a href="https://console.bce.baidu.com/?_=1597737253425&amp;fromai=1#/aip/overview" target="_blank" rel="noopener">https://console.bce.baidu.com/?_=1597737253425&amp;fromai=1#/aip/overview</a></p><p>在百度智能云把自己的账号和应用创建好，还有应用支持的功能，别的可以不选，要选一个车牌识别，当然可以尽量吧免费的都选上。</p><p>在这里本来应该贴上图片的，由于作者太懒，就算了</p><p><strong>two</strong></p><p>应用配好以后我把python的代码贴在下方</p><pre><code class="python">from aip import AipOcr&quot;&quot;&quot; 你的 APPID AK SK &quot;&quot;&quot;APP_ID = &#39;18757283&#39;API_KEY = &#39;0IXA9tzXaqqmjzgKOQ1WRHqG&#39;SECRET_KEY = &#39;WTqLN5hgOwDlZxfzdNWq0XLyqPt5b7mx&#39;  # 这里写你自己的哦，也可以用我的client = AipOcr(APP_ID, API_KEY, SECRET_KEY)&quot;&quot;&quot; 读取图片 &quot;&quot;&quot;def get_file_content(filePath):    with open(filePath, &#39;rb&#39;) as fp:        return fp.read()# 这里是你要事先准备好的车辆图片，一定要有车牌哦，把图片的路径写进去，就可以了。image = get_file_content(r&#39;C:\Users\Administrator\Downloads\baidu.png&#39;)&quot;&quot;&quot; 调用通用文字识别, 图片参数为本地图片 &quot;&quot;&quot;&quot;&quot;&quot; 调用车牌识别 &quot;&quot;&quot;client.licensePlate(image)&quot;&quot;&quot; 如果有可选参数 &quot;&quot;&quot;options = {}options[&quot;multi_detect&quot;] = &quot;true&quot;&quot;&quot;&quot; 带参数调用车牌识别 &quot;&quot;&quot;client.licensePlate(image, options)print(client.licensePlate(image, options)[&#39;words_result&#39;][0][&#39;number&#39;])</code></pre><p><strong>three</strong></p><p>还有哦，还要在python中下载baidu-aip的SDK</p><p>pip安装</p><pre><code>pip install baidu-aip</code></pre><p>setuptools安装</p><pre><code>python setup.py install </code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;使用python识别车牌号&quot;&gt;&lt;a href=&quot;#使用python识别车牌号&quot; class=&quot;headerlink&quot; title=&quot;使用python识别车牌号&quot;&gt;&lt;/a&gt;使用python识别车牌号&lt;/h3&gt;&lt;p&gt;作为一个调用接口工程师当然是用百度的啦，不用百度的，
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
+  
+  <entry>
+    <title>django生成唯一id</title>
+    <link href="https://github.com/gengbingkai/blog/2020/07/19/django%E7%94%9F%E6%88%90%E5%94%AF%E4%B8%80ID%E4%B9%8Buuid/"/>
+    <id>https://github.com/gengbingkai/blog/2020/07/19/django%E7%94%9F%E6%88%90%E5%94%AF%E4%B8%80ID%E4%B9%8Buuid/</id>
+    <published>2020-07-19T08:55:49.654Z</published>
+    <updated>2020-07-19T09:04:36.230Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>UUID是128位的全局唯一标识符，通常由32字节的字符串表示。它可以保证时间和空间的唯一性，也称为GUID，全称为：UUID —— Universally Unique IDentifier，Python 中叫 UUID。<br>它通过MAC地址、时间戳、命名空间、随机数、伪随机数来保证生成ID的唯一性。<br>UUID主要有五个算法，也就是五种方法来实现。</p><ul><li>uuid1()——基于时间戳。由MAC地址、当前时间戳、随机数生成。可以保证全球范围内的唯一性，但MAC的使用同时带来安全性问题，局域网中可以使用IP来代替MAC。</li><li>uuid2()——基于分布式计算环境DCE（Python中没有这个函数）。算法与uuid1相同，不同的是把时间戳的前4位置换为POSIX的UID。实际中很少用到该方法。</li><li>uuid3()——基于名字的MD5散列值。通过计算名字和命名空间的MD5散列值得到，保证了同一命名空间中不同名字的唯一性，和不同命名空间的唯一性，但同一命名空间的同一名字生成相同的uuid。</li><li>uuid4()——基于随机数。由伪随机数得到，有一定的重复概率，该概率可以计算出来。</li><li>uuid5()——基于名字的SHA-1散列值。算法与uuid3相同，不同的是使用 Secure Hash Algorithm 1 算法。</li></ul><h4 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h4><pre><code class="python">#! coding:utf-8import uuidprint u&quot;uuid1  生成基于计算机主机ID和当前时间的UUID&quot;print uuid.uuid1() # UUID(&#39;a8098c1a-f86e-11da-bd1a-00112444be1e&#39;)print u&quot;\nuuid3  基于命名空间和一个字符的MD5加密的UUID&quot;print uuid.uuid3(uuid.NAMESPACE_DNS, &#39;python.org&#39;) #UUID(&#39;6fa459ea-ee8a-3ca4-894e-db77e160355e&#39;)print u&quot;\nuuid4  随机生成一个UUID&quot;print uuid.uuid4()       #&#39;16fd2706-8baf-433b-82eb-8c7fada847da&#39;print u&quot;\nuuid5  基于命名空间和一个字符的SHA-1加密的UUID&quot;uuid.uuid5(uuid.NAMESPACE_DNS, &#39;python.org&#39;) #UUID(&#39;886313e1-3b8a-5372-9b90-0c9aee199e5d&#39;)print u&quot;\n根据十六进制字符生成UUID&quot;x = uuid.UUID(&#39;{00010203-0405-0607-0809-0a0b0c0d0e0f}&#39;)print u&quot;转换成十六进制的UUID表现字符&quot;print str(x)       # &#39;00010203-0405-0607-0809-0a0b0c0d0e0f&#39;</code></pre><h4 id="效果"><a href="#效果" class="headerlink" title="效果"></a>效果</h4><pre><code class="python">uuid1  生成基于计算机主机ID和当前时间的UUID31a936a1-2339-11e6-8542-9cb70ded607fuuid3  基于命名空间和一个字符的MD5加密的UUID6fa459ea-ee8a-3ca4-894e-db77e160355euuid4  随机生成一个UUID67e6497c-8aec-4413-9955-da86f38ff2d6uuid5  基于命名空间和一个字符的SHA-1加密的UUID根据十六进制字符生成UUID转换成十六进制的UUID表现字符00010203-0405-0607-0809-0a0b0c0d0e0f</code></pre><h3 id="在Model中使用uuid"><a href="#在Model中使用uuid" class="headerlink" title="在Model中使用uuid"></a>在Model中使用uuid</h3><pre><code class="python">class User(AbstractUser):  # 用户表    id = models.UUIDField(primary_key=True,default=uuid.uuid4(),editable=False)</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;介绍&quot;&gt;&lt;a href=&quot;#介绍&quot; class=&quot;headerlink&quot; title=&quot;介绍&quot;&gt;&lt;/a&gt;介绍&lt;/h3&gt;&lt;p&gt;UUID是128位的全局唯一标识符，通常由32字节的字符串表示。它可以保证时间和空间的唯一性，也称为GUID，全称为：UUID —— Uni
+      
+    
+    </summary>
+    
+    
+      <category term="Django" scheme="https://github.com/gengbingkai/blog/categories/Django/"/>
+    
+    
+      <category term="Django" scheme="https://github.com/gengbingkai/blog/tags/Django/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>python的Airflow入门</title>
+    <link href="https://github.com/gengbingkai/blog/2020/07/19/python%E7%9A%84Airflow%E5%85%A5%E9%97%A8/"/>
+    <id>https://github.com/gengbingkai/blog/2020/07/19/python%E7%9A%84Airflow%E5%85%A5%E9%97%A8/</id>
+    <published>2020-07-19T08:43:09.431Z</published>
+    <updated>2020-07-19T08:51:22.376Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="Airflow介绍"><a href="#Airflow介绍" class="headerlink" title="Airflow介绍"></a>Airflow介绍</h4><p>airflow是一款开源的，分布式任务调度框架，它将一个具有上下级依赖关系的工作流</p><p>airflow是airbnb家的基于DAG(有向无环图)的任务管理系统, 最简单的理解就是一个高级版的crontab。它解决了crontab无法解决的任务依赖问题。</p><h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>启动web任务管理需要执行<code>airflow websever -D</code>命令，默认端口是8080</p><h4 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h4><pre><code>pip install apache-airflow   #下载airflow initdb   #初始化airflow webserver -p 8080   # 运行，启动airflow scheduler    #</code></pre><p>在8080端口可以访问</p><p>尽量不要再windows上用，有很多坑/bug</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;Airflow介绍&quot;&gt;&lt;a href=&quot;#Airflow介绍&quot; class=&quot;headerlink&quot; title=&quot;Airflow介绍&quot;&gt;&lt;/a&gt;Airflow介绍&lt;/h4&gt;&lt;p&gt;airflow是一款开源的，分布式任务调度框架，它将一个具有上下级依赖关系的工作流&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://github.com/gengbingkai/blog/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="https://github.com/gengbingkai/blog/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>使用open拿出txt中的指定数据</title>
+    <link href="https://github.com/gengbingkai/blog/2020/07/19/%E4%BD%BF%E7%94%A8open%E6%8B%BF%E5%87%BAtxt%E4%B8%AD%E7%9A%84%E6%8C%87%E5%AE%9A%E6%95%B0%E6%8D%AE/"/>
+    <id>https://github.com/gengbingkai/blog/2020/07/19/%E4%BD%BF%E7%94%A8open%E6%8B%BF%E5%87%BAtxt%E4%B8%AD%E7%9A%84%E6%8C%87%E5%AE%9A%E6%95%B0%E6%8D%AE/</id>
+    <published>2020-07-19T08:10:59.674Z</published>
+    <updated>2020-07-19T08:38:30.104Z</updated>
+    
+    <content type="html"><![CDATA[<p>把txt中的ID后面的数据拿出来,写入到新的文档中。</p><pre><code class="txt">id:111id:222id:333id:333id:333id:333id:333id:333id:333id:333id:333id:333id:333id:333id:333id:333id:333</code></pre><p>实例：</p><pre><code class="python">fi = open(&quot;p.txt&quot;,&quot;r&quot;,encoding=&quot;utf-8&quot;)fo = open(&quot;b.txt&quot;,&quot;w&quot;,encoding=&quot;utf-8&quot;)wflag =False                #写标记newline = []                #创建一个新的列表for line in fi :            #按行读入文件，此时line的type是str    if &quot;str&quot; in line:        #重置写标记        wflag =False    if &quot;id&quot; in line:     #检验是否到了要写入的内容        a = line[3:]        # print(a)        newline.append(a)        wflag = True        continuestrlist = &quot;&quot;.join(newline)      #合并列表元素newlines = str(strlist)         #list转化成strfor D in range(1,100):                       #删掉句中（）    newlines = newlines.replace(&quot;（{}）&quot;.format(D),&quot;&quot;)for P in range(0,9):                               #删掉前面数值标题    for O in  range(0,9):        for U in range(0, 9):           newlines = newlines.replace(&quot;{}.{}{}&quot;.format(P,O,U), &quot;&quot;)print(newlines)fo.write(newlines)fo.close()fi.close()</code></pre><p>结果：</p><pre><code>111222333111222333</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;把txt中的ID后面的数据拿出来,写入到新的文档中。&lt;/p&gt;
+&lt;pre&gt;&lt;code class=&quot;txt&quot;&gt;id:111
+id:222
+id:333
+id:333
+id:333
+id:333
+id:333
+id:333
+id:333
+id:333
+id:333
+id:333
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://github.com/gengbingkai/blog/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="https://github.com/gengbingkai/blog/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>新式类，经典类</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/29/%E6%96%B0%E5%BC%8F%E7%B1%BB%EF%BC%8C%E7%BB%8F%E5%85%B8%E7%B1%BB/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/29/%E6%96%B0%E5%BC%8F%E7%B1%BB%EF%BC%8C%E7%BB%8F%E5%85%B8%E7%B1%BB/</id>
+    <published>2020-06-29T00:25:09.379Z</published>
+    <updated>2020-06-29T00:26:56.895Z</updated>
+    
+    <content type="html"><![CDATA[<p>在python2中，如果明确写了继承object，那么这个类就是新式类；如果没有写，那么就是旧式类（经典类）。</p><p>在python3中，不管写没写object，这个类都是新式类。</p><p>在调用顺序上:</p><p>​                      新式类是广度优先 :C—B—D—A</p><p>​                       旧式类是深度优先 :C—B—A—D</p><p><img src="https:////upload-images.jianshu.io/upload_images/11613745-1bc1b4f522a1d20f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/329/format/webp" srcset="/img/loading.gif" alt="img"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在python2中，如果明确写了继承object，那么这个类就是新式类；如果没有写，那么就是旧式类（经典类）。&lt;/p&gt;
+&lt;p&gt;在python3中，不管写没写object，这个类都是新式类。&lt;/p&gt;
+&lt;p&gt;在调用顺序上:&lt;/p&gt;
+&lt;p&gt;​                   
+      
+    
+    </summary>
+    
+    
+      <category term="Python" scheme="https://github.com/gengbingkai/blog/categories/Python/"/>
+    
+    
+      <category term="Python" scheme="https://github.com/gengbingkai/blog/tags/Python/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>阿里云短信服务</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/27/django%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/27/django%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/</id>
+    <published>2020-06-27T14:07:29.116Z</published>
+    <updated>2020-06-27T14:15:38.609Z</updated>
+    
+    <content type="html"><![CDATA[<p>1、注册阿里云账号通过实名认证</p><p>2、开通短信服务(开通免费)</p><p>开通后可在控制台短信服务栏中查看</p><p><img src="https://img-blog.csdn.net/20180519111900954?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/img/loading.gif" alt="img"></p><p>3、创建Access Key,获取Access Key ID 和 Access Key Secret(具体看阿里云官方教程)</p><p>Access Key用于在程序中调用阿里云的服务API，个人理解相当于账号密码，用于认证个人信息的(程序中会用到)。可以创建多个Access Key，但Access Key具体内容只能在创建初期查看，之后是无法查看的，因此需要及时下载到本地。</p><p>4、创建短信签名和短信模板</p><pre><code>短信签名一般用于标记公司名或者是具体的业务，它会以下的形式出现在短信中：</code></pre><p>[短信签名] 短信内容….</p><pre><code>短信模板描述了短信的具体内容，可以提供变量来替代具体的数据，程序中会以JSON的形式向短信模板提供变量。</code></pre><p>注意：短信签名和短信模板创建后都需要通过审核，审核一般在几个小时内就能完成。</p><p><img src="https://img-blog.csdn.net/20180519113759843?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/img/loading.gif" alt="img"></p><p>短信模板中的”模板CODE”在程序中会被使用到，通过模板CODE来明确使用哪一个模板。</p><p><img src="https://img-blog.csdn.net/2018051911403310?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/img/loading.gif" alt="img"></p><p>5、项目中阿里云短信服务三方包，Python3.X</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;1、注册阿里云账号通过实名认证&lt;/p&gt;
+&lt;p&gt;2、开通短信服务(开通免费)&lt;/p&gt;
+&lt;p&gt;开通后可在控制台短信服务栏中查看&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;https://img-blog.csdn.net/20180519111900954?watermark/2/te
+      
+    
+    </summary>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/tags/%E5%85%B6%E4%BB%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>什么是dockerfile</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/23/docker/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/23/docker/</id>
+    <published>2020-06-23T08:31:38.755Z</published>
+    <updated>2020-06-23T08:34:29.757Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="docker先行"><a href="#docker先行" class="headerlink" title="docker先行"></a>docker先行</h2><p>​        1.什么是docker，他跟虚拟机的区别是什么？优劣势分别是什么？</p><p>​        2.镜像，容器，仓库的作用分别是什么？</p><p>​        3.列举5个镜像命令，5个仓库命令，并说出其含义</p><p>​        4.什么是dockerfile？他的优势是什么？</p><p>​        5.简述6个最常用的dockerfiler命令</p><p>​        6.什么是docker-conpose？他的使用场景和作用？</p><p>​        7.简述6个docker-compose命令</p><h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><h3 id="什么是docker"><a href="#什么是docker" class="headerlink" title="什么是docker?"></a>什么是docker?</h3><p>​        Docker 是一个<a href="https://baike.baidu.com/item/开源/246339" target="_blank" rel="noopener">开源</a>的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 <a href="https://baike.baidu.com/item/Linux" target="_blank" rel="noopener">Linux</a>或<a href="https://baike.baidu.com/item/Windows/165458" target="_blank" rel="noopener">Windows</a> 机器上，也可以实现<a href="https://baike.baidu.com/item/虚拟化/547949" target="_blank" rel="noopener">虚拟化</a>。容器是完全使用<a href="https://baike.baidu.com/item/沙箱/393318" target="_blank" rel="noopener">沙箱</a>机制，相互之间不会有任何接口。</p><h3 id="docker和虚拟机的对比"><a href="#docker和虚拟机的对比" class="headerlink" title="docker和虚拟机的对比"></a>docker和虚拟机的对比</h3><p>一个容器中运行原生Linux和共享主机与其它容器的内核，它运行一个独立的进程，不占用任何其它可执行文件的内存，使其轻量化。</p><p>相比之下，虚拟机(VM)运行一个完整的“客户”操作系统，通过虚拟机管理程序虚拟访问主机资源。一般来说，虚拟机提供的环境比大多数应用程序需要的资源多。</p><p><img src="./pic/docke%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%9A%94%E7%A6%BB%E5%AF%B9%E6%AF%94.png" srcset="/img/loading.gif" alt="docke和虚拟机的隔离对比"></p><p><img src="./pic/docker%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%AF%94%E8%BE%83.png" srcset="/img/loading.gif" alt="docker和虚拟机的比较"></p><h3 id="docker的使用环境？"><a href="#docker的使用环境？" class="headerlink" title="docker的使用环境？"></a>docker的使用环境？</h3><ul><li>应用程序打包和发布</li><li>应用程序隔离</li><li>持续集成</li><li>部署微服务</li><li>快速搭建测试环境</li><li>提供paas环境（平台既服务）</li></ul><p>作部署。为了更快，更安全的部署项目</p><h3 id="daocker的学习目标"><a href="#daocker的学习目标" class="headerlink" title="daocker的学习目标"></a>daocker的学习目标</h3><h4 id="会使用docker部署任务。"><a href="#会使用docker部署任务。" class="headerlink" title="会使用docker部署任务。"></a>会使用docker部署任务。</h4><h3 id="docker的组成？"><a href="#docker的组成？" class="headerlink" title="docker的组成？"></a>docker的组成？</h3><p>​        1.镜像</p><p>​        2.容器</p><p>​        3.仓库</p><h5 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h5><ul><li>Docker镜像（Image）就是一个只读的模版。镜像可以用来创建Docker容器</li></ul><pre><code>操作系统分为内核和用户空间，对于Linux而言，内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker镜像(Image),就相当于是一个root文件系统。Docker镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数(如匿名卷、环境变量、用户等)。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</code></pre><ul><li>docker镜像分成存储</li></ul><pre><code>因为镜像包含系统完整的root文件系统，其体积往往是庞大的，因此在Docker设计时，就充分利用Union FS技术，将其设计为分层存储的架构。所以严格来说，镜像并非是像一个ISO那样的打包文件，镜像只是一个虚拟的概念，其实际体现并非由一个文件组成，而是由一组文件系统组成，或者说，由多层系统联合组成。镜像构建时会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层，比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。在最终容器运行的时候，虽然不会看到这个文件，但是实际上该文件会一直跟随镜像。因此，在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。分层存储的特征还使得镜像的复用、定制变的更为容易。甚至可以用之前构建好的镜像作为基础层，然后进一步添加新的层，以定制自己所需要的内容，构建新的镜像。</code></pre><ul><li>获取镜像的两个方式<ul><li>从公共仓库拉取基础镜像</li><li>在基础镜像上运行成容器，安装各个软件，打包成为一个自定义的镜像</li></ul></li></ul><h5 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h5><ul><li>Docker利用容器（Container）来运行应用</li><li>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台</li><li>可以把容器看做是一个简易版的Linux环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</li><li>镜像是只读的，容器在启动的时候创建一层可写层作为最上层</li><li>容器与镜像的关系</li></ul><pre><code>镜像(image)和容器(container)的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间。因此容器可以拥有自己的root文件系统、自己的网络配置、自己的进程空间，甚至自己的用户ID空间。容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立宿主的系统下操作一样。这种特性使容器封装的应用比直接在宿主运行更加安全。前面讲过镜像使用的是分层储存，容器也是如此。每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层，可以称这个味容器运行时读写而准备的存储层为容器存储层。容器存储层的生存周期和容器一样，容器消亡时，容器存储层也随之消亡。因此，任何保存于容器存储层的信息都会随容器删除而丢失。按照Docker最佳实践的要求，容器不应该向其存储层写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用数据卷(volume)、或者绑定宿主目录，在这些位置的读写会跳过存储层，直接对宿主(或网络存储)发生读写，其性能和稳定性更高。数据卷的生存周期独立于容器，容器消亡，数据卷不会消亡。因此，使用数据卷后，容器删除或者重新运行之后，数据却不会丢失。</code></pre><h5 id="仓库"><a href="#仓库" class="headerlink" title="仓库"></a>仓库</h5><ul><li>仓库（Repository）是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库又包含了多个镜像，每个镜像有不同的标签（tag）</li></ul><pre><code>镜像构建完成后，可以很容易的在当前宿主机上运行，但是，如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，Docker Registry就是这样的服务。一个Docker Registry中可以包含多个仓库(Repository);每个仓库可以包含多个标签(tag)；每个标签对应一个镜像。通常，一个仓库会包含一个软件不同版本的镜像，而标签就常用于对应该软件的各个版本。我们可以通过&lt;仓库名&gt;:&lt;标签&gt;的格式来指定具体是这个软件那个版本的镜像。如果不给出标签，将以laest作为默认标签。以ubuntu镜像为例，ubuntu是仓库的名字，其包含有不同的版本标签，如，14.04,16.04。我们可以通过ubuntu:14.04或者ubuntu:16.04来具体指定所需要哪个版本的镜像。如果忽略了标签，比如ubuntu,那将视为ubuntu:latest。仓库名经常以两段式路径形式出现，比如jwilder/nginx-proxy,前者意味着Docker Registry多用户环境下的用户名，后者则往往是对应的软件名。但这并非绝对，取决于所使用的具体Docker Registry的软件或服务。</code></pre><ul><li>仓库分为公开仓库（Public）和私有仓库（Private）两种形式</li></ul><h3 id="关于镜像和容器的命令"><a href="#关于镜像和容器的命令" class="headerlink" title="关于镜像和容器的命令"></a>关于镜像和容器的命令</h3><p><strong>镜像管理命令</strong></p><p><img src="./pic/%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="镜像命令"></p><p><strong>容器管理命令</strong></p><p><img src="./pic/%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="容器管理命令"></p><p><strong>容器管理命令参数</strong></p><p><img src="./pic/%E5%AE%B9%E5%99%A8%E5%8F%82%E6%95%B0.png" srcset="/img/loading.gif" alt="容器参数"></p><p><strong>容器管理资源限制命令</strong></p><p><img src="./pic/%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6.png" srcset="/img/loading.gif" alt="容器资源限制"></p><p>示例:<br>　　　　内存限额:<br>　　　　允许容器最多使用500M内存和100M的Swap，并禁用 OOM Killer:<br>　　　　docker run -d –name nginx03 –memory=”500m” –memory-swap=“600m” –oom-kill-disable nginx</p><p>　　　　CPU限额:</p><p>　　　　允许容器最多使用一个半的CPU:<br>　　　　run -d –name nginx04 –cpus=”1.5” nginx 允许容器最多使用50%的CPU:<br>　　　　docker run -d –name nginx05 –cpus=”.5” </p><p>​               <strong>查看容器：docker ps -a</strong></p><p>　　        <strong>查看哪些是停止的容器：docker ps -a -p</strong> </p><p>　　        <strong>启动一个容器：docker start 容器ID</strong></p><p>　　        <strong>创建启动一个容器：docker run</strong></p><p>　　        <strong>创建一个容器起别名并分配一个为终端：docker run -name mysql_test -it mysql /bin/bash</strong></p><p>　　        <strong>停止容器：docker stop 容器ID</strong></p><p>　　        <strong>进入容器：docker exec -it 容器ID</strong></p><p>　　        <strong>删除容器：docker rm [OPTIONS] 容器名</strong></p><p>　　　　        <strong>其中options有三种类型：</strong></p><p>　　　　　    　<strong>-f ：通过SIGKILL信号强制删除一个运行中的容器</strong></p><p>　　　　　　    <strong>-l ：移除容器间的网络连接，而非容器本身</strong></p><p>　　　　　　    <strong>-v ：-v 删除与容器关联的卷</strong></p><p>​                <strong>将容器打包成镜像：</strong></p><p>​                <strong>docker commit -a “Peter.com” -m “my apache” 容器名称或id 打包的镜像名称:标签</strong></p><p>​                    <strong>OPTIONS说明：</strong><br><strong>​                        -a :提交的镜像作者；</strong><br><strong>​                        -c :使用Dockerfile指令来创建镜像；</strong><br><strong>​                        -m :提交时的说明文字；</strong><br><strong>​                        -p :在commit时，将容器暂停。</strong></p><h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><h3 id="什么是dockerfile"><a href="#什么是dockerfile" class="headerlink" title="什么是dockerfile"></a>什么是dockerfile</h3><p>​    Dockerfile是一个包含用于组合镜像的命令的文本文档。可以使用在命令行中调用任何命令。 Docker通过读取<code>Dockerfile</code>中的指令自动生成镜像。</p><p>​    <code>docker build</code>命令用于从Dockerfile构建镜像。可以在<code>docker build</code>命令中使用<code>-f</code>标志指向文件系统中任何位置的Dockerfile。</p><p>​    例如：利用/path/to/a/Dockerfile文件构建一个镜像</p><p>​    <code>docker build -f /path/to/a/Dockerfile</code></p><h3 id="Dockerfile文件说明"><a href="#Dockerfile文件说明" class="headerlink" title="Dockerfile文件说明"></a>Dockerfile文件说明</h3><p>​        Docker以从上到下的顺序运行Dockerfile的指令。为了指定基本映像，第一条指令必须是<em>FROM</em>。一个声明以<code>＃</code>字符开头则被视为注释。可以在Docker文件中使用<code>RUN</code>，<code>CMD</code>，<code>FROM</code>，<code>EXPOSE</code>，<code>ENV</code>等指令。</p><h4 id="下面列举一些常用的命令"><a href="#下面列举一些常用的命令" class="headerlink" title="下面列举一些常用的命令"></a>下面列举一些常用的命令</h4><ul><li><strong><span style="color:red">FROM：</span>指定基础镜像，必须为第一个命令</strong></li></ul><pre><code class="dockerfile">#格式：　　FROM &lt;image&gt;　　FROM &lt;image&gt;:&lt;tag&gt;　　FROM &lt;image&gt;@&lt;digest&gt;#示例：　　FROM mysql:5.6#注：　　#tag或digest是可选的，如果不使用这两个值时，会使用latest版本的基础镜像</code></pre><ul><li><strong><span style="color:red">MAINTAINER：</span>维护者信息</strong></li></ul><pre><code class="dockerfile">#格式：    MAINTAINER &lt;name&gt;#示例：    MAINTAINER Jasper Xu    MAINTAINER sorex@163.com    MAINTAINER Jasper Xu &lt;sorex@163.com&gt;</code></pre><ul><li><strong><span style="color:red">RUN：</span>构建镜像时执行的命令</strong></li></ul><pre><code class="dockerfile">#RUN用于在镜像容器中执行命令，其有以下两种命令执行方式：#shell执行#格式：    RUN &lt;command&gt;#exec执行#格式：    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]#示例：    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]    RUN apk update    RUN [&quot;/etc/execfile&quot;, &quot;arg1&quot;, &quot;arg1&quot;]#注：#　　RUN指令创建的中间镜像会被缓存，并会在下次构建中使用。如果不想使用这些缓存镜像，可以在构建时指定--no-cache参数，如：docker build --no-cache</code></pre><ul><li><strong><span style="color:red">ADD：</span>将本地文件添加到容器中，tar类型文件会自动解压(网络压缩资源不会被解压)，可以访问网络资源，类似wget</strong></li></ul><pre><code class="dockerfile">#格式：    ADD &lt;src&gt;... &lt;dest&gt;    ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;] 用于支持包含空格的路径#示例：    ADD hom* /mydir/          # 添加所有以&quot;hom&quot;开头的文件    ADD hom?.txt /mydir/      # ? 替代一个单字符,例如：&quot;home.txt&quot;    ADD test relativeDir/     # 添加 &quot;test&quot; 到 `WORKDIR`/relativeDir/    ADD test /absoluteDir/    # 添加 &quot;test&quot; 到 /absoluteDir/</code></pre><ul><li><strong><span style="color:red">COPY：</span>功能类似ADD，但是是不会自动解压文件，也不能访问网络资源</strong></li><li><strong><span style="color:red">CMD：</span>&gt;构建容器后调用，也就是在容器启动时才进行调用。</strong></li></ul><pre><code class="dockerfile">#格式：    CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] (执行可执行文件，优先)    CMD [&quot;param1&quot;,&quot;param2&quot;] (设置了ENTRYPOINT，则直接调用ENTRYPOINT添加参数)    CMD command param1 param2 (执行shell内部命令)#示例：    CMD echo &quot;This is a test.&quot; | wc -    CMD [&quot;/usr/bin/wc&quot;,&quot;--help&quot;]#注：# 　　CMD不同于RUN，CMD用于指定在容器启动时所要执行的命令，而RUN用于指定镜像构建时所要执行的命令。</code></pre><ul><li><strong><span style="color:red">ENTRYPOINT：</span>&gt;配置容器，使其可执行化。配合CMD可省去”application”，只使用参数。</strong></li></ul><pre><code class="dockerfile">#格式：    ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;] (可执行文件, 优先)    ENTRYPOINT command param1 param2 (shell内部命令)#示例：    FROM ubuntu    ENTRYPOINT [&quot;top&quot;, &quot;-b&quot;]    CMD [&quot;-c&quot;]#注：#　　　ENTRYPOINT与CMD非常类似，不同的是通过docker run执行的命令不会覆盖ENTRYPOINT，而docker run命令中指定的任何参数，都会被当做参数再次传递给ENTRYPOINT。Dockerfile中只允许有一个ENTRYPOINT命令，多指定时会覆盖前面的设置，而只执行最后的ENTRYPOINT指令。</code></pre><ul><li><strong><span style="color:red">LABEL：</span>&gt;用于为镜像添加元数据</strong></li></ul><pre><code class="dockerfile">#格式：    LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...#示例：　　LABEL version=&quot;1.0&quot; description=&quot;这是一个Web服务器&quot; by=&quot;IT笔录&quot;#注：#　　使用LABEL指定元数据时，一条LABEL指定可以指定一或多条元数据，指定多条元数据时不同元数据之间通过空格分隔。推荐将所有的元数据通过一条LABEL指令指定，以免生成过多的中间镜像。　　</code></pre><ul><li><strong><span style="color:red">ENV：</span>设置环境变量</strong></li></ul><pre><code class="dockerfile">#格式：    ENV &lt;key&gt; &lt;value&gt;  #&lt;key&gt;之后的所有内容均会被视为其&lt;value&gt;的组成部分，因此，一次只能设置一个变量    ENV &lt;key&gt;=&lt;value&gt; ...  #可以设置多个变量，每个变量为一个&quot;&lt;key&gt;=&lt;value&gt;&quot;的键值对，如果&lt;key&gt;中包含空格，可以使用\来进行转义，也可以通过&quot;&quot;来进行标示；另外，反斜线也可以用于续行#示例：    ENV myName John Doe    ENV myDog Rex The Dog    ENV myCat=fluffy</code></pre><ul><li><strong><span style="color:red">EXPOSE：</span>指定于外界交互的端口</strong></li></ul><pre><code class="dockerfile">#格式：    EXPOSE &lt;port&gt; [&lt;port&gt;...]#示例：    EXPOSE 80 443    EXPOSE 8080    EXPOSE 11211/tcp 11211/udp#注：#　　EXPOSE并不会让容器的端口访问到主机。要使其可访问，需要在docker run运行容器时通过-p来发布这些端口，或通过-P参数来发布EXPOSE导出的所有端口</code></pre><ul><li><strong><span style="color:red">VOLUME：</span>用于指定持久化目录</strong></li></ul><pre><code class="dockerfile">#格式：    VOLUME [&quot;/path/to/dir&quot;]#示例：    VOLUME [&quot;/data&quot;]    VOLUME [&quot;/var/www&quot;, &quot;/var/log/apache2&quot;, &quot;/etc/apache2&quot;#注：#　　一个卷可以存在于一个或多个容器的指定目录，该目录可以绕过联合文件系统，并具有以下功能：#　　1 卷可以容器间共享和重用#        2 容器并不一定要和其它容器共享卷#        3 修改卷后会立即生效#        4 对卷的修改不会对镜像产生影响#        5 卷会一直存在，直到没有任何容器在使用它</code></pre><ul><li><strong><span style="color:red">WORKDIR：</span>工作目录，类似于cd命令</strong></li></ul><pre><code class="dockerfile">#格式：    WORKDIR /path/to/workdir#示例：    WORKDIR /a  (这时工作目录为/a)    WORKDIR b  (这时工作目录为/a/b)    WORKDIR c  (这时工作目录为/a/b/c)#注：#　　通过WORKDIR设置工作目录后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT、ADD、COPY等命令都会在该目录下执行。在使用docker run运行容器时，可以通过-w参数覆盖构建时所设置的工作目录。</code></pre><ul><li><strong><span style="color:red">USER：</span>指定运行容器时的用户名或 UID，后续的 RUN 也会使用指定用户。使用USER指定用户时，可以使用用户名、UID或GID，或是两者的组合。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户</strong></li></ul><pre><code class="dockerfile">#格式:　　USER user　　USER user:group　　USER uid　　USER uid:gid　　USER user:gid　　USER uid:group# 示例：　　USER www# 注：#　　使用USER指定用户后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT都将使用该用户。镜像构建完成后，通过docker run运行容器时，可以通过-u参数来覆盖所指定的用户。</code></pre><ul><li><strong><span style="color:red">ARG：</span>用于指定传递给构建运行时的变量</strong></li></ul><pre><code class="dockerfile">#格式：    ARG &lt;name&gt;[=&lt;default value&gt;]#示例：    ARG site    ARG build_user=www</code></pre><ul><li><strong><span style="color:red">ONBUILD：</span>用于设置镜像触发器</strong></li></ul><pre><code class="dockerfile">#格式：　　ONBUILD [INSTRUCTION]#示例：　　ONBUILD ADD . /app/src　　ONBUILD RUN /usr/local/bin/python-build --dir /app/src#注：#　　当所构建的镜像被用做其它镜像的基础镜像，该镜像中的触发器将会被钥触发</code></pre><h3 id="Dockerfile安装启动nginx"><a href="#Dockerfile安装启动nginx" class="headerlink" title="Dockerfile安装启动nginx"></a>Dockerfile安装启动nginx</h3><pre><code class="dockerfile">FROM  centosMAINTAINER 2020-05-11 peter RUN  yum -y install gcc*  make pcre-devel zlib-devel #下载编译工具ADD nginx-1.14.2.tar.gz  /usr/src/   #将nginx安装包拷到docker容器内WORKDIR /usr/src/nginx-1.14.2/                #指定工作目录RUN useradd -s /sbin/nologin -M nginx           #指定用户组RUN ./configure --prefix=/usr/local/nginx --user=nginx --group=nginx --with-http_stub_status_module &amp;&amp; make &amp;&amp; make install            #编译nginxRUN ln -s /usr/local/nginx/sbin/* /usr/local/sbin/   #软连接nginx到快速启动EXPOSE 80                #暴露端口号WORKDIR /                #知道工作目录RUN nginx                #开启nginxCMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]   #容器启动后调用</code></pre><h4 id="将dockerfile变成镜像"><a href="#将dockerfile变成镜像" class="headerlink" title="将dockerfile变成镜像"></a>将dockerfile变成镜像</h4><p>​    docker build -t (镜像的名字：版本号)  .</p><h4 id="最常用"><a href="#最常用" class="headerlink" title="最常用"></a>最常用</h4><p>FROM , RUN, ADD ,COPY,  EXPOSE ,   WORKDIR,   CMD   ,  VOLUME</p><h2 id="Docker-compose"><a href="#Docker-compose" class="headerlink" title="Docker-compose"></a>Docker-compose</h2><h3 id="什么是docker-compose"><a href="#什么是docker-compose" class="headerlink" title="什么是docker compose"></a><strong>什么是docker compose</strong></h3><ol><li>Compose是一个定义和管理多容器的工具，使用Python语言编写。</li><li>使用Compose配置文件描述多个容器应用的架构，比如使用什么镜像、数据卷、网络、映射端口等；</li><li>然后一条命令管理所有服务，比如启动、停止、重启等。</li></ol><h3 id="docker-compose作用"><a href="#docker-compose作用" class="headerlink" title="docker compose作用　"></a><strong>docker compose作用</strong>　</h3><ol><li>现在我们要部署django项目，需要 nginx+mysql+redis+django等</li><li>我们需要开启四个docker容器进行部署每一个组件，如果每个容器单独管理太过于复杂，而且可能是给客户部署项目</li><li>docker compose就是一个可以同时管理一个项目中的多个docker容器的工具，一键部署启动</li></ol><h3 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker compose"></a><strong>安装docker compose</strong></h3><p>　<strong>1、法1：下载 并安装docker compose</strong></p><p>　　　　curl -L <a href="https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname" target="_blank" rel="noopener">https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname</a> -s<code>-</code>uname -m` -o /usr/local/bin/docker-compose<br>　　　　chmod +x /usr/local/bin/docker-compose</p><p> 　　　　或者</p><p>　　　　pip install docker-compose</p><p>　<strong>2、法2：直接解压安装</strong></p><p>　　　　unzip docker-compose-linux-x86_64.zip   # 解压后只有一个文件 docker-compose</p><p>　　　　chmod +x docker-compose</p><p>　　　　mv docker-compose /usr/bin/</p><h3 id="YAML文件格式及编写注意事项"><a href="#YAML文件格式及编写注意事项" class="headerlink" title="YAML文件格式及编写注意事项"></a><strong>YAML文件格式及编写注意事项</strong></h3><p>　　　<strong>注：</strong>docker-compose使用yaml文件对容器进行描述</p><p>　　　YAML是一种标记语言很直观的数据序列化格式，可读性高。类似于XML数据描述语言，语法比XML简单的很多。</p><p>　　　YAML数据结构通过缩进来表示，连续的项目通过减号来表示，键值对用冒号分隔，数组用中括号括起来，hash用花括号括起来。</p><p>　　　<strong>YAML文件格式注意事项：</strong><br>　　　　　1.不支持制表符tab键缩进，需要使用空格缩进<br>　　　　　2.通常开头缩进2个空格<br>　　　　　3.字符后缩进1个空格，如冒号、逗号、横杆<br>　　　　　4.用井号注释<br>　　　　　5.如果包含特殊字符用单引号引起来<br>　　　　　6.布尔值（true、false、yes、no、on、off）必须用引号括起来，这样分析器会将他们解释为字符串。</p><h3 id="compose-配置常用字段"><a href="#compose-配置常用字段" class="headerlink" title="compose 配置常用字段"></a><strong>compose 配置常用字段</strong></h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5.png" srcset="/img/loading.gif" alt="img"></p><h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="img"></p><h3 id="命令举例"><a href="#命令举例" class="headerlink" title="命令举例"></a>命令举例</h3><pre><code class="python">&#39;&#39;&#39;1.docker-compose常用命令&#39;&#39;&#39;docker-compose -f docker-compose.yml  up -d    # 启动docker-compose管理的所有容器docker-compose ps                               # 列出 Compose 应用中的各个容器,类似docker psdocker-compose logs web                        # 查看web服务日志docker-compose down                               # 停止并移除容器、网络、镜像和数据卷.比stop更彻底docker-compose images                             # 列出所有镜像&#39;&#39;&#39;2.docker-compose其他命令 &#39;&#39;&#39;docker-compose stop                               # 停止 Compose 应用相关的所有容器，但不会删除它们docker-compose restart                           # 重启YAML文件中定义的服务docker-compose kill                            # 停止服务docker-compose rm                               # 删除指定已经停止服务的容器(它会删除容器和网络，但是不会删除卷和镜像)docker-compose build                           # 构建或重建服务docker-compose pull                               # 拉去并下载指定服务镜像docker-compose push                            # push服务镜像docker-compose top                               # 显示各个容器内运行的进程</code></pre><h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="基于nginx-uwsgi-mysql-celery-redis-django的docker-compose部署"><a href="#基于nginx-uwsgi-mysql-celery-redis-django的docker-compose部署" class="headerlink" title="基于nginx+uwsgi+mysql+celery+redis+django的docker-compose部署"></a>基于nginx+uwsgi+mysql+celery+redis+django的docker-compose部署</h3><p><strong>项目地址：</strong><a href="https://gitee.com/edushiyanlou/django-docker" target="_blank" rel="noopener">https://gitee.com/edushiyanlou/django-docker</a></p><h3 id="docker-compose详解"><a href="#docker-compose详解" class="headerlink" title="docker-compose详解"></a>docker-compose详解</h3><pre><code class="dockerfile">version: &#39;3&#39;                       # cocker compose版本号services:                          # 顶级配置文件  mysql:                           # 服务名: 容器建通信、管理容器    image: mysql:5.7               # 引入官方mysql镜像    volumes:      - ./mysql:/var/lib/mysql         # 把当前文件夹下的 ./mysql文件夹挂载到docker容器 /var/lib/mysql 路径下    expose:      - &quot;3306&quot;                        # 将当前容器的端口3306端口暴露给link到本容器的容器    restart: always                   # 宿主机重启自动拉起这个docker容器    environment:      - MYSQL_ROOT_PASSWORD=root             # mysql服务器root密码root      - MYSQL_DATABASE=djangodocker          # 创建数据库 djangodocker      - MYSQL_USER=django                    # 创建一个用户 django      - MYSQL_PASSWORD=django                # 用户密码为django  nginx:    image: nginx:alpine    volumes:      - ./nginx/nginx.conf:/etc/nginx/nginx.conf      - ./nginx/conf:/etc/nginx/conf.d      - ./web/staticfiles:/django_static    ports:      - &quot;80:80&quot;                             # 绑定容器的80端口到主机的80端口    depends_on:      - web                                 # 必须先启动web容器然才能启动nginx容器  redis:    image: redis:alpine    expose:      - &quot;6379&quot;    restart: always  web:    build: .    # command: python manage.py runserver 0:8000    # ports:    #   - &quot;8000:8000&quot;    command: uwsgi --ini uwsgi.ini             # 启动uwsgi命令    working_dir: /code/web                     # 项目工作路径    volumes:      - .:/code                                # 将当前文件夹下所有文件挂载到容器的 /code 文件夹    expose:      - &quot;8000&quot;    depends_on:                                # 必须mysql和reids容器启动后才能启动web容器      - mysql      - redis  celery:    build: .    command: celery -A web worker -l info    working_dir: /code/web    volumes:      - .:/code    depends_on:      - mysql      - redis</code></pre><p>运行：</p><p>​    <code>docker-compose -f docker-compose.yml up -d</code></p><h1 id="学习目标："><a href="#学习目标：" class="headerlink" title="学习目标："></a>学习目标：</h1><p>1、熟练部署的过程</p><p>2、将部署的过程编程docker-file/docker-compose 的自动化过程</p><p>3、讲清楚镜像，容器，仓库三个概念</p><p>4、明白docker的作用，使用场景，优势</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;docker先行&quot;&gt;&lt;a href=&quot;#docker先行&quot; class=&quot;headerlink&quot; title=&quot;docker先行&quot;&gt;&lt;/a&gt;docker先行&lt;/h2&gt;&lt;p&gt;​        1.什么是docker，他跟虚拟机的区别是什么？优劣势分别是什么？&lt;/p&gt;
+      
+    
+    </summary>
+    
+    
+      <category term="docker" scheme="https://github.com/gengbingkai/blog/categories/docker/"/>
+    
+    
+      <category term="docker" scheme="https://github.com/gengbingkai/blog/tags/docker/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>git基本命令</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/23/git%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/23/git%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/</id>
+    <published>2020-06-23T08:29:18.912Z</published>
+    <updated>2020-06-23T08:31:02.662Z</updated>
+    
+    <content type="html"><![CDATA[<p>git init 初始化项目       : 就是新建.git文件</p><p>git add -A                       :把文件夹的所有文件提交到暂停区</p><p>git commit -m  ‘备注’    :把暂停区的文件提交</p><p>git remote add origin 路由地址      :创建分支  </p><p>git push -u origin master    :上传到码云</p><p>git clone 路由地址    :克隆仓库</p><p>git pull origin master     : 进入到仓库，拉取更新的部分代码</p><p>git checkout.   :回退，在没有 git add -A 的情况下使用有效</p><p>git reset HEAD  ：当我git add -A到本地暂停区时重置，，然后在使用git checkout.回退</p><p>git log   :查看提交日志</p><p>git reset –hard 输入git日志号： 就会立刻回退，这个是执行过git commit -m以后怎么回退代码</p><p>也可以用其他方法实现结果，思路要灵活</p><p>git checkout 分支名    ：切换分支</p><p>git branch   :查看当前分支</p><p><strong>把自己代码合并到develop分支</strong></p><p>git branch     先查看自己所在的分支</p><p> git checkout  develop   切换分支  ，如果提示没提交，就素质三连一下</p><p>git pull origin develop    拉取代码  ，获取develop的最新数据</p><p>git merge 《自己分支》  合并到develop分支</p><p>git push origin develop   合并成功，然后提交一下。</p><p><strong>把develop分支的代码拉到自己的分支</strong></p><p>git branch               先查看自己所在的分支</p><p>git checkout《自己分支》    切换分支  ，如果提示没提交，就素质三连一下</p><p>git pull origin  《自己分支》      拉取代码  ，获取gbk的最新数据</p><p>git merge  develop          合并到自己分支</p><p>git push origin 《自己分支 》       合并成功，然后提交一下。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;git init 初始化项目       : 就是新建.git文件&lt;/p&gt;
+&lt;p&gt;git add -A                       :把文件夹的所有文件提交到暂停区&lt;/p&gt;
+&lt;p&gt;git commit -m  ‘备注’    :把暂停区的文件提交&lt;/p&gt;
+&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="git" scheme="https://github.com/gengbingkai/blog/categories/git/"/>
+    
+    
+      <category term="git" scheme="https://github.com/gengbingkai/blog/tags/git/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>linux的基础命令</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/23/linux%E7%9A%84%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/23/linux%E7%9A%84%E5%9F%BA%E7%A1%80%E5%91%BD%E4%BB%A4/</id>
+    <published>2020-06-23T08:03:49.430Z</published>
+    <updated>2020-06-23T08:29:00.713Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="Nginx命令"><a href="#Nginx命令" class="headerlink" title="Nginx命令"></a>Nginx命令</h4><p>启动、停止、重载命令<br>systemctl start nginx<br>systemctl stop nginx<br>systemctl reload nginx<br>systemctl status nginx</p><p>killall -9 nginx  相关nginx进行全部杀掉<br>nginx -V          查看版本<br>nginx -t          查看运行状态</p><h4 id="查看命令"><a href="#查看命令" class="headerlink" title="查看命令"></a>查看命令</h4><p>netstat -antp | grep :80    查看80端口被哪个服务占用<br>netstat -antp | grep        查看所有端口占用情况<br>ps -e                       显示所有进程<br>ps -f                       全格式，显示终端上的进程。<br>ps -a                       显示终端上的所有进程<br>kill -9 xxx                 杀死一个进程    </p><p>ps -ef|grep                 查看进程名</p><h4 id="yum常用命令"><a href="#yum常用命令" class="headerlink" title="yum常用命令"></a>yum常用命令</h4><p>1.列出所有可更新的软件清单命令：yum check-update<br>2.更新所有软件命令：yum update<br>3.仅安装指定的软件命令：yum install <package_name><br>4.仅更新指定的软件命令：yum update <package_name><br>5.列出所有可安裝的软件清单命令：yum list<br>6.删除软件包命令：yum remove <package_name><br>7.查找软件包 命令：yum search <keyword><br>8.清除缓存命令:<br>yum clean packages: 清除缓存目录下的软件包<br>yum clean headers: 清除缓存目录下的 headers<br>yum clean oldheaders: 清除缓存目录下旧的 headers<br>yum clean, yum clean all (= yum clean packages; yum clean oldheaders) :清除缓存目录下的软件包及旧的headers</p><h4 id="管理文件-目录"><a href="#管理文件-目录" class="headerlink" title="管理文件/目录"></a>管理文件/目录</h4><p>ls: 列出目录及文件名<br>cd：切换目录<br>pwd：显示目前的目录<br>mkdir：创建一个新的目录<br>rmdir：删除一个空的目录<br>cp: 复制文件或目录<br>rm: 移除文件或目录<br>mv: 移动文件与目录，或修改文件与目录的名称</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;Nginx命令&quot;&gt;&lt;a href=&quot;#Nginx命令&quot; class=&quot;headerlink&quot; title=&quot;Nginx命令&quot;&gt;&lt;/a&gt;Nginx命令&lt;/h4&gt;&lt;p&gt;启动、停止、重载命令&lt;br&gt;systemctl start nginx&lt;br&gt;systemctl s
+      
+    
+    </summary>
+    
+    
+      <category term="linux" scheme="https://github.com/gengbingkai/blog/categories/linux/"/>
+    
+    
+      <category term="linux" scheme="https://github.com/gengbingkai/blog/tags/linux/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>django项目中使用FastDFS</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/23/django%E4%BD%BF%E7%94%A8fastDFS/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/23/django%E4%BD%BF%E7%94%A8fastDFS/</id>
+    <published>2020-06-23T08:00:04.061Z</published>
+    <updated>2020-06-27T13:27:46.216Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="django项目中使用FastDFS"><a href="#django项目中使用FastDFS" class="headerlink" title="django项目中使用FastDFS"></a>django项目中使用FastDFS</h1><h1 id="FastDFS客户端与自定义文件存储系统"><a href="#FastDFS客户端与自定义文件存储系统" class="headerlink" title="FastDFS客户端与自定义文件存储系统"></a>FastDFS客户端与自定义文件存储系统</h1><h2 id="1-FastDFS的Python客户端"><a href="#1-FastDFS的Python客户端" class="headerlink" title="1. FastDFS的Python客户端"></a>1. FastDFS的Python客户端</h2><p>python版本的FastDFS客户端使用说明参考<a href="https://github.com/jefforeilly/fdfs_client-py" target="_blank" rel="noopener">https://github.com/jefforeilly/fdfs_client-py</a></p><h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装提供给大家的fdfs_client-py-master.zip到虚拟环境中</p><pre><code>pip install fdfs_client-py-master.zippip install mutagenpip isntall requests</code></pre><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>使用FastDFS客户端，需要有配置文件。我们在meiduo_mall/utils目录下新建fastdfs目录，将提供给大家的client.conf配置文件放到这个目录中。</p><p>需要修改一下client.conf配置文件</p><pre><code>base_path=FastDFS客户端存放日志文件的目录tracker_server=运行tracker服务的机器ip:22122</code></pre><p>上传文件需要先创建fdfs_client.client.Fdfs_client的对象，并指明配置文件，如</p><pre><code>from fdfs_client.client import Fdfs_clientclient = Fdfs_client(&#39;meiduo_mall/utils/fastdfs/client.conf&#39;)</code></pre><p>通过创建的客户端对象执行上传文件的方法</p><pre><code>client.upload_by_filename(文件名)或client.upload_by_buffer(文件bytes数据)</code></pre><p>如：</p><pre><code>&gt;&gt;&gt; ret = client.upload_by_filename(&#39;/Users/delron/Desktop/1.png&#39;)getting connection&lt;fdfs_client.connection.Connection object at 0x1098d4cc0&gt;&lt;fdfs_client.fdfs_protol.Tracker_header object at 0x1098d4908&gt;&gt;&gt;&gt; ret{&#39;Group name&#39;: &#39;group1&#39;, &#39;Remote file_id&#39;: &#39;group1/M00/00/02/CtM3BVr-k6SACjAIAAJctR1ennA809.png&#39;, &#39;Status&#39;: &#39;Upload successed.&#39;, &#39;Local file name&#39;: &#39;/Users/delron/Desktop/1.png&#39;, &#39;Uploaded size&#39;: &#39;151.00KB&#39;, &#39;Storage IP&#39;: &#39;10.211.55.5&#39;}&gt;&gt;&gt;</code></pre><ul><li>Remote file_id 即为FastDFS保存的文件的路径</li></ul><h2 id="2-自定义Django文件存储系统"><a href="#2-自定义Django文件存储系统" class="headerlink" title="2. 自定义Django文件存储系统"></a>2. 自定义Django文件存储系统</h2><p>在学习Django框架的时候，我们已经讲过，Django自带文件存储系统，但是默认文件存储在本地，在本项目中，我们需要将文件保存到FastDFS服务器上，所以需要自定义文件存储系统。</p><p>自定义文件存储系统的方法如下：</p><p>1）需要继承自<code>django.core.files.storage.Storage</code>，如</p><pre><code>from django.core.files.storage import Storageclass FastDFSStorage(Storage):    ...</code></pre><p>2）支持Django不带任何参数来实例化存储类，也就是说任何设置都应该从django.conf.settings中获取</p><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><pre><code> 1 from django.conf import settings 2 from django.core.files.storage import Storage 3  4 class FasfDFSStorage(Storage): 5     def __init__(self, base_url=None, client_conf=None): 6         if base_url is None: 7             base_url = settings.FDFS_URL 8         self.base_url = base_url 9         if client_conf is None:10             client_conf = settings.FDFS_CLIENT_CONF11         self.client_conf = client_conf</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><pre><code></code></pre><p>3）存储类中必须实现<code>_open()</code>和<code>_save()</code>方法，以及任何后续使用中可能用到的其他方法。</p><ul><li><p><code>_open(name, mode=&#39;rb&#39;)</code></p><p>被Storage.open()调用，在打开文件时被使用。</p></li><li><p><code>_save(name, content)</code></p><p>被Storage.save()调用，name是传入的文件名，content是Django接收到的文件内容，该方法需要将content文件内容保存。</p><p>Django会将该方法的返回值保存到数据库中对应的文件字段，也就是说该方法应该返回要保存在数据库中的文件名称信息。</p></li><li><p><code>exists(name)</code></p><p>如果名为name的文件在文件系统中存在，则返回True，否则返回False。</p></li><li><p><code>url(name)</code></p><p>返回文件的完整访问URL</p></li><li><p><code>delete(name)</code></p><p>删除name的文件</p></li><li><p><code>listdir(path)</code></p><p>列出指定路径的内容</p></li><li><p><code>size(name)</code></p><p>返回name文件的总大小</p><p>注意，并不是这些方法全部都要实现，可以省略用不到的方法。</p></li></ul><p>4）需要为存储类添加<code>django.utils.deconstruct.deconstructible</code>装饰器</p><p>我们在meiduo_mall/utils/fastdfs目录中创建fdfs_storage.py文件，实现可以使用FastDFS存储文件的存储类如下</p><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><pre><code> from django.conf import settings from django.core.files.storage import Storage from django.utils.deconstruct import deconstructible from fdfs_client.client import Fdfs_client@deconstructible class FasfDFSStorage(Storage):     def __init__(self, base_url=None, client_conf=None):         &quot;&quot;&quot;         初始化         :param base_url: 用于构造图片完整路径使用，图片服务器的域名         :param client_conf: FastDFS客户端配置文件的路径         &quot;&quot;&quot;         if base_url is None:             base_url = settings.FDFS_URL         self.base_url = base_url         if client_conf is None:             client_conf = settings.FDFS_CLIENT_CONF         self.client_conf = client_conf     def _open(self, name, mode=&#39;rb&#39;):         &quot;&quot;&quot;         用不到打开文件，所以省略         &quot;&quot;&quot;         pass     def _save(self, name, content):         &quot;&quot;&quot;         在FastDFS中保存文件         :param name: 传入的文件名         :param content: 文件内容         :return: 保存到数据库中的FastDFS的文件名         &quot;&quot;&quot;         client = Fdfs_client(self.client_conf)         ret = client.upload_by_buffer(content.read())         if ret.get(&quot;Status&quot;) != &quot;Upload successed.&quot;:             raise Exception(&quot;upload file failed&quot;)         file_name = ret.get(&quot;Remote file_id&quot;)         return file_name     def url(self, name):         &quot;&quot;&quot;         返回文件的完整URL路径         :param name: 数据库中保存的文件名         :return: 完整的URL         &quot;&quot;&quot;         return self.base_url + name     def exists(self, name):         &quot;&quot;&quot;         判断文件是否存在，FastDFS可以自行解决文件的重名问题         所以此处返回False，告诉Django上传的都是新文件         :param name:  文件名         :return: False         &quot;&quot;&quot;         return False</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><pre><code></code></pre><h2 id="3-在Django配置中设置自定义文件存储类"><a href="#3-在Django配置中设置自定义文件存储类" class="headerlink" title="3. 在Django配置中设置自定义文件存储类"></a>3. 在Django配置中设置自定义文件存储类</h2><p>在settings/dev.py文件中添加设置</p><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><pre><code># django文件存储, 指定自定义的文件存储系统DEFAULT_FILE_STORAGE = &#39;meiduo_mall.utils.fastdfs.fdfs_storage.FastDFSStorage&#39;# FastDFSFDFS_URL = &#39;http://image.meiduo.site:8888/&#39;  FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><h2 id="4-添加image域名"><a href="#4-添加image域名" class="headerlink" title="4. 添加image域名"></a>4. 添加image域名</h2><p>在/etc/hosts中添加访问FastDFS storage服务器的域名</p><pre><code>127.0.0.1   image.meiduo.site</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;django项目中使用FastDFS&quot;&gt;&lt;a href=&quot;#django项目中使用FastDFS&quot; class=&quot;headerlink&quot; title=&quot;django项目中使用FastDFS&quot;&gt;&lt;/a&gt;django项目中使用FastDFS&lt;/h1&gt;&lt;h1 id=&quot;F
+      
+    
+    </summary>
+    
+    
+      <category term="Django" scheme="https://github.com/gengbingkai/blog/categories/Django/"/>
+    
+    
+      <category term="Django" scheme="https://github.com/gengbingkai/blog/tags/Django/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Nginx部署踩坑</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/18/nginx%E9%83%A8%E7%BD%B2%E9%87%87%E5%9D%91/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/18/nginx%E9%83%A8%E7%BD%B2%E9%87%87%E5%9D%91/</id>
+    <published>2020-06-18T13:48:08.037Z</published>
+    <updated>2020-06-23T11:52:13.912Z</updated>
+    
+    <content type="html"><![CDATA[<p>Vue路由history模式踩坑记录：nginx配置解决404问题</p><p><strong>问题背景：</strong></p><p>　　vue-router 默认是hash模式，使用url的hash来模拟一个完整的url，当url改变的时候，页面不会重新加载。但是如果我们不想hash这种以#号结尾的路径时候的话，我们可以使用路由的history的模式。比如如下网址：使用hash模式的话，那么访问变成 <a href="http://localhost:8080/bank/page/count/#/" target="_blank" rel="noopener">http://localhost:8080/bank/page/count/#/</a> 这样的访问，如果路由使用 history的话，那么访问的路径变成 如下：<a href="http://localhost:8080/bank/page/count" target="_blank" rel="noopener">http://localhost:8080/bank/page/count</a> 这样的了；</p><p>　　不过history的这种模式需要后台配置支持。比如：当我们进行项目的主页的时候，一切正常，可以访问，但是当我们刷新页面或者直接访问路径的时候就会返回404，那是因为在history模式下，只是动态的通过js操作window.history来改变浏览器地址栏里的路径，并没有发起http请求，但是当我直接在浏览器里输入这个地址的时候，就一定要对服务器发起http请求，但是这个目标在服务器上又不存在，所以会返回404</p><p>　　怎么解决呢？我们现在可以把所有请求都转发到 <a href="http://localhost:8080/bank/page/index.html上就可以了。" target="_blank" rel="noopener">http://localhost:8080/bank/page/index.html上就可以了。</a></p><p><strong>解决方案：</strong></p><p>　　对于VUE的router[mode: history]模式在开发的时候，一般都不出问题。是因为开发时用的服务器为node，Dev环境中自然已配置好了。</p><p>　　但对于放到nginx下运行的时候，自然还会有其他注意的地方。总结如下：</p><p>　　在nginx里配置了以下配置后， 可能首页没有问题，但链接其他会出现（404）</p><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><pre><code>　　　　location / {            root   D:\Test\exprice\dist;            index  index.html index.htm;            try_files $uri $uri/ /index.html;            add_header &#39;Access-Control-Allow-Origin&#39; &#39;*&#39;;            add_header &#39;Access-Control-Allow-Credentials&#39; &#39;true&#39;;            add_header &#39;Access-Control-Allow-Methods&#39; &#39;GET, POST, OPTIONS&#39;;            add_header &#39;Access-Control-Allow-Headers&#39; &#39;DNT,X-CustomHeader,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type&#39;;        }        location ^~/api/ {            proxy_pass   http://39.105.109.245:8080/;        }</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p><p>　　为了解决404，需要通过以下两种方式：</p><p>　　1、官网推荐</p><pre><code>location / {　　root   D:\Test\exprice\dist;　　index  index.html index.htm;　　try_files $uri $uri/ /index.html;</code></pre><p>　　2、匹配errpr_page</p><pre><code>location /{　　root   /data/nginx/html;　　index  index.html index.htm;　　error_page 404 /index.html;}</code></pre>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Vue路由history模式踩坑记录：nginx配置解决404问题&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;问题背景：&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;　　vue-router 默认是hash模式，使用url的hash来模拟一个完整的url，当url改变的时候，页面不会重新加载。但是
+      
+    
+    </summary>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/tags/%E5%85%B6%E4%BB%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>socket的阻塞和非阻塞，5种IO模型</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/18/socket%E7%9A%84%E9%98%BB%E5%A1%9E%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E%EF%BC%8C5%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/18/socket%E7%9A%84%E9%98%BB%E5%A1%9E%E5%92%8C%E9%9D%9E%E9%98%BB%E5%A1%9E%EF%BC%8C5%E7%A7%8DIO%E6%A8%A1%E5%9E%8B/</id>
+    <published>2020-06-18T06:16:35.083Z</published>
+    <updated>2020-06-23T11:59:07.666Z</updated>
+    
+    <content type="html"><![CDATA[<p><strong>同步/异步主要针对C端:</strong><br><strong>同步：</strong><br>      所谓同步，就是在c端发出一个功能调用时，在没有得到结果之前，该调用就不返回。<strong>也就是必须一件一件事做*</strong>,*等前一件做完了才能做下一件事。</p><p>​    同步，就是我客户端（c端调用者）调用一个功能，该功能没有结束前，我（c端调用者）死等结果</p><p><strong>异步：</strong><br>      异步的概念和同步相对。当c端一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者。</p><p>​    异步，就是我（c端调用者）调用一个功能，不需要知道该功能结果，该功能有结果后通知我（c端调用者）即回调通知。</p><p><strong>阻塞/非阻塞主要针对S端:</strong></p><p><strong>阻塞</strong><br>     阻塞调用是指调用结果返回之前，当前线程会被挂起（线程进入非可执行状态，在这个状态下，cpu不会给线程分配时间片，即线程暂停运行）。函数只有在得到结果之后才会返回</p><p>​    <strong>快递的例子：</strong>比如到你某个时候到A楼一层（假如是内核缓冲区）取快递，但是你不知道快递什么时候过来，你又不能干别的事，只能死等着。但你可以睡觉（进程处于休眠状态），因为你知道快递把货送来时一定会给你打个电话（假定一定能叫醒你）。</p><p>阻塞，      就是调用我（s端被调用者，函数），我（s端被调用者，函数）没有接收完数据或者没有得到结果之前，我不会返回。</p><p><strong>非阻塞</strong><br>      非阻塞和阻塞的概念相对应，指在不能立刻得到结果之前，该函数不会阻塞当前线程，而会立刻返回。</p><p>​     还是等快递的例子：如果用忙轮询的方法，每隔5分钟到A楼一层(内核缓冲区）去看快递来了没有。如果没来，立即返回。而快递来了，就放在A楼一层，等你去取。</p><p>非阻塞，  就是调用我（s端被调用者，函数），我（s端被调用者，函数）立即返回，通过select通知调用者</p><h4 id="Linux下的五种I-O模型"><a href="#Linux下的五种I-O模型" class="headerlink" title="Linux下的五种I/O模型"></a>Linux下的五种I/O模型</h4><p>1)阻塞I/O（blocking I/O）<br>2)非阻塞I/O （nonblocking I/O）<br>3) I/O复用(select 和poll) （I/O multiplexing）<br>4)信号驱动I/O （signal driven I/O (SIGIO)）<br>5)异步I/O （asynchronous I/O (the POSIX aio_functions)）</p><p>前四种都是同步，只有最后一种才是异步IO。</p><p><strong>1.阻塞I/O模型：</strong></p><p>  简介：进程会一直阻塞，直到数据拷贝完成</p><p>​     应用程序调用一个IO函数，导致应用程序阻塞，等待数据准备好。 如果数据没有准备好，一直等待….数据准备好了，从内核拷贝到用户空间,IO函数返回成功指示。</p><p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200617170018529-365239351.png" srcset="/img/loading.gif" alt=""></p><p>​    <font color='red'> 当调用recv()函数时，系统首先查是否有准备好的数据。如果数据没有准备好，那么系统就处于等待状态。当数据准备好后，将数据从系统缓冲区复制到用户空间，然后该函数返回。在套接应用程序中，当调用recv()函数时，未必用户空间就已经存在数据，那么此时recv()函数就会处于等待状态。</font></p><p><strong>非阻塞IO模型</strong></p><p>   简介：非阻塞IO通过进程反复调用IO函数（多次系统调用，并马上返回）；在数据拷贝的过程中，进程是阻塞的；</p><p>我们把一个SOCKET接口设置为非阻塞就是告诉内核，当所请求的I/O操作无法完成时，不要将进程睡眠，而是返回一个错误。这样我们的I/O操作函数将不断的测试数据是否已经准备好，如果没有准备好，继续测试，直到数据准备好为止。在这个不断测试的过程中，会大量的占用CPU的时间。</p><p><img src="/img/socket2.jpg" srcset="/img/loading.gif" alt="hexo_themes"></p><p><strong>IO复用模型：</strong><br>             简介：主要是select和epoll；对一个IO端口，两次调用，两次返回，比阻塞IO并没有什么优越性；关键是能实现同时对多个IO端口进行监听；</p><p><img src="https://img-blog.csdn.net/20160410110100128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p><p>  I/O复用模型会用到select、poll、epoll函数，这几个函数也会使进程阻塞，但是和阻塞I/O所不同的的，这两个函数可以同时阻塞多个I/O操作。而且可以同时对多个读操作，多个写操作的I/O函数进行检测，直到有数据可读或可写时，才真正调用I/O操作函数。</p><p><strong>信号驱动IO</strong><br>    简介：两次调用，两次返回；</p><p>首先我们允许套接口进行信号驱动I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。</p><p><img src="https://img-blog.csdn.net/20160410110102941?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p><p><strong>异步IO模型</strong><br>         简介：数据拷贝的时候进程无需阻塞。</p><p> 当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者的输入输出操作</p><p><img src="https://img-blog.csdn.net/20160410110105847?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p><p>同步IO引起进程阻塞，直至IO操作完成。<br>异步IO不会引起进程阻塞。<br>IO复用是先通过select调用阻塞。</p><p>5个I/O模型的比较：</p><p><img src="https://img-my.csdn.net/uploads/201204/12/1334216724_2405.jpg" srcset="/img/loading.gif" alt="img"></p><p><strong>select</strong></p><p>它仅仅知道了，有I/O事件发生了，却并不知道是哪那几个流（可能有一个，多个，甚至全部），我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，对他们进行操作。所以<strong>select具有O(n)的无差别轮询复杂度</strong>，同时处理的流越多，无差别轮询时间就越长。</p><p><strong>poll</strong></p><p>poll本质上和select没有区别，它将用户传入的数组拷贝到内核空间，然后查询每个fd对应的设备状态， <strong>但是它没有最大连接数的限制</strong>，原因是它是基于链表来存储的.</p><p><strong>epoll</strong></p><p>epoll支持水平触发和边缘触发，最大的特点在于边缘触发，它只告诉进程哪些fd刚刚变为就需态，并且只会通知一次。还有一个特点是，epoll使用“事件”的就绪通知方式，通过epoll_ctl注册fd，一旦该fd就绪，内核就会采用类似callback的回调机制来激活该fd，epoll_wait便可以收到通知</p><p>epoll的优点：</p><p>epoll最重要的优点是他可以直接告诉用户程序哪一个，比如现在用epoll去监控10000个socket链接，交给内核去监测，现在有一个连接有数据了，epoll会直接告诉用户程序哪个连接有数据了。</p><p>epoll通过内核和用户空间共享一块内存来实现的。 </p><h3 id="select、poll、epoll-区别总结："><a href="#select、poll、epoll-区别总结：" class="headerlink" title="select、poll、epoll 区别总结："></a>select、poll、epoll 区别总结：</h3><p>1、支持一个进程所能打开的最大连接数</p><table><thead><tr><th>select</th><th>单个进程所能打开的最大连接数有FD_SETSIZE宏定义，其大小是32个整数的大小（在32位的机器上，大小就是32<em>32，同理64位机器上FD_SETSIZE为32</em>64），当然我们可以对进行修改，然后重新编译内核，但是性能可能会受到影响，这需要进一步的测试。</th></tr></thead><tbody><tr><td>poll</td><td>poll本质上和select没有区别，但是它没有最大连接数的限制，原因是它是基于链表来存储的</td></tr><tr><td>epoll</td><td>虽然连接数有上限，但是很大，1G内存的机器上可以打开10万左右的连接，2G内存的机器可以打开20万左右的连接</td></tr></tbody></table><p>2、FD剧增后带来的IO效率问题</p><table><thead><tr><th>select</th><th>因为每次调用时都会对连接进行线性遍历，所以随着FD的增加会造成遍历速度慢的“线性下降性能问题”。</th></tr></thead><tbody><tr><td>poll</td><td>同上</td></tr><tr><td>epoll</td><td>因为epoll内核中实现是根据每个fd上的callback函数来实现的，只有活跃的socket才会主动调用callback，所以在活跃socket较少的情况下，使用epoll没有前面两者的线性下降的性能问题，但是所有socket都很活跃的情况下，可能会有性能问题。</td></tr></tbody></table><p>3、 消息传递方式</p><table><thead><tr><th>select</th><th>内核需要将消息传递到用户空间，都需要内核拷贝动作</th></tr></thead><tbody><tr><td>poll</td><td>同上</td></tr><tr><td>epoll</td><td>epoll通过内核和用户空间共享一块内存来实现的。</td></tr></tbody></table>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;strong&gt;同步/异步主要针对C端:&lt;/strong&gt;&lt;br&gt;&lt;strong&gt;同步：&lt;/strong&gt;&lt;br&gt;      所谓同步，就是在c端发出一个功能调用时，在没有得到结果之前，该调用就不返回。&lt;strong&gt;也就是必须一件一件事做*&lt;/strong&gt;,*等前一件做
+      
+    
+    </summary>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/tags/%E5%85%B6%E4%BB%96/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>redis乐观锁</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/17/redis%E7%9A%84%E4%B9%90%E8%A7%82%E9%94%81/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/17/redis%E7%9A%84%E4%B9%90%E8%A7%82%E9%94%81/</id>
+    <published>2020-06-17T13:50:44.025Z</published>
+    <updated>2020-06-17T13:52:07.682Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id="redis乐观锁"><a href="#redis乐观锁" class="headerlink" title="redis乐观锁"></a>redis乐观锁</h4><p>乐观锁的核心概念指的是当多个用户修改同一条数据的时候，增加一个版本号的概念，也就是说不同的用户修改数据的时候<br>需要观测版本号是否与当前数据库中保存数据的版本号相同，如果相同则可以修改，如果不同则不能够修改。<br>如果要想实现乐观锁的处理，那么需要打开两个 redis 客户端。<br>1、 现在在里面随意设置一个数据：set test java；</p><p>2、 【第一个 session】启用乐观锁：<br>watch test<br>multi</p><p>3、 【第二个 session】更新数据：<br>set test hadoop</p><p>4、 【第一个 session】修改数据，并且进行事务提交；<br>set test tomcat<br>exec</p><p>此时执行更新之后返回的内容为“(nil)”，那么就表示当前的更新操作失败了。</p><p>乐观锁严格来讲属于一种逻辑锁，像传统的关系型数据库都会存在有悲观锁</p><p>原文链接：<a href="https://blog.csdn.net/shuxing520/article/details/77741905" target="_blank" rel="noopener">https://blog.csdn.net/shuxing520/article/details/77741905</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;redis乐观锁&quot;&gt;&lt;a href=&quot;#redis乐观锁&quot; class=&quot;headerlink&quot; title=&quot;redis乐观锁&quot;&gt;&lt;/a&gt;redis乐观锁&lt;/h4&gt;&lt;p&gt;乐观锁的核心概念指的是当多个用户修改同一条数据的时候，增加一个版本号的概念，也就是说不同的用
+      
+    
+    </summary>
+    
+    
+      <category term="Redis" scheme="https://github.com/gengbingkai/blog/categories/Redis/"/>
+    
+    
+      <category term="Redis" scheme="https://github.com/gengbingkai/blog/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Redis的事务</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/17/redis%E4%BA%8B%E5%8A%A1/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/17/redis%E4%BA%8B%E5%8A%A1/</id>
+    <published>2020-06-17T09:21:57.300Z</published>
+    <updated>2020-06-17T13:21:55.227Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="Redis事务"><a href="#Redis事务" class="headerlink" title="Redis事务"></a>Redis事务</h1><p>Redis 事务的本质是一组命令的集合。事务支持一次执行多个命令，一个事务中所有命令都会被序列化。</p><p>总结说：redis事务就是一次性、顺序性、排他性的执行一个队列中的一系列命令。　　</p><p>Redis事务没有隔离级别</p><p><strong>乐观锁介绍：（乐观锁主要用于抢红包，淘宝抢购，秒杀之类）</strong></p><p>乐观锁（ Optimistic Locking ） 相对悲观锁而言，乐观锁假设认为数据一般情况下不会造成冲突，所以在数据进行提交更新的时候，才会正式对数据的冲突与否进行检测，如果发现冲突了，则让返回用户错误的信息，让用户决定如何去做</p><p><strong>Redis不保证原子性：</strong></p><p>　　Redis中，单条命令是原子性执行的，但事务不保证原子性，且没有回滚。事务中任意命令执行失败，其余的命令仍会被执行。</p><p>　　1.Redis的事务没有关系数据库事务提供的回滚（rollback），所以开发者必须在事务执行失败后进行后续的处理；</p><p>　　2.如果在一个事务中的命令出现错误，那么所有的命令都不会执行；</p><p>　　3.如果在一个事务中出现运行错误，那么正确的命令会被执行。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;Redis事务&quot;&gt;&lt;a href=&quot;#Redis事务&quot; class=&quot;headerlink&quot; title=&quot;Redis事务&quot;&gt;&lt;/a&gt;Redis事务&lt;/h1&gt;&lt;p&gt;Redis 事务的本质是一组命令的集合。事务支持一次执行多个命令，一个事务中所有命令都会被序列化。&lt;
+      
+    
+    </summary>
+    
+    
+      <category term="Redis" scheme="https://github.com/gengbingkai/blog/categories/Redis/"/>
+    
+    
+      <category term="Redis" scheme="https://github.com/gengbingkai/blog/tags/Redis/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>mysql事务和引擎</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/17/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E5%BC%95%E6%93%8E/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/17/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E5%BC%95%E6%93%8E/</id>
+    <published>2020-06-17T03:11:31.021Z</published>
+    <updated>2020-06-17T13:38:26.691Z</updated>
+    
+    <content type="html"><![CDATA[<p>在MySQL数据库中，常用的引擎主要就是2个：Innodb和MyIASM。</p><p><strong>innodb</strong></p><p>Innodb引擎，Innodb引擎提供了对数据库ACID事务的支持。并且还提供了行级锁和外键的约束。它的设计的目标就是处理大数据容量的数据库系统</p><p><strong>MyIASM</strong></p><p>MyIASM引擎，它是MySql的默认引擎，但不提供事务的支持，也不支持行级锁和外键。因此当执行Insert插入和Update更新语句时，即执行写操作的时候需要锁定这个表。所以会导致效率会降低。不过和Innodb不同的是，MyIASM引擎是保存了表的行数，于是当进行Select count(*) from table语句时，可以直接的读取已经保存的值而不需要进行扫描全表。所以，如果表的读操作远远多于写操作时，并且不需要事务的支持的。可以将MyIASM作为数据库引擎的首先</p><p>总结：大容量的数据集时趋向于选择Innodb。因为它支持事务处理和故障的恢复。Innodb可以利用数据日志来进行数据的恢复。主键的查询在Innodb也是比较快的，大批量的插入语句时（这里是INSERT语句）在MyIASM引擎中执行的比较的快，但是UPDATE语句在Innodb下执行的会比较的快，尤其是在并发量大的时候</p><p>简单来说就是在查询多的场景适合用MyIASM比较快，在数据量大是且需要频繁添加修改是适合用于innodb。    </p><p><strong>两种引擎的数据结构</strong></p><p>MyIASM和innodb都是B+Tree     </p><p><strong>两种引擎的存储方式</strong></p><p>MyIASM引擎，B+树的数据结构中存储的内容实际上是实际数据的地址值。也就是说它的索引和实际数据是分开的，只不过使用索引指向了实际数据。这种索引的模式被称为非聚集索引。</p><p>Innodb引擎的索引的数据结构也是B+树，只不过数据结构中存储的都是实际的数据，这种索引有被称为聚集索引。</p><h4 id="事务"><a href="#事务" class="headerlink" title="事务"></a>事务</h4><p><strong>事务是数据库系统区别于其他一切文件系统的重要特性之一</strong></p><p><strong>事务是一组具有原子性的SQL语句，或是一个独立的工作单元</strong></p><ol><li><p>原子性(Atomicity)：整个事物的所有操作要么全部提交成功，要么全部失败回滚(不会出现部分执行的情况)。</p><p>要么全部成功，要么全部失败回滚，不会出现部分成功和回滚</p></li><li><p>一致性(Consistency)：几个并行执行的事务，其执行结果必须与按某一顺序串行执行的结果相一致。</p><p>几个任务执行，但是执行的结果要与执行之前一致</p><p>栗子：场景是这样的，小范转100块钱给小黄，那么这个事务系统必须要保证小范扣了100块钱，而且小黄也必须要加了100块钱。这样的结果就实现了事务的一致性</p></li><li><p>隔离性(Isolation)：事务的执行不受其他事务的干扰，事务执行的中间结果对其他事务必须是透明的。</p><p><strong>事物隔离级别</strong></p><ul><li><p><strong>未提交读: 脏读（READ UNCOMMITTED）</strong></p><p>​    事务2查询到的数据是事务1中修改但未提交的数据，但因为事务1回滚了数据</p><p>​    所以事务2查询的数据是不正确的，因此出现了脏读的问题。</p><p>​        栗子：老板给我发工资本来是要发1K，但是老板发错了，发了10K，我去查工资，发现老板好大方竟然发10K，好高兴，后来老板发现了，改了回来，我又去查了，发现怎么变成了1K，这个情况就是脏读。</p></li><li><p><strong>提交读: 不可重复读（READ COMMITTED）</strong></p><p>事务2执行update语句但未提交前，事务1的前两个select操作返回结果是相同的。</p><p>但事务2执行commit操作后，事务1的第三个select操作就读取到事务2对数据的改变。</p><p>导致与前两次select操作返回不同的数据，因此出现了不可重复读的问题。</p><p>栗子：我有一张会员卡，我第一次查询余额还有100元，单同时我的家人在使用这张会员卡，使用过程中减了50元，我第二次查询的时候，一看怎么变成50元了，这个就是提交读</p></li><li><p><strong>可重复度（repeatable read，RR）</strong><br>事务总是只能看见在启动的那个时刻，数据库的状态。事务未提交之前做的变更，其它事务看不见。事务执行期间，数据库中已经发生的变更，这个事务也看不见。只能看见事务刚启动时刻，数据库的状态。</p></li><li><p><strong>串行化（serializable）</strong><br>事务对某一行的操作会加锁，“写”会加“写锁”，“读”会加“读锁”，在锁释放掉之前，其它的事务都无法都这一行的记录进行操作。必须等之前的事务执行完毕，释放锁。后面的事务又会重新加锁。</p></li></ul></li><li><p>持久性(Durability):  一个事务一旦被提交了，那么对数据库中的数据的改变就是永久性的，即便是在数据库系统遇到故障的情况下也不会丢失提交事务的操作。</p><p>一旦事务执行成功，那么对数据的操作就是永久性的，不过是数据库宕机还是其他原因都不会改变。</p><p>栗子：我要给小明转100元，而小明一旦收到这100元，我这里减100元，这个任务一旦成功，就是永久性的，不会因为其他因素改变。</p></li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在MySQL数据库中，常用的引擎主要就是2个：Innodb和MyIASM。&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;innodb&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Innodb引擎，Innodb引擎提供了对数据库ACID事务的支持。并且还提供了行级锁和外键的约束。它的设计的目标就是处理
+      
+    
+    </summary>
+    
+    
+      <category term="mysql" scheme="https://github.com/gengbingkai/blog/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="https://github.com/gengbingkai/blog/tags/mysql/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>高并发介绍</title>
+    <link href="https://github.com/gengbingkai/blog/2020/06/16/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%BB%8B%E7%BB%8D/"/>
+    <id>https://github.com/gengbingkai/blog/2020/06/16/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%BB%8B%E7%BB%8D/</id>
+    <published>2020-06-16T03:49:34.945Z</published>
+    <updated>2020-06-16T03:51:01.384Z</updated>
+    
+    <content type="html"><![CDATA[<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h2 id="高并发介绍"><a href="#高并发介绍" class="headerlink" title="高并发介绍"></a>高并发介绍</h2><p>　<strong>高并发中一些概念</strong></p><p>　　<strong>1.</strong> <strong>PV(访问量)：</strong> 页面访问量，页面刷新一次算一次。</p><p>　　<strong>2. UV(独立访客)：</strong> 即Unique Visitor，一个客户端（电脑，手机）为一个访客；</p><p>　　<strong>3. DAU(日活跃用户数)：</strong>登录或使用了某个产品的用户数，这与流量统计工具里的访客（UV）概念相似。</p><p>　　<strong>4. 峰值QPS：</strong></p><p>　　　　　<strong>原理：</strong>每天80%的访问集中在20%的时间里，这20%时间叫做峰值时间</p><p>　　　　　<strong>公式：</strong>( 总PV数 * 80% ) / ( 每天秒数 * 20% ) = 峰值时间每秒请求数(QPS)</p><p>　　<strong>5.</strong> <strong>QPS/TPS(每秒查询率)：</strong>每秒能够查询次数（QPS/TPS= 并发数 / 平均响应时间）</p><p>　　　　　<strong>并发数：</strong>并发数是指系统同时能处理的请求数量，这个也是反应了系统的负载能力。</p><p>　　　　　<strong>吐吞量：</strong>吞吐量是指系统在单位时间内处理请求的数量</p><p>　　　　　<strong>响应时间（RT）：</strong>响应时间是指系统对请求作出响应的时间，一般取平均响应时间</p><p>　　</p><p>　　<strong>例1：</strong></p><p>　　　　1. 假设1秒钟100个请求，处理每个请求需要花2秒，</p><p>　　　　2. 那么 50（每秒可以处理50个请求，即QPS使50） = 100（每秒并发数） / 2 （每个请求的平均处理时间）</p><p>　　　　3. 这是一台机器的QPS，如有每秒并发数为1000，那么就需要20台这样的机器才扛得住:</p><p>　　<strong>例2：</strong></p><p>　　　　1. 每天200万PV，那么它的QPS = （2000000 * 0.8）/ （24<em>60</em>60*0.2）≈ 93</p><p>　　　　2. 假设按照上面那样一台机器的QPS是50，那么抗住每天200万PV的访问量需要2台这样的机器</p><h2 id="高并发各层级解决方案"><a href="#高并发各层级解决方案" class="headerlink" title="高并发各层级解决方案"></a>高并发各层级解决方案</h2><p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200615225707946-1280071087.png" srcset="/img/loading.gif" alt="img"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h4 id=&quot;&quot;&gt;&lt;a href=&quot;#&quot; class=&quot;headerlink&quot; title=&quot;&quot;&gt;&lt;/a&gt;&lt;/h4&gt;&lt;h2 id=&quot;高并发介绍&quot;&gt;&lt;a href=&quot;#高并发介绍&quot; class=&quot;headerlink&quot; title=&quot;高并发介绍&quot;&gt;&lt;/a&gt;高并发介绍&lt;/h2&gt;&lt;p
+      
+    
+    </summary>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/categories/%E5%85%B6%E4%BB%96/"/>
+    
+    
+      <category term="其他" scheme="https://github.com/gengbingkai/blog/tags/%E5%85%B6%E4%BB%96/"/>
+    
+  </entry>
+  
+</feed>

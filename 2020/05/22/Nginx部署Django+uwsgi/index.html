@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>Nginx部署Django+contos安装python3 - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期五, 五月 22日 2020, 6:12 晚上
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    723 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    11
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>　<strong>1、在centos 7中安装python3环境</strong></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<pre><code># 1、yum更新yum源
+yum update
+# 2、安装Python 3.7所需的依赖否则安装后没有pip3包
+yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel libffi-devel gcc make
+# 3、在官网下载所需版本，这里用的是3.7.0版本，这个应该下不了，去官网找一个，就好。
+wget https://www.python.org/ftp/3.7.0/Python-3.7.0.tgz</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" srcset="/img/loading.gif" alt="img"> <strong>2、安装Python</strong></p>
+<p>　　<strong>2、初始化一个django项目</strong></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<pre><code>[root@linux-node1 /]# pip3 install django==2.0.4
+[root@linux-node1 /]# mkdir /code/
+[root@linux-node1 /]# cd /code/
+[root@linux-node1 testProj]# django-admin startproject mmcsite
+[root@linux-node1 testProj]# cd /code/mmcsite
+[root@linux-node1 testProj]# python3 manage.py runserver 0.0.0.0:8000
+# 页面中访问：http://192.168.56.11:8000/</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p>　　<strong>3、安装uwsgi 并使用uWSGI启动这个服务</strong></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<pre><code>&#39;&#39;&#39;1. 安装uwsgi&#39;&#39;&#39;
+[root@linux-node1 /]# pip3 install uwsgi
+[root@linux-node1 /]# ln -s /usr/local/python3/bin/uwsgi /usr/bin/uwsgi
+
+&#39;&#39;&#39;2. 配置uwsgi.ini启动文件&#39;&#39;&#39;
+[root@linux-node1 /]# vim uwsgi.ini
+[uwsgi]
+socket = 0.0.0.0:3031
+chdir = /code/mmcsite
+wsgi-file = /code/mmcsite/wsgi.py
+processes = 5
+threads = 30
+master = true
+daemonize = /code/mmcsite/uwsgi.log
+module=mmcsite.wsgi
+pidfile = /code/mmcsite/uwsgi.pid
+chmod-socket=666
+enable-threads = true
+
+&#39;&#39;&#39;3. 使用uwsgi启动django：一定要在这个项目目录中&#39;&#39;&#39;
+[root@linux-node1 /]# uwsgi --http 192.168.56.11:80 --file mmcsite/wsgi.py --static-map=/static=static
+访问项目：http://192.168.56.11</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<pre><code>[root@linux-node2 demo2]# vim /code/mmcsite/uwsgi.ini  # uwsgi.ini文件
+[uwsgi]
+socket = 0.0.0.0:6789                  # 指定socket监听的地址和端口
+chdir = /code/mmcsite                  # 项目路径 
+wsgi-file = /code/mmcsite/wsgi.py      # django的wsgi文件路径
+processes = 5                          # 启动五个进程
+threads = 30                           # 每个进程启动30个线程
+master = true
+daemonize = /code/mmcsite/uwsgi.log    # 日志存放路径
+module=mmcsite.wsgi                    # 使用mmcsite.wsgi模块
+pidfile = /code/mmcsite/uwsgi.pid      # uwsgi启动进程id存放路径
+chmod-socket=666                       # socket权限
+enable-threads = true                  # 允许用内嵌的语言启动线程，这将允许你在app程序中产生一个子线程</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p>　　<strong>4、安装配置nginx</strong></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<pre><code>&#39;&#39;&#39;1. 配置nginx YUM源&#39;&#39;&#39;
+[root@linux-node1 /] vim /etc/yum.repos.d/nginx.repo
+​```
+[nginx]
+name=nginx repo
+# 下面这行centos根据你自己的操作系统修改比如：OS/rehel
+# 6是你Linux系统的版本，可以通过URL查看路径是否正确
+baseurl=http://nginx.org/packages/centos/7/$basearch/
+gpgcheck=0
+enabled=1
+​```
+&#39;&#39;&#39;2. 安装nginx&#39;&#39;&#39;
+[root@linux-node1 /] yum -y install nginx</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<pre><code>[root@linux-node1 /]# vim /etc/nginx/conf.d/django.conf 
+server {
+    listen 8001; #暴露给外部访问的端口 
+    server_name localhost; 
+    charset utf-8; 
+    location / { 
+        include uwsgi_params; 
+        uwsgi_pass 127.0.0.1:6666; #这个端口要和jcdemo_uwsgi.ini里socket保持一致，外部访问8001就转发到内部6666，尽量不要用6789作为uwsgi的端口
+
+        #proxy_set_header Upgrade $http_upgrade;
+        #proxy_set_header Connection &quot;upgrade&quot;;
+
+     }    
+}
+
+
+    include /etc/nginx/conf.d/*.conf;
+}</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p>　　<strong>5、启动项目</strong></p>
+<pre><code>[root@linux-node1 demo2]# systemctl restart nginx   # 开启nginx
+[root@linux-node1 demo2]# uwsgi --ini uwsgi.ini     # 启动uwsgi的django项目
+# http://192.168.56.11:8888/ 访问项目
+[root@linux-node1 demo2]# uwsgi --stop uwsgi.pid    # 关闭uwsgi</code></pre><p>转载：<a href="https://www.cnblogs.com/xiaonq/p/8932266.html" target="_blank" rel="noopener">https://www.cnblogs.com/xiaonq/p/8932266.html</a></p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/%E5%85%B6%E4%BB%96/">其他</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/%E5%85%B6%E4%BB%96/">其他</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/05/23/flask%E8%93%9D%E5%9B%BE/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">flask蓝图</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/05/22/%E5%85%B3%E4%BA%8EMongoDB%E7%9A%84objectID/">
+                        <span class="hidden-mobile">MangoDB的ObjectId</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Nginx部署Django+contos安装python3&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

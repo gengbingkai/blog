@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>docker基础 - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期二, 四月 28日 2020, 12:00 凌晨
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.3k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    16
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>Docker</p>
+<p>仓库</p>
+<p>仓库分为公用仓库和私有仓库</p>
+<p>仓库用来存储镜像</p>
+<p>镜像</p>
+<p>镜像是从仓库里拉取的，</p>
+<p>镜像是一个静态的文件，</p>
+<p>容器</p>
+<p>镜像运行起来就是一个容器，一个容器打包起来就是一个自定义镜像4</p>
+<h2 id="一、常用命令"><a href="#一、常用命令" class="headerlink" title="一、常用命令"></a>一、常用命令</h2><ul>
+<li>docker version</li>
+<li>docker info</li>
+<li>docker help</li>
+</ul>
+<h2 id="二、镜像命令"><a href="#二、镜像命令" class="headerlink" title="二、镜像命令"></a>二、镜像命令</h2><h4 id="1-docker-images"><a href="#1-docker-images" class="headerlink" title="1. docker images"></a>1. docker images</h4><ul>
+<li>功能： 列出本地主机上的镜像</li>
+<li>各个选项说明:</li>
+</ul>
+<pre><code>REPOSITORY：表示镜像的仓库源
+TAG：镜像的标签
+IMAGE ID：镜像ID
+CREATED：镜像创建时间
+SIZE：镜像大小</code></pre><ul>
+<li>同一仓库源可以有多个 TAG，代表这个仓库源的不同个版本，我们使用 REPOSITORY:TAG 来定义不同的镜像。</li>
+<li>如果你不指定一个镜像的版本标签，例如你只使用 ubuntu，docker 将默认使用 ubuntu:latest 镜像</li>
+<li>OPTIONS说明：<ul>
+<li>-a :列出本地所有的镜像（含中间映像层）</li>
+<li>-q :只显示镜像ID。</li>
+<li>–digests :显示镜像的摘要信息</li>
+<li>–no-trunc :显示完整的镜像信息</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-docker-search-某个XXX镜像名字"><a href="#2-docker-search-某个XXX镜像名字" class="headerlink" title="2. docker search 某个XXX镜像名字"></a>2. docker search 某个XXX镜像名字</h4><ul>
+<li>镜像仓库：<a href="https://hub.docker.com" target="_blank" rel="noopener">https://hub.docker.com</a></li>
+<li>命令：<ul>
+<li>docker search [OPTIONS] 镜像名字</li>
+<li>OPTIONS说明：<ul>
+<li>–no-trunc : 显示完整的镜像描述</li>
+<li>-s : 列出收藏数不小于指定值的镜像。</li>
+<li>–automated : 只列出 automated build类型的镜像；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-docker-pull-某个XXX镜像名字"><a href="#3-docker-pull-某个XXX镜像名字" class="headerlink" title="3. docker pull 某个XXX镜像名字"></a>3. docker pull 某个XXX镜像名字</h4><ul>
+<li>功能: 下载镜像</li>
+<li>docker pull 镜像名字[:TAG]</li>
+</ul>
+<h4 id="4-docker-rmi-某个XXX镜像名字ID"><a href="#4-docker-rmi-某个XXX镜像名字ID" class="headerlink" title="4.docker rmi 某个XXX镜像名字ID"></a>4.docker rmi 某个XXX镜像名字ID</h4><ul>
+<li>功能：删除镜像</li>
+<li>删除单个： docker rmi -f 镜像ID</li>
+<li>删除多个： docker rmi -f 镜像名1:TAG 镜像名2:TAG</li>
+<li>删除全部： docker rmi -f $(docker images -qa)</li>
+<li>作业：结合我们Git的学习心得，大家猜猜是否会有 docker commit /docker push？？</li>
+</ul>
+<h2 id="三、容器命令"><a href="#三、容器命令" class="headerlink" title="三、容器命令"></a>三、容器命令</h2><ul>
+<li>有镜像才能创建容器，这是根本前提(下载一个CentOS镜像演示)<code>docker pull centos</code></li>
+</ul>
+<h4 id="1-新建并启动容器-docker-run-OPTIONS-IMAGE-COMMAND-ARG…"><a href="#1-新建并启动容器-docker-run-OPTIONS-IMAGE-COMMAND-ARG…" class="headerlink" title="1. 新建并启动容器 docker run [OPTIONS] IMAGE [COMMAND] [ARG…]"></a>1. 新建并启动容器 docker run [OPTIONS] IMAGE [COMMAND] [ARG…]</h4><ul>
+<li>OPTIONS说明（常用）：有些是一个减号，有些是两个减号</li>
+</ul>
+<pre><code>--name=&quot;容器新名字&quot;: 为容器指定一个名称；
+-d: 后台运行容器，并返回容器ID，也即启动守护式容器；
+-i：以交互模式运行容器，通常与 -t 同时使用；
+-t：为容器重新分配一个伪输入终端，通常与 -i 同时使用；
+-P: 随机端口映射；
+-p: 指定端口映射，有以下四种格式
+      ip:hostPort:containerPort
+      ip::containerPort
+      hostPort:containerPort
+      containerPort</code></pre><ul>
+<li>启动交互式容器</li>
+</ul>
+<pre><code>#使用镜像centos:latest以交互模式启动一个容器,在容器内执行/bin/bash命令。
+docker run -it centos /bin/bash </code></pre><h4 id="2-列出当前所有正在运行的容器-docker-ps-OPTIONS"><a href="#2-列出当前所有正在运行的容器-docker-ps-OPTIONS" class="headerlink" title="2. 列出当前所有正在运行的容器 docker ps [OPTIONS]"></a>2. 列出当前所有正在运行的容器 docker ps [OPTIONS]</h4><ul>
+<li>OPTIONS说明（常用）：</li>
+</ul>
+<pre><code>-a :列出当前所有正在运行的容器+历史上运行过的
+-l :显示最近创建的容器。
+-n：显示最近n个创建的容器。
+-q :静默模式，只显示容器编号。
+--no-trunc :不截断输出。</code></pre><h4 id="3-退出容器-两种退出方式"><a href="#3-退出容器-两种退出方式" class="headerlink" title="3. 退出容器(两种退出方式)"></a>3. 退出容器(两种退出方式)</h4><ul>
+<li>容器停止退出 exit</li>
+<li>容器不停止退出 ctrl+P+Q</li>
+</ul>
+<h4 id="4-启动容器"><a href="#4-启动容器" class="headerlink" title="4. 启动容器"></a>4. 启动容器</h4><ul>
+<li>docker start 容器ID或者容器名</li>
+</ul>
+<h4 id="5-重启容器"><a href="#5-重启容器" class="headerlink" title="5. 重启容器"></a>5. 重启容器</h4><ul>
+<li>docker restart 容器ID或者容器名</li>
+</ul>
+<h4 id="6-停止容器"><a href="#6-停止容器" class="headerlink" title="6. 停止容器"></a>6. 停止容器</h4><ul>
+<li>docker stop 容器ID或者容器名</li>
+</ul>
+<h4 id="7-强制停止容器"><a href="#7-强制停止容器" class="headerlink" title="7. 强制停止容器"></a>7. 强制停止容器</h4><ul>
+<li>docker kill 容器ID或者容器名</li>
+</ul>
+<h4 id="8-删除已停止的容器"><a href="#8-删除已停止的容器" class="headerlink" title="8. 删除已停止的容器"></a>8. 删除已停止的容器</h4><ul>
+<li>docker rm 容器ID</li>
+<li>一次性删除多个容器<ul>
+<li>docker rm -f $(docker ps -a -q)</li>
+<li>docker ps -a -q | xargs docker rm</li>
+</ul>
+</li>
+</ul>
+<h4 id="9-重点"><a href="#9-重点" class="headerlink" title="9. 重点"></a>9. 重点</h4><ul>
+<li><p>启动守护式容器</p>
+<ul>
+<li>docker run -d 容器名</li>
+<li></li>
+</ul>
+<pre><code>#使用镜像centos:latest以后台模式启动一个容器
+docker run -d centos
+
+问题：然后docker ps -a 进行查看, 会发现容器已经退出
+很重要的要说明的一点: Docker容器后台运行,就必须有一个前台进程.
+容器运行的命令如果不是那些一直挂起的命令（比如运行top，tail），就是会自动退出的。
+
+这个是docker的机制问题,比如你的web容器,我们以nginx为例，正常情况下,我们配置启动服务只需要启动响应的service即可。例如
+service nginx start
+但是,这样做,nginx为后台进程模式运行,就导致docker前台没有运行的应用,
+这样的容器后台启动后,会立即自杀因为他觉得他没事可做了.
+所以，最佳的解决方案是,将你要运行的程序以前台进程的形式运行</code></pre></li>
+<li><p>查看容器日志</p>
+<ul>
+<li>docker logs -f -t –tail 容器ID</li>
+<li>docker run -d centos /bin/sh -c “while true;do echo hello ljj;sleep 2;done”<ul>
+<li>-t 是加入时间戳</li>
+<li>-f 跟随最新的日志打印</li>
+<li>–tail 数字 显示最后多少条 –tail 数字 显示最后多少条</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>查看容器内运行的进程</p>
+<ul>
+<li>docker top 容器ID</li>
+</ul>
+</li>
+<li><p>查看容器内部细节</p>
+<ul>
+<li>docker inspect 容器ID</li>
+</ul>
+</li>
+<li><p>进入正在运行的容器并以命令行交互</p>
+<ul>
+<li>docker exec -it 容器ID bashShell</li>
+<li></li>
+</ul>
+<pre><code> `docker exec -it 81bb90b25582 /bin/bash`</code></pre><ul>
+<li>重新进入: docker attach 容器ID</li>
+<li>上述两个区别:<ul>
+<li>attach: 直接进入容器启动命令的终端，不会启动新的进程</li>
+<li>exec: 是在容器中打开新的终端，并且可以启动新的进程</li>
+<li>再次查看容器的进程：docker top 81bb90b25582</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>从容器内拷贝文件到主机上</p>
+<ul>
+<li>docker cp 容器ID:容器内路径 目的主机路径<ul>
+<li>docker cp 81bb90b25582:/tmp/a.txt /tmp/aa.txt</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/docker/">docker</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/docker/">docker</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/04/28/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%B2%99%E7%AE%B1/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">支付宝沙箱----支付</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/04/25/hugo1/">
+                        <span class="hidden-mobile">用Hugo快速搭建个人静态博客</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "docker基础&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

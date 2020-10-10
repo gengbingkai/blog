@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>Django &amp;&amp; 数据库关系 - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期三, 四月 8日 2020, 11:44 中午
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    974 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    12
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <h1 id="一对一关系"><a href="#一对一关系" class="headerlink" title="一对一关系"></a>一对一关系</h1><p><strong>一对一：子表从母表中选出一条数据一一对应，母表中选出来一条就少一条，子表不可以再选择母表中已被选择的那条数据</strong></p>
+<ul>
+<li>orm映射一对一关系</li>
+</ul>
+<p>一，基类，只有一些共有属性</p>
+<p>二，升级类，具有共有属性，其他自己有的属性</p>
+<p>null = True 数据库可以储存为空，blank=True   表单处可以验证为空</p>
+<h1 id="正向查询和反向查询"><a href="#正向查询和反向查询" class="headerlink" title="正向查询和反向查询"></a>正向查询和反向查询</h1><p>正向查询：表中有字短，直接. 查询</p>
+<p>反向查询：表中没有字段，但是可以利用关联表，表名小写，查询</p>
+<p>全文检索：contains</p>
+<a id="more"></a>
+
+
+<h1 id="多对一"><a href="#多对一" class="headerlink" title="多对一"></a>多对一</h1><p>​               *<em>谁多谁关联 *</em></p>
+<p><strong>一对多：子表从母表中选出一条数据一一对应，但母表的这条数据还可以被其他子表数据选择</strong></p>
+<p><strong>共同点是在admin中添加数据的话，都会出现一个select选框，但只能单选，因为不论一对一还是一对多，自己都是“一”</strong></p>
+<p>models.SET_NULL  指明了当前外键可以为空</p>
+<ul>
+<li>数据的反向 == 表的正向</li>
+<li>表的反向 == 数据的正向</li>
+</ul>
+<p><strong>实例</strong></p>
+<pre><code>class Person(models.Model);
+    name = models.CharField(&#39;作者姓名&#39;, max_length=10)
+
+    def __unicode__(self):
+    return self.name
+
+class Book(models.Model):
+    person = models.ForeignKey(Person, related_name=&#39;person_book&#39;)
+    title = models.CharField(&#39;书籍名称&#39;, max_length=10)
+    pubtime = models.DateField(&#39;出版时间&#39;)  
+
+    def __unicode__(self):
+    return self.name    </code></pre><h1 id="多对多"><a href="#多对多" class="headerlink" title="多对多"></a>多对多</h1><p><strong>多对多关系</strong></p>
+<p>举例：一个出版社发表多个文章，一篇文章也可以对多个出版社发表</p>
+<p>ManyToManyFiled():关联两个表的函数，但是函数的设置位置，在模型中任选一个即可，不能在两个模型中都设置此函数。</p>
+<pre><code>class Publication(models.Model):
+    id = models.AutoField(primary_key=True)
+    title = models.CharField(max_length=30, null=True)  # 出版社名称
+
+    class Meta:
+        db_table = &#39;Publication&#39;
+
+    def __unicode__(self):
+        return &#39;Publication-Name: %s&#39; % self.title
+
+class Article(models.Model):
+    id = models.AutoField(primary_key=True)
+    headline = models.CharField(max_length=100, null=True)
+
+    # 让文章关联出版社
+    publication = models.ManyToManyField(Publication)
+
+    class Meta:
+        db_table = &#39;Article&#39;
+
+    def __unicode__(self):
+        return &#39;Article-Name: %s&#39; % self.headline
+</code></pre><p><strong>创建完数据库模型之后，就需要创建数据库变更文件，应用数据库变更文件创建表的操作。<br>创建数据库变更文件：python manage.py makemigrations<br>应用数据库变更文件：python manage.py migrate</strong></p>
+<h1 id="ctrl-alt-r-可以快速定位到当前文件夹"><a href="#ctrl-alt-r-可以快速定位到当前文件夹" class="headerlink" title="ctrl +alt+ r  可以快速定位到当前文件夹"></a>ctrl +alt+ r  可以快速定位到当前文件夹</h1><h1 id="在文件夹中shift-鼠标右键-可以点击power-Shell-窗口"><a href="#在文件夹中shift-鼠标右键-可以点击power-Shell-窗口" class="headerlink" title="在文件夹中shift + 鼠标右键 可以点击power Shell 窗口"></a>在文件夹中shift + 鼠标右键 可以点击power Shell 窗口</h1><h1 id="这个窗口要比cmd窗口要强一些"><a href="#这个窗口要比cmd窗口要强一些" class="headerlink" title="这个窗口要比cmd窗口要强一些"></a>这个窗口要比cmd窗口要强一些</h1><h1 id="shift-alt-↓-快速复制"><a href="#shift-alt-↓-快速复制" class="headerlink" title="shift+alt+↓   快速复制"></a>shift+alt+↓   快速复制</h1><h1 id="shift-D-批量修改"><a href="#shift-D-批量修改" class="headerlink" title="shift+D 批量修改"></a>shift+D 批量修改</h1><ul>
+<li><p>Http：短链接</p>
+</li>
+<li><p>COOKIE：存在于浏览器</p>
+</li>
+<li><p>SESSION：存在于服务器</p>
+</li>
+</ul>
+<p>  配置一级分类和二级分类的关联关系：</p>
+<pre><code>    在一级分类Creatgory中配置一个set类型的二级分类的集合（因为要接收一组二级分类的数据）
+
+     一级分类hbm.xml的配置是一对多&lt;set name=&quot;在ve中的名称&quot;&gt;&lt;key colum=&quot;数据表中的id&quot;/&gt;
+
+                  &lt;ont-many classs=&quot;二级分类的地址&quot;/&gt;  
+
+     &lt;/set&gt;
+
+      在二级分类CreatgroySecond中配置一级分类的对象，
+
+      hbm.xml中配置多对一
+
+       &lt;many-to-one name=&quot;category&quot; class=&quot;com.graduation.library.category.ve.Category&quot; column=&quot;cid&quot;/&gt;</code></pre><p>2.点击一级分类的链接：</p>
+<pre><code>      传递一级分类的id
+
+      执行一个方法直接返回页面。
+
+     显示左侧菜单
+
+    显示关联查询（直接从session中获取一级分类的数据需要配置一级分类中的hbm.xml lazy=“”false“”（））</code></pre><p>3.根据二级id查询商品</p>
+<pre><code>   传递二级分类idcsid
+
+    传递page=1</code></pre><p>  和一级分类一样</p>
+<h1 id="Django配置Mysql数据库"><a href="#Django配置Mysql数据库" class="headerlink" title="Django配置Mysql数据库"></a>Django配置Mysql数据库</h1><p>settings.py</p>
+<pre><code class="DATABASES"> &#39;default&#39;: {
+       &#39;ENGINE&#39;: &#39;django.db.backends.mysql&#39;,
+       &#39;NAME&#39;: &#39;Django&#39;,
+       &#39;HOST&#39;:&#39;&#39;,
+       &#39;USER&#39;:&#39;root&#39;  数据库用户名
+       &#39;PASSWORD&#39;:&#39;123&#39; 数据库密码
+    }
+}</code></pre>
+<p>   然后执行：python manage.py  makemigrations</p>
+<p>​                      python manage.py migrate</p>
+<p>utf8 创建的库最大字符数是191</p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/Django/">Django</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/Django/">Django</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/04/08/Git%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">Git彻底删除历史提交记录的方法</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/04/08/%E6%95%AC%E8%AF%B7%E6%9C%9F%E5%BE%85%EF%BC%815/">
+                        <span class="hidden-mobile">uni-app！</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Django && 数据库关系&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

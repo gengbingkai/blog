@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/26/%E9%AB%98%E5%BE%B7API%E5%9C%A8vue%E7%9A%84%E4%BD%BF%E7%94%A8/">
+        <p class="h4 index-header">高德地图API</p>
+      </a>
+
+      <a href="/blog/2020/05/26/%E9%AB%98%E5%BE%B7API%E5%9C%A8vue%E7%9A%84%E4%BD%BF%E7%94%A8/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1.安装高德API的三方包
+npm install vue-amap --save我踩的坑就是，根据提示，要安装的是这个包，一定不要安装，因为也安不上
+npm install AMap --save2.修改webpac.base.conf.js文件,在module.exports = {的下面加上
+  externals: {
+    &#39;AMap&#39;: &#39;AMap&#39;
+  }
+
+index.html   页面
+
+&lt;script type=&quot;text/javascript&quot; src=&quot;http://webapi.amap.com/m</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-26&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Vue/">Vue</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Vue/">Vue</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/23/flask%E8%93%9D%E5%9B%BE/">
+        <p class="h4 index-header">flask蓝图</p>
+      </a>
+
+      <a href="/blog/2020/05/23/flask%E8%93%9D%E5%9B%BE/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">flask的代码都写在一个.py 文件太乱了，维护部方便，
+使用蓝图
+在main.py 文建里写，就是运行文件
+from app import app,db
+from flask_migrate import Migrate,MigrateCommand
+from flask_script import Manager
+from models import *
+from admin import admin_blue  #导入蓝图文件
+from index import index_blue#导入蓝图文件
+
+
+db.init_app(app)
+manage = Manager(app)
+Mig</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-23&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/flask/">flask</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/flask/">flask</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/22/Nginx%E9%83%A8%E7%BD%B2Django+uwsgi/">
+        <p class="h4 index-header">Nginx部署Django+contos安装python3</p>
+      </a>
+
+      <a href="/blog/2020/05/22/Nginx%E9%83%A8%E7%BD%B2Django+uwsgi/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">　1、在centos 7中安装python3环境
+
+
+# 1、yum更新yum源
+yum update
+# 2、安装Python 3.7所需的依赖否则安装后没有pip3包
+yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel libffi-devel gcc make
+# 3、在官网下载所需版本，这里用的是3.7.0版本，这个应该下不了，去官网找一个，就好。
+wget https://www.python.org/ftp/3.7.0/Python-3</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/22/%E5%85%B3%E4%BA%8EMongoDB%E7%9A%84objectID/">
+        <p class="h4 index-header">MangoDB的ObjectId</p>
+      </a>
+
+      <a href="/blog/2020/05/22/%E5%85%B3%E4%BA%8EMongoDB%E7%9A%84objectID/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1"> ObjectId(&quot;5ebe8535d9cad4cedf86456d&quot;)mongoDB的id不是自增的，而是一种唯一的objectID类型的数据
+获取是，获取到了应该是
+&quot;$oid&quot;: &quot;54651022bffebc03098b4567&quot;这样的数据
+下面是使用方法
+_id = request.data.get(&#39;_id&#39;)   # ==     &quot;$oid&quot;: &quot;54651022bffebc03098b4567
+if _id:   #判断是否存在
+   if ObjectId.is_va</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Mango/">Mango</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Mango/">Mango</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+        <p class="h4 index-header">数据结构</p>
+      </a>
+
+      <a href="/blog/2020/05/22/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">数据结构栈
+栈的定义：栈是一种数据集合，可以理解为只能在一端进行插入或删除操作的列表
+栈的特点：先进后出
+
+&quot;&quot;&quot;   先进后出  &quot;&quot;&quot;
+class Stack(object):
+    &quot;&quot;&quot;栈类&quot;&quot;&quot;
+    def __init__(self):
+        &quot;&quot;&quot;创建一个新的空栈&quot;&quot;&quot;
+        self.stack = []
+
+    def push(self,item):
+        &</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/22/redis%E7%9B%B8%E5%85%B3/">
+        <p class="h4 index-header">redis详情</p>
+      </a>
+
+      <a href="/blog/2020/05/22/redis%E7%9B%B8%E5%85%B3/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">redis持久化RDB   类比游戏存档操作
+ 采用RDB持久方式，Redis会定期保存数据快照至一个rbd文件中，并在启动时自动加载rdb文件，恢复之前保存的数据。可以在配置文件中配置Redis进行快照保存的时机：save 60 100 会让Redis每60秒检查一次数据变更情况，如果发生了100次或以上的数据变更，则进行RDB快照保存。可以配置多条save指令，让Redis执行多级的快照保存策略。
+RDB的优点
+1.快速，对性能影响最小，几乎不影响Redis处理客户端请求的效率。
+2.使用RDB文件进行数据恢复比使用AOF要快很多
+RDB的缺点
+快照是定期生成的，所以在Redis cras</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-22&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Redis/">Redis</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Redis/">Redis</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/22/RBAC/">
+        <p class="h4 index-header">RBAC</p>
+      </a>
+
+      <a href="/blog/2020/05/22/RBAC/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">[RBAC 介绍 (权限)]RBAC是什么？
+RBAC  是基于角色的访问控制（Role-Based Access Control ）在 RBAC  中，权限与角色相关联，用户通过成为适当角色的成员而得到这些角色的权限。这就极大地简化了权限的管理。这样管理都是层级相互依赖的，权限赋予给角色，而把角色又赋予用户，这样的权限设计很清楚，管理起来很方便。
+RBAC介绍。RBAC  认为授权实际上是Who 、What 、How 三元组之间的关系，也就是Who 对What 进行How 的操作，也就是“主体”对“客体”的操作。
+Who：是权限的拥有者或主体（如：User，Role）。
+What：是操作或对</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-22&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/19/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84%E6%84%8F%E4%B9%89%EF%BC%8C%E4%BD%9C%E7%94%A8%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/">
+        <p class="h4 index-header">django 唯一索引</p>
+      </a>
+
+      <a href="/blog/2020/05/19/%E8%81%94%E5%90%88%E7%B4%A2%E5%BC%95%E7%9A%84%E6%84%8F%E4%B9%89%EF%BC%8C%E4%BD%9C%E7%94%A8%EF%BC%8C%E4%BD%BF%E7%94%A8%E6%96%B9%E6%B3%95/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">django 唯一索引意义：是为了更高效的查询数据
+ # 只能加速查找
+        db_index=True, 
+        # 普通索引，加速查找,限制列值唯一
+        unique = True,
+        # 唯一索引，加速查找,限制列值唯一(不能为空)
+        primary = True,class User(models.Model):
+    #常用字段：
+
+    #字符字段
+    username = models.CharField(max_length=32)
+
+    #数字字段
+    age = models.IntegerFiel</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-19&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Django/">Django</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Django/">Django</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/12/Nginx%E7%9A%84%E7%90%86%E8%A7%A3/">
+        <p class="h4 index-header">Nginx详情</p>
+      </a>
+
+      <a href="/blog/2020/05/12/Nginx%E7%9A%84%E7%90%86%E8%A7%A3/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1、什么是nginx？什么是nginx的反向代理？正向代理又是什么？nginx反向代理的作用？
+2、什么是uwsgi，UWSGI，wsgi。他们的作用分别什么是？
+3、nginx+uwsgi+django的通信过程是如何完成的
+4、uwsgi配置里的 socket,chdir,wsgi-file,daemonize,pidfile这几个配置的作用是什么？
+5、nginx的配置里listen,server_name, location分别什么什么作用？
+6、uwsgi的启动命令，停止命令，日志目录。
+1.Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器
+为什么需要N</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-12&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Nginx/">Nginx</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Nginx/">Nginx</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/11/redis%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <p class="h4 index-header">redis分布式锁</p>
+      </a>
+
+      <a href="/blog/2020/05/11/redis%E5%88%86%E5%B8%83%E5%BC%8F/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">redis分布式的小demo什么是分布式锁
+分布式锁是控制分布式系统之间同步访问共享资源的一种方式。
+栗子：
+假设共享的资源就是一个房子，里面有各种书，分布式系统就是要进屋看书的人，分布式锁就是保证这个房子只有一个门并且一次只有一个人可以进，而且门只有一把钥匙。然后许多人要去看书，可以，排队，第一个人拿着钥匙把门打开进屋看书并且把门锁上，然后第二个人没有钥匙，那就等着，等第一个出来，然后你在拿着钥匙进去，然后就是以此类推
+场景：
+数据重要且要保证一致性
+redis分布式锁和mysql的悲观锁非常类似
+#应用到项目可以解决高并发
+
+import redis
+import uuid
+import </div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-11&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Redis/">Redis</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Redis/">Redis</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="index posts navigation">
+    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
+      <a class="extend prev" rel="prev" href="/blog/page/5/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blog/page/4/">4</a><a class="page-number" href="/blog/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/blog/page/7/">7</a><a class="page-number" href="/blog/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/blog/page/10/">10</a><a class="extend next" rel="next" href="/blog/page/7/"><i class="fas fa-angle-double-right"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "MYBLOG&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>java的print，printf，println - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期五, 六月 5日 2020, 9:44 晚上
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    12
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <p>printf主要是继承了C语言的printf的一些特性，可以进行格式化输出</p>
+<p>print就是一般的标准输出，但是不换行</p>
+<p>println和print基本没什么差别，就是最后会换行</p>
+<p>System.out.printf(“the number is: d”,t);<br>参照JAVA API的定义如下：<br>‘d’ 整数结果被格式化为十进制整数<br>‘o’ 整数结果被格式化为八进制整数<br>‘x’, ‘X’ 整数结果被格式化为十六进制整数<br>‘e’, ‘E’ 浮点结果被格式化为用计算机科学记数法表示的十进制数<br>‘f’ 浮点结果被格式化为十进制数<br>‘g’, ‘G’ 浮点根据精度和舍入运算后的值，使用计算机科学记数形式或十进制格式对结果进行格式化。<br>‘a’, ‘A’ 浮点结果被格式化为带有效位数和指数的十六进制浮点数</p>
+<p>println(“test”)相当于print(“test\n”)就是一般的输出字符串</p>
+<p>print\println\printf的区别</p>
+<p>print将它的参数显示在命令窗口，并将输出光标定位在所显示的最后一个字符之后。</p>
+<p>println 将它的参数显示在命令窗口，并在结尾加上换行符，将输出光标定位在下一行的开始。</p>
+<p>printf是格式化输出的形式。</p>
+<p>下在举个例子：</p>
+<p>package other;</p>
+<p>public class TestPrint {</p>
+<p>public static voidmain(String[] args) {</p>
+<p>int i = 4;</p>
+<p>double j = 5;</p>
+<p>System.out.print(“用print输出i:”+ i);</p>
+<p>System.out.println( “用println输出i:”+ i);</p>
+<p>System.out.printf(“i的值为%d,j的值为%f”, i,j);</p>
+<p>}</p>
+<p>}</p>
+<p>运行结果为</p>
+<p>用print输出i:4用println输出i:4</p>
+<p>i的值为4,j的值为5.000000</p>
+<p>可以看到，用print输出i后，没有换行，用println输出的结果直接在print输出语句后面,而输出println后换行了，所以用printf输出时，在第二行</p>
+<p>输出。</p>
+<p>我们再来看printf</p>
+<p>“i的值为%d,j的值为%f”这个字符串中的”%d”变为i的值了，而”%f”变为了j的值了！</p>
+<p>这里，”%d”的意思是一个int值的占位符，”%f”为一个double 或float值的点位符，这个变量的参数在后面提供。注意的是实参名必须按顺序排</p>
+<p>。不然就会错了。而且类型也要相符。如果我们把语句改为</p>
+<p>System.out.printf(“i的值为%d,j的值为%f”, j,i);//i和j位置反了</p>
+<p>这时就有错了因为”%d”对应的参数变为j，”%f”对应的变为i了，而j是double的，与”%d”是int形的不一致。所以有错了。</p>
+<p>还有”%s”是一个字符串值的点位符的意思。”%c”是一个字符值的点位符的意思。</p>
+<p>可能读者还会问为什么j输出变成了5.000000?那是因为double是默认有6位小数的（这个可能和系统电脑有关，有的不是6位吧）但是如果你想</p>
+<p>只要输出两位小数行不行？可以啊！只要改下语句就行了！</p>
+<p>System.out.printf(“i的值为%d,j的值为%.2f”, i,j);</p>
+<p>这里的”%.2f”的意思是输出两位小数点。如果想输出三位那就”%.3f”。</p>
+<p>说到这里你会发现原来printf也很有用的。这样可以控制输出的格式。</p>
+<p>再学多点知识吧，将代码改为以下：</p>
+<p>public class TestPrint {</p>
+<p>public static voidmain(String[] args) {</p>
+<p>int i = 4;</p>
+<p>double j = 5.000f;</p>
+<p>System.out.printf(“i的值为],\n”, i);</p>
+<p>System.out.printf(“i的值为=,j的值为%.2f”, i,j);</p>
+<p>}</p>
+<p>}</p>
+<p>运行结果为：</p>
+<p>i的值为 4,</p>
+<p>i的值为 4,j的值为5.00</p>
+<p>原来在”%”与”d”之间加个数5的意思是输出5个占位符。默认向右对齐。这样的输出是很有用的，比如你想输出一个表格，因各个数大小不一，有的5位有的4位，这样输出的的表格结果就对不齐了。如果将输出结果全部为同一样的占位符数。那样就对齐了。呵呵。</p>
+<p>除了”%d”可以这样外，别的也可以，读者不防试试。会有很多收获的。</p>
+<p>我们再试着将代码改一下：</p>
+<p>public class TestPrint {</p>
+<p>public static voidmain(String[] args) {</p>
+<p>int i = 4;</p>
+<p>double j = 5.000f;</p>
+<p>System.out.printf(“i的值为d,\n”, i);</p>
+<p>}</p>
+<p>}</p>
+<p>运行结果为：</p>
+<p>i的值为00004,</p>
+<p>哈哈,原来”d”的意思是输出5个占位符，如果数字不足5的话就有左边以0相补</p>
+<blockquote>
+<p>转载：<a href="https://blog.csdn.net/qq_33271612/article/details/50700122" target="_blank" rel="noopener">https://blog.csdn.net/qq_33271612/article/details/50700122</a></p>
+</blockquote>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/java/">java</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/java/">java</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/06/09/redis%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">Redis的五大数据类型</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/06/05/Java%E5%A4%A7%E6%B3%95/">
+                        <span class="hidden-mobile">Java的了解</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "java的print，printf，println&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

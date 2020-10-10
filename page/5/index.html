@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 100vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+          </div>
+
+          
+            <div class="scroll-down-bar">
+              <i class="fas fa-angle-down scroll-down-arrow"></i>
+            </div>
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      <div class="container nopadding-md">
+        <div class="py-5" id="board"
+          style=margin-top:0>
+          
+          <div class="container">
+            <div class="row">
+              <div class="col-12 col-md-10 m-auto">
+                
+
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/30/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%8CGIL/">
+        <p class="h4 index-header">内存管理，GIL</p>
+      </a>
+
+      <a href="/blog/2020/05/30/%E5%86%85%E5%AD%98%E7%AE%A1%E7%90%86%EF%BC%8CGIL/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">python的内存管理垃圾回收
+1. 引用计数
+当一个对象的引用被创建或者复制时，对象的引用计数加1；当一个对象的引用被销毁时，对象的引用计数减1.
+当对象的引用计数减少为0时，就意味着对象已经再没有被使用了，可以将其内存释放掉。
+2.标记－清除
+它分为两个阶段：
+第一阶段是标记阶段，GC会把所有的活动对象打上标记，
+第二阶段是把那些没有标记的对象非活动对象进行回收。
+3. 分代回收
+ Python将内存分为了3“代”，分别为年轻代（第0代）、中年代（第1代）、老年代（第2代）
+新创建的对象都会分配在年轻代，年轻代链表的总数达到上限时，Python垃圾收集机制就会被触发
+把那些可以被回收的对象</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-30&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/30/%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86/">
+        <p class="h4 index-header">上下文，with open</p>
+      </a>
+
+      <a href="/blog/2020/05/30/%E4%B8%8A%E4%B8%8B%E6%96%87%E7%AE%A1%E7%90%86/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">上下文管理(with)
+with是一种上下文管理协议，目的在于从流程图中把 try,except 和finally 关键字和资源分配释放相关代码统统去掉，简化try….except….finlally的处理流程。with通过enter方法初始化，然后在exit中做善后以及处理异常。所以使用with处理的对象必须有enter()和exit()这两个方法。其中enter()方法在语句体（with语句包裹起来的代码块）执行之前进入运行，exit()方法在语句体执行完毕退出后运行。 with 语句适用于对资源进行访问的场合，确保不管使用过程中是否发生异常都会执行必要的“清理”操作，释放资源，比如文件使</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-30&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/30/%E6%B7%B1%EF%BC%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/">
+        <p class="h4 index-header">深，浅拷贝</p>
+      </a>
+
+      <a href="/blog/2020/05/30/%E6%B7%B1%EF%BC%8C%E6%B5%85%E6%8B%B7%E8%B4%9D/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">对象的赋值就是简单的引用,a = [1,2,3], b=a, 在上述情况下,a和b是一样的,他们指向同一片内存,b不过是a的别名,是引用,我们可以使用b is a 去判断,返回True,表名他们地址相同内容也相同,也可以使用id()函数来查看.看两个列表地址是否相同.
+a = [1,2,3]深拷贝深拷贝就是将一个对象拷贝到另一个对象中，这意味着如果你对一个对象的拷贝做出改变时，不会影响原对象。在Python中，我们使用函数deepcopy()执行深拷贝
+import copy
+b=copy.deepcopy(a)浅拷贝而浅拷贝则是将一个对象的引用拷贝到另一个对象上，所以如果我们在拷贝中改动，会</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-30&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/29/Python%E4%B8%89%E5%99%A8/">
+        <p class="h4 index-header">python三器</p>
+      </a>
+
+      <a href="/blog/2020/05/29/Python%E4%B8%89%E5%99%A8/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">迭代器迭代器的定义
+
+迭代器是访问集合内元素的方式，迭代器对象从集合的第一个元素开始访问，直到所有的元素都被访问一遍后结束
+
+迭代器仅是一容器对象，它有两个基本方法
+
+
+next方法：返回容器的下一个元素
+iter方法：返回迭代器自身
+使用迭代器的斐波那契
+class fei(object):
+    def __init__(self,n):
+        self.num1 = 0
+        self.num2 = 1
+        self.n = n
+        self.indexes = 0
+    def __iter__(self):
+        return</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-29&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/29/TCP-UDP%E5%8D%8F%E8%AE%AE/">
+        <p class="h4 index-header">TCP/UDP协议</p>
+      </a>
+
+      <a href="/blog/2020/05/29/TCP-UDP%E5%8D%8F%E8%AE%AE/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">TCP 和 UDP 有哪些区别？1.TCP 是面向连接的，UDP 是面向无连接的。
+2.什么叫面向连接，什么叫无连接呢？在互通之前，面向连接的协议会先建立连接。例如，TCP 会三次握手，而 UDP 不会。为什么要建立连接呢？你 TCP 三次握手，我 UDP 也可以发三个包玩玩，有什么区别吗？所谓的建立连接，是为了在客户端和服务端维护连接，而建立一定的数据结构来维护双方交互的状态，用这样的数据结构来保证所谓的面向连接的特性
+TCPTCP协议是一种可靠的、一对一的、面向有连接的通信协议
+在使用TCP协议进行数据传输时，往往需要客户端和服务端先建立一个“通道“、且这个通道只能够被客户端和服务端使用，</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-29&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/29/%E6%97%A0%E9%99%90%E6%9E%81%E8%AF%84%E8%AE%BA/">
+        <p class="h4 index-header">这是一篇无限极评论</p>
+      </a>
+
+      <a href="/blog/2020/05/29/%E6%97%A0%E9%99%90%E6%9E%81%E8%AF%84%E8%AE%BA/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">这是一篇无限极评论
+将数据库查询的数据转换成以下的样式，必须是自关联关系
+[{},{},{},{},{}],从数据库中取出的数据[{&quot;child&quot;:{&quot;child&quot;:[{},{} ]}},{id:5,child:[{child:[{}],{}]}]，转换之后的样式
+在Django中处理好数据
+  def change_comments(data):
+  list = []
+  tree = {}
+  root = &#39;&#39;0
+  p_id = &#39;&#39;
+
+  for i in data:
+      #将data循环，然后加入一个</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-29&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Django/">Django</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Django/">Django</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/29/%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEAPI/">
+        <p class="h4 index-header">百度地图API</p>
+      </a>
+
+      <a href="/blog/2020/05/29/%E7%99%BE%E5%BA%A6%E5%9C%B0%E5%9B%BEAPI/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">百度api的文档https://dafrok.github.io/vue-baidu-map/#/zh/start/usage
+个人觉得百度地图api相比高德来说，还是比较好用的，坑比较少
+使用方法：
+1.安装
+npm install vue-baidu-map --save2.全局注册将一次性引入百度地图组件库的所有组件。
+main.js
+import Vue from &#39;vue&#39;
+import BaiduMap from &#39;vue-baidu-map&#39;
+
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-29&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Vue/">Vue</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Vue/">Vue</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/27/python%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95.%E7%B1%BB%E6%96%B9%E6%B3%95/">
+        <p class="h4 index-header">Python静态方法，类方法</p>
+      </a>
+
+      <a href="/blog/2020/05/27/python%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95.%E7%B1%BB%E6%96%B9%E6%B3%95/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">首先我们先代码示例
+class A:  #先定义一个类
+    a = 1  #类的属性  全局
+    def __init__(self):
+        self.b = 1  #示例属性
+    #静态方法
+    # @staticmethod
+    # def func():
+    #     print(&#39;这是一个静态方法&#39;)
+
+    #类方法
+    # @classmethod
+    # def func(cls):
+    #     #  cls-&gt;A   cls这个实例指向A
+    #     cls.a = 2   对a重新赋值
+
+ </div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/27/%E8%B0%88%E8%B0%88python2%E5%92%8Cpython3/">
+        <p class="h4 index-header">Python2---Python3</p>
+      </a>
+
+      <a href="/blog/2020/05/27/%E8%B0%88%E8%B0%88python2%E5%92%8Cpython3/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Python3 range() 函数返回的是一个可迭代对象（类型是对象），而不是列表类型， 所以打印的时候不会打印列表。
+Python3 list() 函数是对象迭代器，可以把range()返回的可迭代对象转为一个列表，返回的变量类型为列表。
+Python2 range() 函数返回的是列表。
+Python2 xrange() 用法与range完全相同，所不同的是生成的不是一个数组，而是一个生成器。
+Python3中取消了 Xrange()的使用，结合成为了 range()
+range示例:
+&gt;&gt;&gt; range(5)
+[0, 1, 2, 3, 4]
+xrange示例:
+用法与</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/27/%E5%85%B3%E4%BA%8E%E9%98%BF%E9%87%8C%E7%9A%84OceanBase/">
+        <p class="h4 index-header">最近阿里的OceanBase</p>
+      </a>
+
+      <a href="/blog/2020/05/27/%E5%85%B3%E4%BA%8E%E9%98%BF%E9%87%8C%E7%9A%84OceanBase/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">最近阿里的OceanBase1、引言
+OceanBase 是蚂蚁金服自研的分布式数据库，在其 9 年的发展历程里，从艰难上线到找不到业务场景濒临解散，最后在双十一的流量考验下浴火重生，成为蚂蚁金服全部核心系统的承载数据库。这一路走来的艰辛和故事，蚂蚁金服高级研究员、OceanBase 团队负责人阳振坤将为你娓娓道来。
+什么是OceanBase数据库？
+​    是阿里巴巴集团自主研发的分布式关系型数据库，融合传统关系型数据库强大功能与分布式系统的特点，具备持续可用、高度可扩展、高性能等优势。广泛应用于蚂蚁金服、网商银行等金融级核心系统。 在2015年双11承载了蚂蚁核心链路100%的流量，创下</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/%E5%85%B3%E4%BA%8E/">关于</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/%E5%85%B3%E4%BA%8E/">关于</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+
+
+  <nav aria-label="index posts navigation">
+    <span class="pagination pg-blue justify-content-center mt-5" id="pagination">
+      <a class="extend prev" rel="prev" href="/blog/page/4/"><i class="fas fa-angle-double-left"></i></a><a class="page-number" href="/blog/">1</a><span class="space">&hellip;</span><a class="page-number" href="/blog/page/3/">3</a><a class="page-number" href="/blog/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/blog/page/6/">6</a><a class="page-number" href="/blog/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/blog/page/10/">10</a><a class="extend next" rel="next" href="/blog/page/6/"><i class="fas fa-angle-double-right"></i></a>
+    </span>
+  </nav>
+  
+  <script>
+    for (ele of document.getElementById("pagination").getElementsByTagName("a")) {
+      ele.href += '#board';
+    }
+  </script>
+
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "MYBLOG&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

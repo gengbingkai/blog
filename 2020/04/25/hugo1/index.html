@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>用Hugo快速搭建个人静态博客 - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期六, 四月 25日 2020, 7:41 晚上
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    15
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <a id="more"></a>
+<h2 id="Step-1-Install-Hugo-下载、安装Hugo"><a href="#Step-1-Install-Hugo-下载、安装Hugo" class="headerlink" title="Step 1. Install Hugo 下载、安装Hugo"></a>Step 1. Install Hugo 下载、安装Hugo</h2><p>下载地址：<a href="https://github.com/spf13/hugo/releases。" target="_blank" rel="noopener">https://github.com/spf13/hugo/releases。</a><br>根据自己的操作系统，下载对应的安装包。我的操作系统是Win7 64bit， 选择了hugo_0.19_Windows-64bit.zip。                      </p>
+<p>下载完成之后，解压的文件夹包含以下3个文件：                      </p>
+<pre><code>hugo_0.19_windows_amd64.exe
+LICENSE.md
+README.md</code></pre><p>将 hugo_0.19_windows_amd64.exe 重命名为hugo.exe。在你的软件安装盘新增名为hugo的文件目录，在里面在新建一个bin子目录。然后将hugo.exe放到hugo\bin目录下。再将这个bin目录的路径添加到系统环境变量中。</p>
+<p>完成以上步骤后，打开命令行输入                      </p>
+<pre><code>hugo help</code></pre><p>如果得到如下信息，说明安装成功                      </p>
+<pre><code>hugo is the main command, used to build your Hugo site.
+
+Hugo is a Fast and Flexible Static Site Generator
+built with love by spf13 and friends in Go.
+
+Complete documentation is available at http://gohugo.io/.</code></pre><h2 id="Step-2-创建一个名为blog的Hugo站点"><a href="#Step-2-创建一个名为blog的Hugo站点" class="headerlink" title="Step 2. 创建一个名为blog的Hugo站点"></a>Step 2. 创建一个名为blog的Hugo站点</h2><p>我希望在E盘下创建站点，所以我先切换目录</p>
+<pre><code>cd e:
+e:</code></pre><p>然后输入命令：</p>
+<pre><code>hugo new site blog </code></pre><p>得到如下提示创建成功的信息：</p>
+<pre><code>Congratulations! Your new Hugo site is created in E:\blog.
+
+Just a few more steps and you&#39;re ready to go:
+
+1. Download a theme into the same-named folder.
+Choose a theme from https://themes.gohugo.io/, or
+create your own with the &quot;hugo new theme &lt;THEMENAME&gt;&quot; command.
+2. Perhaps you want to add some content. You can add single files
+with &quot;hugo new &lt;SECTIONNAME&gt;\&lt;FILENAME&gt;.&lt;FORMAT&gt;&quot;.
+3. Start the built-in live server via &quot;hugo server&quot;.
+
+Visit https://gohugo.io/ for quickstart guide and full documentation.</code></pre><p>进入该目录，可以看到自动生成了5个目录和一个配置文件config.toml</p>
+<pre><code>|-- archetypes
+|-- content   #存放内容的目录
+|-- data      
+|-- layouts   
+|-- static    #存放静态资源（图片,css,js）
+|-- themes    #存放主题
+|-- config.toml  #配置文件 </code></pre><h2 id="Step-3-添加内容"><a href="#Step-3-添加内容" class="headerlink" title="Step 3. 添加内容"></a>Step 3. 添加内容</h2><p>切换到该目录下，然后输入如下命令，会在content的目录下创建post目录，在post目录下创建名为test.md的文件。</p>
+<pre><code>cd blog
+hugo new post/test.md</code></pre><p>提示文件创建成功：</p>
+<pre><code>E:\blog\content\post\test.md created</code></pre><p>用文本编辑器打开文件test.md文件<br>可以看到如下内容：</p>
+<pre><code>+++
+date = &quot;2017-01-02T17:45:06+08:00&quot;  #创建文件的时间
+title = &quot;test&quot;                      #文件的标题
+draft = true                        # 是否为草稿
+
++++</code></pre><p>上述内容为自动创建的与文章有关的内容。自己也可以在两个+++之间添加如下内容：</p>
+<pre><code>image = &quot;hugo.png&quot;            #指定图片。
+category = &quot;test&quot;             #文章的类别
+tags = [&quot;Hugo&quot;, &quot;intro&quot;]      #文章的标签分类。
+url = &quot;new_start&quot;             #该文章访问时的相对的url地址，默认为文件名。</code></pre><p>更多的设置，可以参考官方文档。</p>
+<p>以后写博客文章就是这样创建markdown文件, 之后通过Hugo编译成静态的html文件。</p>
+<h2 id="Step-4-添加主题"><a href="#Step-4-添加主题" class="headerlink" title="Step 4. 添加主题"></a>Step 4. 添加主题</h2><p>官方提供了多种主题可供选择，具体在 <a href="https://themes.gohugo.io/" target="_blank" rel="noopener">https://themes.gohugo.io/</a> 可以找到。</p>
+<p>找到想要的主题后，切换到themes目录（该目录可以存放多个不同的主题）。</p>
+<pre><code>cd themes</code></pre><p>由于需要使用到Git下载主题，以及版本管理和代码推送。需要事先下载安装好Git。</p>
+<p>把选定的主题下载到themes目录下。</p>
+<pre><code>git clone https://github.com/dim0627/hugo_theme_robust.git</code></pre><h2 id="Step-5-启动服务，本地预览"><a href="#Step-5-启动服务，本地预览" class="headerlink" title="Step 5. 启动服务，本地预览"></a>Step 5. 启动服务，本地预览</h2><p>先从themes目录下退回到blog目录, 然后启动服务。</p>
+<pre><code>cd ..
+hugo server --theme=hugo_theme_robust --buildDrafts</code></pre><p>在浏览器中打开 <a href="https://themes.gohugo.io/" target="_blank" rel="noopener">http://localhost:1313/</a></p>
+<h2 id="Step-6-修改配置文件config-toml"><a href="#Step-6-修改配置文件config-toml" class="headerlink" title="Step 6. 修改配置文件config.toml"></a>Step 6. 修改配置文件config.toml</h2><pre><code>languageCode = &quot;zh-cn&quot;
+title = &quot;Frank Wang&#39;s Coding World&quot;
+baseurl = &quot;http://www.wangxingfeng.com/&quot;  
+
+[Params]
+    Author =&quot;Frank Wang&quot;</code></pre><h2 id="Step-7-生成网站"><a href="#Step-7-生成网站" class="headerlink" title="Step 7. 生成网站"></a>Step 7. 生成网站</h2><h3 id="1-改变文章draft（草稿）状态："><a href="#1-改变文章draft（草稿）状态：" class="headerlink" title="1.改变文章draft（草稿）状态："></a>1.改变文章draft（草稿）状态：</h3><pre><code>hugo undraft content/post/*.md</code></pre><h3 id="2-启动hugo-生成发布文件到public目录下。"><a href="#2-启动hugo-生成发布文件到public目录下。" class="headerlink" title="2. 启动hugo, 生成发布文件到public目录下。"></a>2. 启动hugo, 生成发布文件到public目录下。</h3><pre><code>hugo --theme=hugo-icarus-theme</code></pre><h2 id="Step-8-托管到GitHub-Pages"><a href="#Step-8-托管到GitHub-Pages" class="headerlink" title="Step 8. 托管到GitHub Pages"></a>Step 8. 托管到GitHub Pages</h2><h3 id="1-使用Git来进行版本管理"><a href="#1-使用Git来进行版本管理" class="headerlink" title="1. 使用Git来进行版本管理"></a>1. 使用Git来进行版本管理</h3><pre><code>git init
+echo &quot;/public/&quot; &gt;&gt; .gitignore
+echo &quot;/themes/&quot; &gt;&gt; .gitignore
+git add --all
+git commit -m &quot;Initial commit&quot;</code></pre><h3 id="2-创建Git-远程仓库"><a href="#2-创建Git-远程仓库" class="headerlink" title="2. 创建Git 远程仓库"></a>2. 创建Git 远程仓库</h3><p>登录你的GitHub. 创建一个新的仓库，仓库名为Github用户.github.io<br>比如我的是frankwang0909.github.io.</p>
+<h3 id="3-添加Git-远程仓库，并提交代码。"><a href="#3-添加Git-远程仓库，并提交代码。" class="headerlink" title="3. 添加Git 远程仓库，并提交代码。"></a>3. 添加Git 远程仓库，并提交代码。</h3><pre><code>cd public
+git init
+git remote add origin git@github.com:frankwang0909/frankwang0909.github.io.git
+
+git add --all
+git commit -m &quot;blog added&quot;
+git push -u origin master</code></pre><h3 id="4-以后有内容改动，提交代码"><a href="#4-以后有内容改动，提交代码" class="headerlink" title="4.以后有内容改动，提交代码."></a>4.以后有内容改动，提交代码.</h3><pre><code>(cd ..; hugo --theme=hugo_theme_robust)
+git add --all
+git commit -m &quot;&lt;some change message&gt;&quot;
+git push -u origin master</code></pre>
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/hugo/">hugo</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/hugo/">hugo</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/04/28/docker%E7%B3%BB%E5%88%97/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">docker基础</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/04/24/django2/">
+                        <span class="hidden-mobile">Django单表增删改查操作</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "用Hugo快速搭建个人静态博客&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>django配合mqtt - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期二, 八月 25日 2020, 3:42 下午
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    16
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <h4 id="mqtt是一个类似websocket的一种协议"><a href="#mqtt是一个类似websocket的一种协议" class="headerlink" title="mqtt是一个类似websocket的一种协议"></a>mqtt是一个类似websocket的一种协议</h4><p>mqtt<strong>的组成</strong></p>
+<p>在MQTT协议中，一个MQTT数据包由：固定头（Fixed header）、可变头（Variable header）、消息体（payload）三部分构成。MQTT数据包结构如下：</p>
+<p>（1）固定头（Fixed header）。存在于所有MQTT数据包中，表示数据包类型及数据包的分组类标识。</p>
+<p>（2）可变头（Variable header）。存在于部分MQTT数据包中，数据包类型决定了可变头是否存在及其具体内容。</p>
+<p>（3）消息体（Payload）。存在于部分MQTT数据包中，表示客户端收到的具体内容。</p>
+<p>报文由报文头(Header)和报文体(Payload)组成。</p>
+<p><strong>mqtt一般用于与硬件交互或者其他IOT类型的场景</strong></p>
+<p>我们在django中使用mqtt，其实也不是在django中使用，就是在django项目里封装了几个方法</p>
+<p>在这里说一下mosquitto基本命令，和作用</p>
+<p>注意在你安装mosquitto的目录下执行，如果你配了环境变量，就无所谓了。</p>
+<pre><code>mosquitto.exe  开启服务
+mosquitto_sub -t aaa  监听aaa这个borker， 也可以是Topic
+mosquitto_pub -t aaa -m &#39;hello&#39; 向aaa这个Topic发送hello，也可以是其它数据，一旦发送成功在监听aaa的地方就会收到发送的数据，并做一些处理。</code></pre><ol>
+<li>在本地下载mosquitto，这个用来模拟我们的硬件设备发来的信息</li>
+</ol>
+<p><a href="https://mosquitto.org/download/" target="_blank" rel="noopener">https://mosquitto.org/download/</a></p>
+<ol start="2">
+<li>在我们的Python里下载paho-mqtt这个包，用于使用mqtt协议</li>
+</ol>
+<blockquote>
+<p>pip install paho-mqtt</p>
+</blockquote>
+<ol start="3">
+<li>我在这里写里一个py脚本</li>
+</ol>
+<pre><code>   # 为了能在外部脚本中调用Django ORM模型，必须配置脚本环境变量，将脚本注册到Django的环境变量中
+   import os, sys
+   import django
+   # 第一个参数固定，第二个参数是工程名称.settings
+   # os.environ.setdefault(&#39;DJANGO_SETTING_MODULE&#39;, &#39;Charger.settings&#39;)
+   # django.setup()
+
+   # 引入mqtt包
+   import paho.mqtt.client as mqtt
+   # 使用独立线程运行
+   from threading import Thread
+   # from app名 import models
+
+   import time
+   import json
+   # 建立mqtt连接
+   def on_connect(client, userdata, flag, rc):
+       print(&quot;Connect with the result code &quot; + str(rc))
+       client.subscribe(&#39;test/#&#39;, qos=2)
+
+   # 接收、处理mqtt消息
+   def on_message(client, userdata, msg):
+       out = str(msg.payload.decode(&#39;utf-8&#39;))
+       print(msg.topic)
+       print(out)
+       out = json.loads(out)
+
+       # 收到消息后执行任务
+       if msg.topic == &#39;test/newdata&#39;:
+           print(out)
+
+
+
+   # mqtt客户端启动函数
+   def mqttfunction():
+       global client
+       # 使用loop_start 可以避免阻塞Django进程，使用loop_forever()可能会阻塞系统进程
+       # client.loop_start()
+       # client.loop_forever() 有掉线重连功能
+       client.loop_forever(retry_first_connection=True)
+
+
+   client = mqtt.Client(client_id=&quot;test&quot;, clean_session=False)
+
+   # 启动函数
+   def mqtt_run():
+       client.on_connect = on_connect
+       client.on_message = on_message
+       # 绑定 MQTT 服务器地址
+       broker = &#39;127.0.0.1&#39;
+       # MQTT服务器的端口号
+       client.connect(broker, 1883, 62)
+       client.username_pw_set(&#39;user&#39;, &#39;user&#39;)
+       client.reconnect_delay_set(min_delay=1, max_delay=2000)
+       # 启动
+       mqttthread = Thread(target=mqttfunction)
+       mqttthread.start()
+
+
+   # 启动 MQTT
+   # mqtt_run()
+
+
+   if __name__ == &quot;__main__&quot;:
+       mqtt_run()</code></pre><p>如果需要封装</p>
+<p>online-server.py</p>
+<pre><code>import django
+import os
+import platform
+
+if __name__ == &#39;__main__&#39;:
+    os.environ.setdefault(&quot;DJANGO_SETTINGS_MODULE&quot;, &quot;Charger.settings&quot;)
+    django.setup()
+
+    from mqtt.mqtt_sub import start_sub
+
+    if platform.platform().find(&#39;Windows&#39;) == -1:
+        pid = os.getpid()
+        os.system(&#39;echo %d &gt; /tmp/tcp_server/online.pid&#39; %pid)
+
+    start_sub()
+
+</code></pre><p>mqtt_sub.py</p>
+<pre><code>from mqtt.handler import handle_msg
+import paho.mqtt.client as paho
+
+# The callback for when the client receives a CONNACK response from the server.
+def on_connect(client, userdata, flags, rc):
+    print(&quot;Connected with result code &quot; + str(rc))
+
+    # Subscribing in on_connect() means that if we lose the connection and
+    # reconnect then subscriptions will be renewed.
+    client.subscribe(&quot;upload/state/bmscollector&quot;)
+
+
+# The callback for when a PUBLISH message is received from the server.
+def on_message(client, userdata, msg):
+    print(msg.topic + &quot; &quot; + str(msg.payload))
+    handle_msg(msg.payload)
+
+
+def start_sub():
+    client = paho.Client()
+    client.on_connect = on_connect
+    client.on_message = on_message
+    # client.username_pw_set(&#39;seari&#39;, &#39;V3cHeMIiYEQnWXh2&#39;)
+    client.connect(&quot;127.0.0.1&quot;)
+    client.loop_forever()
+</code></pre><p>mqtt_pub.py</p>
+<pre><code>import datetime
+import json
+
+import paho.mqtt.client as paho
+from common.constant.mqtt_msg import MQTT_OK
+
+
+def pub_msg(topic, msg, msg_type, data=None, err_code=MQTT_OK, err_info=None):
+    def on_publish(client, userdata, result):  # create function for callback
+        print(&quot;data published ,msg=&quot; + userdata)
+
+    result = dict()
+    result[&#39;MsgType&#39;] = msg.get(&#39;MsgType&#39;)
+    result[&#39;MsgID&#39;] = msg.get(&#39;MsgID&#39;)
+    result[&#39;SendTime&#39;] = datetime.datetime.now().strftime(&#39;%Y-%m-%d %H:%M:%S.%f&#39;)[:-3]
+    result[&#39;ProductKey&#39;] = msg.get(&#39;ProductKey&#39;)
+    result[&#39;DeviceKey&#39;] = msg.get(&#39;DeviceKey&#39;)
+    result[&#39;Version&#39;] = msg.get(&#39;Version&#39;)
+    result[&#39;ErrorCode&#39;] = err_code
+    result[&#39;ErrorInfo&#39;] = err_info
+    result[&#39;Data&#39;] = data
+
+    client = paho.Client()  # create client object
+    client.on_publish = on_publish  # assign function to callback
+    client.connect(&#39;127.0.0.1&#39;)  # establish connection
+    client.publish(topic, json.dumps(result))  # publish
+
+
+
+
+
+
+
+if __name__ == &#39;__main__&#39;:
+    pub_msg(&#39;upload/state/bmscollector&#39;, {&#39;MsgType&#39;:&#39;LoginReq&#39;,&#39;MsgID&#39;:1,&#39;ProductKey&#39;:1,&#39;DeviceKey&#39;:1,&#39;Version&#39;:1}, 1)
+</code></pre>
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/08/25/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">日记-每日更新</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/08/25/VMware%E5%AE%89%E8%A3%85Contos/">
+                        <span class="hidden-mobile">VMware安装Contos</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "django配合mqtt&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

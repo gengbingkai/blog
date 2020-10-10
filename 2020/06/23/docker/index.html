@@ -1,0 +1,835 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>什么是dockerfile - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期二, 六月 23日 2020, 4:31 下午
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    5.5k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    66
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <h2 id="docker先行"><a href="#docker先行" class="headerlink" title="docker先行"></a>docker先行</h2><p>​        1.什么是docker，他跟虚拟机的区别是什么？优劣势分别是什么？</p>
+<p>​        2.镜像，容器，仓库的作用分别是什么？</p>
+<p>​        3.列举5个镜像命令，5个仓库命令，并说出其含义</p>
+<p>​        4.什么是dockerfile？他的优势是什么？</p>
+<p>​        5.简述6个最常用的dockerfiler命令</p>
+<p>​        6.什么是docker-conpose？他的使用场景和作用？</p>
+<p>​        7.简述6个docker-compose命令</p>
+<h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><h3 id="什么是docker"><a href="#什么是docker" class="headerlink" title="什么是docker?"></a>什么是docker?</h3><p>​        Docker 是一个<a href="https://baike.baidu.com/item/开源/246339" target="_blank" rel="noopener">开源</a>的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 <a href="https://baike.baidu.com/item/Linux" target="_blank" rel="noopener">Linux</a>或<a href="https://baike.baidu.com/item/Windows/165458" target="_blank" rel="noopener">Windows</a> 机器上，也可以实现<a href="https://baike.baidu.com/item/虚拟化/547949" target="_blank" rel="noopener">虚拟化</a>。容器是完全使用<a href="https://baike.baidu.com/item/沙箱/393318" target="_blank" rel="noopener">沙箱</a>机制，相互之间不会有任何接口。</p>
+<h3 id="docker和虚拟机的对比"><a href="#docker和虚拟机的对比" class="headerlink" title="docker和虚拟机的对比"></a>docker和虚拟机的对比</h3><p>一个容器中运行原生Linux和共享主机与其它容器的内核，它运行一个独立的进程，不占用任何其它可执行文件的内存，使其轻量化。</p>
+<p>相比之下，虚拟机(VM)运行一个完整的“客户”操作系统，通过虚拟机管理程序虚拟访问主机资源。一般来说，虚拟机提供的环境比大多数应用程序需要的资源多。</p>
+<p><img src="./pic/docke%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%9A%94%E7%A6%BB%E5%AF%B9%E6%AF%94.png" srcset="/img/loading.gif" alt="docke和虚拟机的隔离对比"></p>
+<p><img src="./pic/docker%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%AF%94%E8%BE%83.png" srcset="/img/loading.gif" alt="docker和虚拟机的比较"></p>
+<h3 id="docker的使用环境？"><a href="#docker的使用环境？" class="headerlink" title="docker的使用环境？"></a>docker的使用环境？</h3><ul>
+<li>应用程序打包和发布</li>
+<li>应用程序隔离</li>
+<li>持续集成</li>
+<li>部署微服务</li>
+<li>快速搭建测试环境</li>
+<li>提供paas环境（平台既服务）</li>
+</ul>
+<p>作部署。为了更快，更安全的部署项目</p>
+<h3 id="daocker的学习目标"><a href="#daocker的学习目标" class="headerlink" title="daocker的学习目标"></a>daocker的学习目标</h3><h4 id="会使用docker部署任务。"><a href="#会使用docker部署任务。" class="headerlink" title="会使用docker部署任务。"></a>会使用docker部署任务。</h4><h3 id="docker的组成？"><a href="#docker的组成？" class="headerlink" title="docker的组成？"></a>docker的组成？</h3><p>​        1.镜像</p>
+<p>​        2.容器</p>
+<p>​        3.仓库</p>
+<h5 id="镜像"><a href="#镜像" class="headerlink" title="镜像"></a>镜像</h5><ul>
+<li>Docker镜像（Image）就是一个只读的模版。镜像可以用来创建Docker容器</li>
+</ul>
+<pre><code>操作系统分为内核和用户空间，对于Linux而言，内核启动后，会挂载root文件系统为其提供用户空间支持。而Docker镜像(Image),就相当于是一个root文件系统。
+Docker镜像是一个特殊的文件系统，除了提供容器运行时所需的程序、库、资源、配置等文件外，还包含了一些为运行时准备的一些配置参数(如匿名卷、环境变量、用户等)。镜像不包含任何动态数据，其内容在构建之后也不会被改变。</code></pre><ul>
+<li>docker镜像分成存储</li>
+</ul>
+<pre><code>因为镜像包含系统完整的root文件系统，其体积往往是庞大的，因此在Docker设计时，就充分利用Union FS技术，将其设计为分层存储的架构。所以严格来说，镜像并非是像一个ISO那样的打包文件，镜像只是一个虚拟的概念，其实际体现并非由一个文件组成，而是由一组文件系统组成，或者说，由多层系统联合组成。
+镜像构建时会一层层构建，前一层是后一层的基础。每一层构建完就不会再发生改变，后一层上的任何改变只发生在自己这一层，比如，删除前一层文件的操作，实际不是真的删除前一层的文件，而是仅在当前层标记为该文件已删除。在最终容器运行的时候，虽然不会看到这个文件，但是实际上该文件会一直跟随镜像。因此，在构建镜像的时候，需要额外小心，每一层尽量只包含该层需要添加的东西，任何额外的东西应该在该层构建结束前清理掉。
+分层存储的特征还使得镜像的复用、定制变的更为容易。甚至可以用之前构建好的镜像作为基础层，然后进一步添加新的层，以定制自己所需要的内容，构建新的镜像。</code></pre><ul>
+<li>获取镜像的两个方式<ul>
+<li>从公共仓库拉取基础镜像</li>
+<li>在基础镜像上运行成容器，安装各个软件，打包成为一个自定义的镜像</li>
+</ul>
+</li>
+</ul>
+<h5 id="容器"><a href="#容器" class="headerlink" title="容器"></a>容器</h5><ul>
+<li>Docker利用容器（Container）来运行应用</li>
+<li>容器是从镜像创建的运行实例。它可以被启动、开始、停止、删除。每个容器都是相互隔离的、保证安全的平台</li>
+<li>可以把容器看做是一个简易版的Linux环境（包括root用户权限、进程空间、用户空间和网络空间等）和运行在其中的应用程序。</li>
+<li>镜像是只读的，容器在启动的时候创建一层可写层作为最上层</li>
+<li>容器与镜像的关系</li>
+</ul>
+<pre><code>镜像(image)和容器(container)的关系，就像是面向对象程序设计中的类和实例一样，镜像是静态的定义，容器是镜像运行时的实体。容器可以被创建、启动、停止、删除、暂停等。
+容器的实质是进程，但与直接在宿主执行的进程不同，容器进程运行于属于自己的独立的命名空间。因此容器可以拥有自己的root文件系统、自己的网络配置、自己的进程空间，甚至自己的用户ID空间。容器内的进程是运行在一个隔离的环境里，使用起来，就好像是在一个独立宿主的系统下操作一样。这种特性使容器封装的应用比直接在宿主运行更加安全。
+前面讲过镜像使用的是分层储存，容器也是如此。每一个容器运行时，是以镜像为基础层，在其上创建一个当前容器的存储层，可以称这个味容器运行时读写而准备的存储层为容器存储层。
+容器存储层的生存周期和容器一样，容器消亡时，容器存储层也随之消亡。因此，任何保存于容器存储层的信息都会随容器删除而丢失。
+按照Docker最佳实践的要求，容器不应该向其存储层写入任何数据，容器存储层要保持无状态化。所有的文件写入操作，都应该使用数据卷(volume)、或者绑定宿主目录，在这些位置的读写会跳过存储层，直接对宿主(或网络存储)发生读写，其性能和稳定性更高。
+数据卷的生存周期独立于容器，容器消亡，数据卷不会消亡。因此，使用数据卷后，容器删除或者重新运行之后，数据却不会丢失。</code></pre><h5 id="仓库"><a href="#仓库" class="headerlink" title="仓库"></a>仓库</h5><ul>
+<li>仓库（Repository）是集中存放镜像文件的场所。有时候会把仓库和仓库注册服务器（Registry）混为一谈，并不严格区分。实际上，仓库注册服务器上往往存放着多个仓库，每个仓库又包含了多个镜像，每个镜像有不同的标签（tag）</li>
+</ul>
+<pre><code>镜像构建完成后，可以很容易的在当前宿主机上运行，但是，如果需要在其它服务器上使用这个镜像，我们就需要一个集中的存储、分发镜像的服务，Docker Registry就是这样的服务。
+一个Docker Registry中可以包含多个仓库(Repository);每个仓库可以包含多个标签(tag)；每个标签对应一个镜像。
+通常，一个仓库会包含一个软件不同版本的镜像，而标签就常用于对应该软件的各个版本。我们可以通过&lt;仓库名&gt;:&lt;标签&gt;的格式来指定具体是这个软件那个版本的镜像。如果不给出标签，将以laest作为默认标签。
+以ubuntu镜像为例，ubuntu是仓库的名字，其包含有不同的版本标签，如，14.04,16.04。我们可以通过ubuntu:14.04或者ubuntu:16.04来具体指定所需要哪个版本的镜像。如果忽略了标签，比如ubuntu,那将视为ubuntu:latest。
+仓库名经常以两段式路径形式出现，比如jwilder/nginx-proxy,前者意味着Docker Registry多用户环境下的用户名，后者则往往是对应的软件名。但这并非绝对，取决于所使用的具体Docker Registry的软件或服务。</code></pre><ul>
+<li>仓库分为公开仓库（Public）和私有仓库（Private）两种形式</li>
+</ul>
+<h3 id="关于镜像和容器的命令"><a href="#关于镜像和容器的命令" class="headerlink" title="关于镜像和容器的命令"></a>关于镜像和容器的命令</h3><p><strong>镜像管理命令</strong></p>
+<p><img src="./pic/%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="镜像命令"></p>
+<p><strong>容器管理命令</strong></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="容器管理命令"></p>
+<p><strong>容器管理命令参数</strong></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E5%8F%82%E6%95%B0.png" srcset="/img/loading.gif" alt="容器参数"></p>
+<p><strong>容器管理资源限制命令</strong></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6.png" srcset="/img/loading.gif" alt="容器资源限制"></p>
+<p>示例:<br>　　　　内存限额:<br>　　　　允许容器最多使用500M内存和100M的Swap，并禁用 OOM Killer:<br>　　　　docker run -d –name nginx03 –memory=”500m” –memory-swap=“600m” –oom-kill-disable nginx</p>
+<p>　　　　CPU限额:</p>
+<p>　　　　允许容器最多使用一个半的CPU:<br>　　　　run -d –name nginx04 –cpus=”1.5” nginx 允许容器最多使用50%的CPU:<br>　　　　docker run -d –name nginx05 –cpus=”.5” </p>
+<p>​               <strong>查看容器：docker ps -a</strong></p>
+<p>　　        <strong>查看哪些是停止的容器：docker ps -a -p</strong> </p>
+<p>　　        <strong>启动一个容器：docker start 容器ID</strong></p>
+<p>　　        <strong>创建启动一个容器：docker run</strong></p>
+<p>　　        <strong>创建一个容器起别名并分配一个为终端：docker run -name mysql_test -it mysql /bin/bash</strong></p>
+<p>　　        <strong>停止容器：docker stop 容器ID</strong></p>
+<p>　　        <strong>进入容器：docker exec -it 容器ID</strong></p>
+<p>　　        <strong>删除容器：docker rm [OPTIONS] 容器名</strong></p>
+<p>　　　　        <strong>其中options有三种类型：</strong></p>
+<p>　　　　　    　<strong>-f ：通过SIGKILL信号强制删除一个运行中的容器</strong></p>
+<p>　　　　　　    <strong>-l ：移除容器间的网络连接，而非容器本身</strong></p>
+<p>　　　　　　    <strong>-v ：-v 删除与容器关联的卷</strong></p>
+<p>​                <strong>将容器打包成镜像：</strong></p>
+<p>​                <strong>docker commit -a “Peter.com” -m “my apache” 容器名称或id 打包的镜像名称:标签</strong></p>
+<p>​                    <strong>OPTIONS说明：</strong><br><strong>​                        -a :提交的镜像作者；</strong><br><strong>​                        -c :使用Dockerfile指令来创建镜像；</strong><br><strong>​                        -m :提交时的说明文字；</strong><br><strong>​                        -p :在commit时，将容器暂停。</strong></p>
+<h2 id="Dockerfile"><a href="#Dockerfile" class="headerlink" title="Dockerfile"></a>Dockerfile</h2><h3 id="什么是dockerfile"><a href="#什么是dockerfile" class="headerlink" title="什么是dockerfile"></a>什么是dockerfile</h3><p>​    Dockerfile是一个包含用于组合镜像的命令的文本文档。可以使用在命令行中调用任何命令。 Docker通过读取<code>Dockerfile</code>中的指令自动生成镜像。</p>
+<p>​    <code>docker build</code>命令用于从Dockerfile构建镜像。可以在<code>docker build</code>命令中使用<code>-f</code>标志指向文件系统中任何位置的Dockerfile。</p>
+<p>​    例如：利用/path/to/a/Dockerfile文件构建一个镜像</p>
+<p>​    <code>docker build -f /path/to/a/Dockerfile</code></p>
+<h3 id="Dockerfile文件说明"><a href="#Dockerfile文件说明" class="headerlink" title="Dockerfile文件说明"></a>Dockerfile文件说明</h3><p>​        Docker以从上到下的顺序运行Dockerfile的指令。为了指定基本映像，第一条指令必须是<em>FROM</em>。一个声明以<code>＃</code>字符开头则被视为注释。可以在Docker文件中使用<code>RUN</code>，<code>CMD</code>，<code>FROM</code>，<code>EXPOSE</code>，<code>ENV</code>等指令。</p>
+<h4 id="下面列举一些常用的命令"><a href="#下面列举一些常用的命令" class="headerlink" title="下面列举一些常用的命令"></a>下面列举一些常用的命令</h4><ul>
+<li><strong><span style="color:red">FROM：</span>指定基础镜像，必须为第一个命令</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+　　FROM &lt;image&gt;
+　　FROM &lt;image&gt;:&lt;tag&gt;
+　　FROM &lt;image&gt;@&lt;digest&gt;
+#示例：
+　　FROM mysql:5.6
+#注：
+　　#tag或digest是可选的，如果不使用这两个值时，会使用latest版本的基础镜像</code></pre>
+<ul>
+<li><strong><span style="color:red">MAINTAINER：</span>维护者信息</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    MAINTAINER &lt;name&gt;
+#示例：
+    MAINTAINER Jasper Xu
+    MAINTAINER sorex@163.com
+    MAINTAINER Jasper Xu &lt;sorex@163.com&gt;</code></pre>
+<ul>
+<li><strong><span style="color:red">RUN：</span>构建镜像时执行的命令</strong></li>
+</ul>
+<pre><code class="dockerfile">#RUN用于在镜像容器中执行命令，其有以下两种命令执行方式：
+#shell执行
+#格式：
+    RUN &lt;command&gt;
+#exec执行
+#格式：
+    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]
+#示例：
+    RUN [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;]
+    RUN apk update
+    RUN [&quot;/etc/execfile&quot;, &quot;arg1&quot;, &quot;arg1&quot;]
+#注：
+#　　RUN指令创建的中间镜像会被缓存，并会在下次构建中使用。如果不想使用这些缓存镜像，可以在构建时指定--no-cache参数，如：docker build --no-cache</code></pre>
+<ul>
+<li><strong><span style="color:red">ADD：</span>将本地文件添加到容器中，tar类型文件会自动解压(网络压缩资源不会被解压)，可以访问网络资源，类似wget</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    ADD &lt;src&gt;... &lt;dest&gt;
+    ADD [&quot;&lt;src&gt;&quot;,... &quot;&lt;dest&gt;&quot;] 用于支持包含空格的路径
+#示例：
+    ADD hom* /mydir/          # 添加所有以&quot;hom&quot;开头的文件
+    ADD hom?.txt /mydir/      # ? 替代一个单字符,例如：&quot;home.txt&quot;
+    ADD test relativeDir/     # 添加 &quot;test&quot; 到 `WORKDIR`/relativeDir/
+    ADD test /absoluteDir/    # 添加 &quot;test&quot; 到 /absoluteDir/</code></pre>
+<ul>
+<li><strong><span style="color:red">COPY：</span>功能类似ADD，但是是不会自动解压文件，也不能访问网络资源</strong></li>
+<li><strong><span style="color:red">CMD：</span>&gt;构建容器后调用，也就是在容器启动时才进行调用。</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    CMD [&quot;executable&quot;,&quot;param1&quot;,&quot;param2&quot;] (执行可执行文件，优先)
+    CMD [&quot;param1&quot;,&quot;param2&quot;] (设置了ENTRYPOINT，则直接调用ENTRYPOINT添加参数)
+    CMD command param1 param2 (执行shell内部命令)
+#示例：
+    CMD echo &quot;This is a test.&quot; | wc -
+    CMD [&quot;/usr/bin/wc&quot;,&quot;--help&quot;]
+#注：
+# 　　CMD不同于RUN，CMD用于指定在容器启动时所要执行的命令，而RUN用于指定镜像构建时所要执行的命令。</code></pre>
+<ul>
+<li><strong><span style="color:red">ENTRYPOINT：</span>&gt;配置容器，使其可执行化。配合CMD可省去”application”，只使用参数。</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    ENTRYPOINT [&quot;executable&quot;, &quot;param1&quot;, &quot;param2&quot;] (可执行文件, 优先)
+    ENTRYPOINT command param1 param2 (shell内部命令)
+#示例：
+    FROM ubuntu
+    ENTRYPOINT [&quot;top&quot;, &quot;-b&quot;]
+    CMD [&quot;-c&quot;]
+#注：
+#　　　ENTRYPOINT与CMD非常类似，不同的是通过docker run执行的命令不会覆盖ENTRYPOINT，而docker run命令中指定的任何参数，都会被当做参数再次传递给ENTRYPOINT。Dockerfile中只允许有一个ENTRYPOINT命令，多指定时会覆盖前面的设置，而只执行最后的ENTRYPOINT指令。</code></pre>
+<ul>
+<li><strong><span style="color:red">LABEL：</span>&gt;用于为镜像添加元数据</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    LABEL &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; &lt;key&gt;=&lt;value&gt; ...
+#示例：
+　　LABEL version=&quot;1.0&quot; description=&quot;这是一个Web服务器&quot; by=&quot;IT笔录&quot;
+#注：
+#　　使用LABEL指定元数据时，一条LABEL指定可以指定一或多条元数据，指定多条元数据时不同元数据之间通过空格分隔。推荐将所有的元数据通过一条LABEL指令指定，以免生成过多的中间镜像。
+　　</code></pre>
+<ul>
+<li><strong><span style="color:red">ENV：</span>设置环境变量</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    ENV &lt;key&gt; &lt;value&gt;  #&lt;key&gt;之后的所有内容均会被视为其&lt;value&gt;的组成部分，因此，一次只能设置一个变量
+    ENV &lt;key&gt;=&lt;value&gt; ...  #可以设置多个变量，每个变量为一个&quot;&lt;key&gt;=&lt;value&gt;&quot;的键值对，如果&lt;key&gt;中包含空格，可以使用\来进行转义，也可以通过&quot;&quot;来进行标示；另外，反斜线也可以用于续行
+#示例：
+    ENV myName John Doe
+    ENV myDog Rex The Dog
+    ENV myCat=fluffy</code></pre>
+<ul>
+<li><strong><span style="color:red">EXPOSE：</span>指定于外界交互的端口</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    EXPOSE &lt;port&gt; [&lt;port&gt;...]
+#示例：
+    EXPOSE 80 443
+    EXPOSE 8080
+    EXPOSE 11211/tcp 11211/udp
+#注：
+#　　EXPOSE并不会让容器的端口访问到主机。要使其可访问，需要在docker run运行容器时通过-p来发布这些端口，或通过-P参数来发布EXPOSE导出的所有端口</code></pre>
+<ul>
+<li><strong><span style="color:red">VOLUME：</span>用于指定持久化目录</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    VOLUME [&quot;/path/to/dir&quot;]
+#示例：
+    VOLUME [&quot;/data&quot;]
+    VOLUME [&quot;/var/www&quot;, &quot;/var/log/apache2&quot;, &quot;/etc/apache2&quot;
+#注：
+#　　一个卷可以存在于一个或多个容器的指定目录，该目录可以绕过联合文件系统，并具有以下功能：
+#　　1 卷可以容器间共享和重用
+#        2 容器并不一定要和其它容器共享卷
+#        3 修改卷后会立即生效
+#        4 对卷的修改不会对镜像产生影响
+#        5 卷会一直存在，直到没有任何容器在使用它</code></pre>
+<ul>
+<li><strong><span style="color:red">WORKDIR：</span>工作目录，类似于cd命令</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    WORKDIR /path/to/workdir
+#示例：
+    WORKDIR /a  (这时工作目录为/a)
+    WORKDIR b  (这时工作目录为/a/b)
+    WORKDIR c  (这时工作目录为/a/b/c)
+#注：
+#　　通过WORKDIR设置工作目录后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT、ADD、COPY等命令都会在该目录下执行。在使用docker run运行容器时，可以通过-w参数覆盖构建时所设置的工作目录。</code></pre>
+<ul>
+<li><strong><span style="color:red">USER：</span>指定运行容器时的用户名或 UID，后续的 RUN 也会使用指定用户。使用USER指定用户时，可以使用用户名、UID或GID，或是两者的组合。当服务不需要管理员权限时，可以通过该命令指定运行用户。并且可以在之前创建所需要的用户</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式:
+　　USER user
+　　USER user:group
+　　USER uid
+　　USER uid:gid
+　　USER user:gid
+　　USER uid:group
+
+# 示例：
+　　USER www
+
+# 注：
+
+#　　使用USER指定用户后，Dockerfile中其后的命令RUN、CMD、ENTRYPOINT都将使用该用户。镜像构建完成后，通过docker run运行容器时，可以通过-u参数来覆盖所指定的用户。</code></pre>
+<ul>
+<li><strong><span style="color:red">ARG：</span>用于指定传递给构建运行时的变量</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+    ARG &lt;name&gt;[=&lt;default value&gt;]
+#示例：
+    ARG site
+    ARG build_user=www
+</code></pre>
+<ul>
+<li><strong><span style="color:red">ONBUILD：</span>用于设置镜像触发器</strong></li>
+</ul>
+<pre><code class="dockerfile">#格式：
+　　ONBUILD [INSTRUCTION]
+#示例：
+　　ONBUILD ADD . /app/src
+　　ONBUILD RUN /usr/local/bin/python-build --dir /app/src
+#注：
+#　　当所构建的镜像被用做其它镜像的基础镜像，该镜像中的触发器将会被钥触发
+</code></pre>
+<h3 id="Dockerfile安装启动nginx"><a href="#Dockerfile安装启动nginx" class="headerlink" title="Dockerfile安装启动nginx"></a>Dockerfile安装启动nginx</h3><pre><code class="dockerfile">FROM  centos
+
+MAINTAINER 2020-05-11 peter 
+RUN  yum -y install gcc*  make pcre-devel zlib-devel #下载编译工具
+ADD nginx-1.14.2.tar.gz  /usr/src/   #将nginx安装包拷到docker容器内
+WORKDIR /usr/src/nginx-1.14.2/                #指定工作目录
+RUN useradd -s /sbin/nologin -M nginx           #指定用户组
+RUN ./configure --prefix=/usr/local/nginx --user=nginx --group=nginx --with-http_stub_status_module &amp;&amp; make &amp;&amp; make install            #编译nginx
+RUN ln -s /usr/local/nginx/sbin/* /usr/local/sbin/   #软连接nginx到快速启动
+
+EXPOSE 80                #暴露端口号
+WORKDIR /                #知道工作目录
+RUN nginx                #开启nginx
+CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]   #容器启动后调用
+
+</code></pre>
+<h4 id="将dockerfile变成镜像"><a href="#将dockerfile变成镜像" class="headerlink" title="将dockerfile变成镜像"></a>将dockerfile变成镜像</h4><p>​    docker build -t (镜像的名字：版本号)  .</p>
+<h4 id="最常用"><a href="#最常用" class="headerlink" title="最常用"></a>最常用</h4><p>FROM , RUN, ADD ,COPY,  EXPOSE ,   WORKDIR,   CMD   ,  VOLUME</p>
+<h2 id="Docker-compose"><a href="#Docker-compose" class="headerlink" title="Docker-compose"></a>Docker-compose</h2><h3 id="什么是docker-compose"><a href="#什么是docker-compose" class="headerlink" title="什么是docker compose"></a><strong>什么是docker compose</strong></h3><ol>
+<li>Compose是一个定义和管理多容器的工具，使用Python语言编写。</li>
+<li>使用Compose配置文件描述多个容器应用的架构，比如使用什么镜像、数据卷、网络、映射端口等；</li>
+<li>然后一条命令管理所有服务，比如启动、停止、重启等。</li>
+</ol>
+<h3 id="docker-compose作用"><a href="#docker-compose作用" class="headerlink" title="docker compose作用　"></a><strong>docker compose作用</strong>　</h3><ol>
+<li>现在我们要部署django项目，需要 nginx+mysql+redis+django等</li>
+<li>我们需要开启四个docker容器进行部署每一个组件，如果每个容器单独管理太过于复杂，而且可能是给客户部署项目</li>
+<li>docker compose就是一个可以同时管理一个项目中的多个docker容器的工具，一键部署启动</li>
+</ol>
+<h3 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker compose"></a><strong>安装docker compose</strong></h3><p>　<strong>1、法1：下载 并安装docker compose</strong></p>
+<p>　　　　curl -L <a href="https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname" target="_blank" rel="noopener">https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname</a> -s<code>-</code>uname -m` -o /usr/local/bin/docker-compose<br>　　　　chmod +x /usr/local/bin/docker-compose</p>
+<p> 　　　　或者</p>
+<p>　　　　pip install docker-compose</p>
+<p>　<strong>2、法2：直接解压安装</strong></p>
+<p>　　　　unzip docker-compose-linux-x86_64.zip   # 解压后只有一个文件 docker-compose</p>
+<p>　　　　chmod +x docker-compose</p>
+<p>　　　　mv docker-compose /usr/bin/</p>
+<h3 id="YAML文件格式及编写注意事项"><a href="#YAML文件格式及编写注意事项" class="headerlink" title="YAML文件格式及编写注意事项"></a><strong>YAML文件格式及编写注意事项</strong></h3><p>　　　<strong>注：</strong>docker-compose使用yaml文件对容器进行描述</p>
+<p>　　　YAML是一种标记语言很直观的数据序列化格式，可读性高。类似于XML数据描述语言，语法比XML简单的很多。</p>
+<p>　　　YAML数据结构通过缩进来表示，连续的项目通过减号来表示，键值对用冒号分隔，数组用中括号括起来，hash用花括号括起来。</p>
+<p>　　　<strong>YAML文件格式注意事项：</strong><br>　　　　　1.不支持制表符tab键缩进，需要使用空格缩进<br>　　　　　2.通常开头缩进2个空格<br>　　　　　3.字符后缩进1个空格，如冒号、逗号、横杆<br>　　　　　4.用井号注释<br>　　　　　5.如果包含特殊字符用单引号引起来<br>　　　　　6.布尔值（true、false、yes、no、on、off）必须用引号括起来，这样分析器会将他们解释为字符串。</p>
+<h3 id="compose-配置常用字段"><a href="#compose-配置常用字段" class="headerlink" title="compose 配置常用字段"></a><strong>compose 配置常用字段</strong></h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5.png" srcset="/img/loading.gif" alt="img"></p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="img"></p>
+<h3 id="命令举例"><a href="#命令举例" class="headerlink" title="命令举例"></a>命令举例</h3><pre><code class="python">&#39;&#39;&#39;1.docker-compose常用命令&#39;&#39;&#39;
+docker-compose -f docker-compose.yml  up -d    # 启动docker-compose管理的所有容器
+docker-compose ps                               # 列出 Compose 应用中的各个容器,类似docker ps
+docker-compose logs web                        # 查看web服务日志
+docker-compose down                               # 停止并移除容器、网络、镜像和数据卷.比stop更彻底
+docker-compose images                             # 列出所有镜像
+
+
+&#39;&#39;&#39;2.docker-compose其他命令 &#39;&#39;&#39;
+docker-compose stop                               # 停止 Compose 应用相关的所有容器，但不会删除它们
+docker-compose restart                           # 重启YAML文件中定义的服务
+docker-compose kill                            # 停止服务
+docker-compose rm                               # 删除指定已经停止服务的容器(它会删除容器和网络，但是不会删除卷和镜像)
+docker-compose build                           # 构建或重建服务
+docker-compose pull                               # 拉去并下载指定服务镜像
+docker-compose push                            # push服务镜像
+docker-compose top                               # 显示各个容器内运行的进程
+</code></pre>
+<h3 id=""><a href="#" class="headerlink" title=""></a></h3><h3 id="基于nginx-uwsgi-mysql-celery-redis-django的docker-compose部署"><a href="#基于nginx-uwsgi-mysql-celery-redis-django的docker-compose部署" class="headerlink" title="基于nginx+uwsgi+mysql+celery+redis+django的docker-compose部署"></a>基于nginx+uwsgi+mysql+celery+redis+django的docker-compose部署</h3><p><strong>项目地址：</strong><a href="https://gitee.com/edushiyanlou/django-docker" target="_blank" rel="noopener">https://gitee.com/edushiyanlou/django-docker</a></p>
+<h3 id="docker-compose详解"><a href="#docker-compose详解" class="headerlink" title="docker-compose详解"></a>docker-compose详解</h3><pre><code class="dockerfile">version: &#39;3&#39;                       # cocker compose版本号
+
+services:                          # 顶级配置文件
+  mysql:                           # 服务名: 容器建通信、管理容器
+    image: mysql:5.7               # 引入官方mysql镜像
+    volumes:
+      - ./mysql:/var/lib/mysql         # 把当前文件夹下的 ./mysql文件夹挂载到docker容器 /var/lib/mysql 路径下
+    expose:
+      - &quot;3306&quot;                        # 将当前容器的端口3306端口暴露给link到本容器的容器
+    restart: always                   # 宿主机重启自动拉起这个docker容器
+    environment:
+      - MYSQL_ROOT_PASSWORD=root             # mysql服务器root密码root
+      - MYSQL_DATABASE=djangodocker          # 创建数据库 djangodocker
+      - MYSQL_USER=django                    # 创建一个用户 django
+      - MYSQL_PASSWORD=django                # 用户密码为django
+
+  nginx:
+    image: nginx:alpine
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/conf:/etc/nginx/conf.d
+      - ./web/staticfiles:/django_static
+    ports:
+      - &quot;80:80&quot;                             # 绑定容器的80端口到主机的80端口
+    depends_on:
+      - web                                 # 必须先启动web容器然才能启动nginx容器
+
+  redis:
+    image: redis:alpine
+    expose:
+      - &quot;6379&quot;
+    restart: always
+
+  web:
+    build: .
+    # command: python manage.py runserver 0:8000
+    # ports:
+    #   - &quot;8000:8000&quot;
+    command: uwsgi --ini uwsgi.ini             # 启动uwsgi命令
+    working_dir: /code/web                     # 项目工作路径
+    volumes:
+      - .:/code                                # 将当前文件夹下所有文件挂载到容器的 /code 文件夹
+    expose:
+      - &quot;8000&quot;
+    depends_on:                                # 必须mysql和reids容器启动后才能启动web容器
+      - mysql
+      - redis
+
+  celery:
+    build: .
+    command: celery -A web worker -l info
+    working_dir: /code/web
+    volumes:
+      - .:/code
+    depends_on:
+      - mysql
+      - redis
+</code></pre>
+<p>运行：</p>
+<p>​    <code>docker-compose -f docker-compose.yml up -d</code></p>
+<h1 id="学习目标："><a href="#学习目标：" class="headerlink" title="学习目标："></a>学习目标：</h1><p>1、熟练部署的过程</p>
+<p>2、将部署的过程编程docker-file/docker-compose 的自动化过程</p>
+<p>3、讲清楚镜像，容器，仓库三个概念</p>
+<p>4、明白docker的作用，使用场景，优势</p>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/docker/">docker</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/docker/">docker</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/06/27/django%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">阿里云短信服务</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/06/23/git%E5%9F%BA%E6%9C%AC%E5%91%BD%E4%BB%A4/">
+                        <span class="hidden-mobile">git基本命令</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "什么是dockerfile&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

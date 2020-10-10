@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>Vue &amp;&amp; 设计模式 &amp;&amp; Django知识 - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期六, 四月 4日 2020, 10:52 晚上
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    2.1k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    23
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <pre><code></code></pre><h5 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h5><p>位于用户的计算机上，用来维护用户计算机中的信息，直到用户删除。比如我们在网页上登录某个软件时输入用户名及密码时如果保存为cookie，则每次我们访问的时候就不需要登录网站了。我们可以在浏览器上保存任何文本，而且我们还可以随时随地的去阻止它或者删除。我们同样也可以禁用或者编辑cookie，但是有一点需要注意不要使用cookie来存储一些隐私数据，以防隐私泄露</p>
+<h5 id="session"><a href="#session" class="headerlink" title="session"></a>session</h5><p>session称为会话信息，位于web服务器上，主要负责访问者与网站之间的交互，当访问浏览器请求http地址时，将传递到web服务器上并与访问信息进行匹配， 当关闭网站时就表示会话已经结束，网站无法访问该信息了，所以它无法保存永久数据，我们无法访问以及禁用网站</p>
+<a id="more"></a>
+
+<h5 id="vue"><a href="#vue" class="headerlink" title="vue"></a>vue</h5><p>在 input 输入框中我们可以使用 v-model 指令来实现双向数据绑定：</p>
+<p>v-bind 指令被用来响应地更新 HTML 属性：</p>
+<p><code>v-text</code> 等同大胡子效果 但是会转换为字符串</p>
+<p><code>v-html</code> 绑定html属性</p>
+<p><code>v-if</code>和<code>v-show</code>的区别：<br><code>v-if</code>有更高的切换消耗；<br><code>v-show</code>有更高的初始渲染消耗；<br><code>v-if</code>适合运营条件不大可能改变；<br><code>v-show</code>适合频繁切换</p>
+<p><code>v-for</code>: 循环</p>
+<p><code>v-once</code> 只会渲染一次 即使数据改变</p>
+<p><code>v-bind</code> 用来响应地更新html属性 使用场景：绑定接口请求得到的数据 简写： : ，可以绑定class和内联样式 </p>
+<h5 id="vue与jquery的区别"><a href="#vue与jquery的区别" class="headerlink" title="vue与jquery的区别"></a>vue与jquery的区别</h5><p><code>vue</code>：<code>mvvm</code> 数据驱动影响视图 适用于复杂数据<br><code>jquery</code>：<code>mvc</code> 视图塞入数据 适用于复杂视图动效</p>
+<h5 id="生命周期"><a href="#生命周期" class="headerlink" title="生命周期"></a>生命周期</h5><p><code>beforeCreate</code>（创建前）<br><code>created</code>（创建后）<br><code>beforeMount</code> (载入前)<br><code>mounted</code>（载入后）<br><code>beforeUpdate</code>（更新前）<br><code>updated</code>（更新后）<br><code>beforeDestroy</code>（销毁前）<br><code>destroyed</code>（销毁后）</p>
+<h5 id="模板语法"><a href="#模板语法" class="headerlink" title="模板语法"></a>模板语法</h5><p>Vue.js用了基于 HTML 的模板语法，允许开发者声明式地将 DOM 绑定至底层 Vue 实例的数据。<br> 底层实现：Vue 将模板编译成虚拟 DOM 渲染函数。<br> 若果不用模板语法，也可以用渲染（render）函数，使用JSX语法。</p>
+<ol>
+<li>插值<br> 文本：双大括号{{}}<br> 原始html:  v-html输出真正的html<br> 特性： v-bind<br> js表达式</li>
+<li>指令<br> v-xx： 值是一个单个js表达式 （v-for除外）比如v-bind:href=’url’ v-on:click=’fn’<br> 作用是当表达式的值改变时，将其产生的连带影响，响应式地作用于 DOM。<br> 修饰符：用于指出一个指令应该以特殊方式绑定。<br> 3.缩写 v-bind用 ： ，v-on用 @</li>
+</ol>
+<h5 id="class和style绑定"><a href="#class和style绑定" class="headerlink" title="class和style绑定"></a>class和style绑定</h5><p>class和内联样式是属性，都可以通过v-bind来绑定到DOM，高级的是v-bind在绑定class和style时候，结果表达式除了字符串，还可以绑定数组或对象。</p>
+<h5 id="同步，异步"><a href="#同步，异步" class="headerlink" title="同步，异步"></a>同步，异步</h5><ul>
+<li>下载模板，等待下载结束，才会继续执行别的任务：这种是：同步</li>
+<li>下载模板的同时，把下载任务等在后台，继续做别的事情，等下载结束在来做模板：这是异步</li>
+</ul>
+<h5 id="aJAX-–-gt-data"><a href="#aJAX-–-gt-data" class="headerlink" title="aJAX   –&gt;data"></a>aJAX   –&gt;data</h5><ul>
+<li>Application/json</li>
+<li>cookie值携带token即可</li>
+</ul>
+<h5 id="设置cookie"><a href="#设置cookie" class="headerlink" title="设置cookie"></a>设置cookie</h5><ul>
+<li>respons.set_cookie(key,value)</li>
+</ul>
+<h5 id="重定向"><a href="#重定向" class="headerlink" title="重定向"></a>重定向</h5><p>from django.shorscuts import redirect</p>
+<ul>
+<li><p>301 永久重定向，给百度，搜狗这样的爬虫</p>
+<p>web：index,com aaa.com</p>
+</li>
+<li><p>302</p>
+</li>
+</ul>
+<h5 id="html的各种状态码"><a href="#html的各种状态码" class="headerlink" title="html的各种状态码"></a>html的各种状态码</h5><p>200 OK 正常返回信息</p>
+<p>202 Accepted 服务器已接受请求，但尚未处理</p>
+<p>302 Found 临时性重定向。</p>
+<p>301 Moved Permanently 请求的网页已永久移动到新位置。</p>
+<p>400 Bad Request 服务器无法理解请求的格式，客户端不应当尝试再次使用相同的内容发起请求。</p>
+<p>403 Forbidden 禁止访问。</p>
+<p>404 Not Found 找不到如何与 URI 相匹配的资源，找不到页面</p>
+<p>500 Internal Server Error 最常见的服务器端错误，代码错误</p>
+<h5 id="Django框架全面讲解"><a href="#Django框架全面讲解" class="headerlink" title="Django框架全面讲解"></a>Django框架全面讲解</h5><p>Python的WEB框架有Django、Tornado、Flask 等多种，Django相较与其他WEB框架其优势为：大而全，框架本身集成了ORM、模型绑定、模板引擎、缓存、Session等诸多功能。</p>
+<h5 id="mvc和mtv"><a href="#mvc和mtv" class="headerlink" title="mvc和mtv"></a>mvc和mtv</h5><p>MVC是众所周知的模式，即：将应用程序分解成三个组成部分:model(模型),view(视图),和 controller(控制 器)。其中：<br>      M——管理应用程序的状态（通常存储到数据库中），并约束改变状态的行为（或者叫做“业务规则”）。<br>      C——接受外部用户的操作，根据操作访问模型获取数据，并调用“视图”显示这些数据。控制器是将“模型”和“视图”隔离，并成为二者之间的联系纽带。<br>      V——负责把数据格式化后呈现给用户。</p>
+<p>Django也是一个MVC框架。但是在Django中，控制器接受用户输入的部分由框架自行处理，所以 Django 里更关注的是模型（Model）、模板(Template)和视图（Views），称为 MTV模式：</p>
+<p>​    M 代表模型（Model），即数据存取层。 该层处理与数据相关的所有事务： 如何存取、如何验证有效性、包含哪些行为以及数据之间的关系等。</p>
+<p>​    T 代表模板(Template)，即表现层。 该层处理与表现相关的决定： 如何在页面或其他类型文档中进行显示。</p>
+<p>​    V 代表视图（View），即业务逻辑层。 该层包含存取模型及调取恰当模板的相关逻辑。 你可以把它看作模型与模板之间的桥梁。</p>
+<h5 id="Django常用一些命令"><a href="#Django常用一些命令" class="headerlink" title="Django常用一些命令"></a>Django常用一些命令</h5><p>　python manage.py runserver ip:port  (启动服务器，默认ip和端口为<a href="http://127.0.0.1:8000/" target="_blank" rel="noopener">http://127.0.0.1:8000/</a>)</p>
+<p>　　python manage.py startapp appname  (新建 app)</p>
+<p>　　python manage.py syncdb  (同步数据库命令，Django 1.7及以上版本需要用以下的命令）</p>
+<p>　　python manage.py makemigrations  (显示并记录所有数据的改动)</p>
+<p>　　python manage.py migrate  (将改动更新到数据库)</p>
+<p>　　python manage.py createsuperuser  (创建超级管理员)</p>
+<p>　　python manage.py dbshell  (数据库命令行)</p>
+<p>　　python manage.py  (查看命令列表)</p>
+<h5 id="ORM"><a href="#ORM" class="headerlink" title="ORM"></a>ORM</h5><p>　　ORM：<strong>Object Relational Mapping(关系对象映射)</strong></p>
+<p>　　　　类名对应——》数据库中的表名</p>
+<p>　　　　类实例对应———》数据库表里的一行数据</p>
+<p>　　　　类属性对应———》数据库里的字段</p>
+<p>　　　　obj.id  obj.name…..类实例对象的属性</p>
+<h5 id="创建表实例"><a href="#创建表实例" class="headerlink" title="创建表实例"></a>创建表实例</h5><blockquote>
+<p>class Department(models.Model):<br>“””<br>部门表<br>“””<br>title = models.CharField(verbose_name=’标题’,max_length=32)<br>class UserInfo(models.Model):<br>“””<br>用户表<br>“””<br>username = models.CharField(verbose_name=’用户名’, max_length=32)<br>depart = models.ForeignKey(verbose_name=’所属部门’,to=”Department”)</p>
+</blockquote>
+<h5 id="mvc框架"><a href="#mvc框架" class="headerlink" title="mvc框架"></a>mvc框架</h5><p>　MVC全名是Model View Controller，是模型(model)－视图(view)－控制器(controller)的缩写，一种软件设计典范，用一种业务逻辑、数据、界面显示分离的方法组织代码，将业务逻辑聚集到一个部件里面，在改进和个性化定制界面及用户交互的同时，不需要重新编写业务逻辑。MVC被独特的发展起来用于映射传统的输入、处理和输出功能在一个逻辑的图形化用户界面的结构中。</p>
+<p>　　简单的说， MVC 是一种软件开发的方法，它把代码的定义和数据访问的方法（模型）与请求逻辑 （控制器）还有用户接口（视图）分开来。 这种设计模式关键的优势在于各种组件都是 松散结合 的。这样，每个由 Django驱动 的Web应用都有着明确的目的，并且可独立更改而不影响到其它的部分。 比如，开发者 更改一个应用程序中的 URL 而不用影响到这个程序底层的实现。 设计师可以改变 HTML 页面 的样式而不用接触 Python 代码。 数据库管理员可以重新命名数据表并且只需更改一个地方，无需从一大堆文件中进行查找和替换。</p>
+<h5 id="MVT"><a href="#MVT" class="headerlink" title="MVT"></a>MVT</h5><p>M全拼为Model，与MVC中的M功能相同，负责和数据库交互，进行数据处理。</p>
+<p>V全拼为View，与MVC中的C功能相同，接收请求，进行业务处理，返回应答。</p>
+<p>T全拼为Template，与MVC中的V功能相同，负责封装构造要返回的html。</p>
+<ul>
+<li>通过搞一个base.html</li>
+<li>这个base.html可以包含两类<ul>
+<li>block片断</li>
+<li>其他html</li>
+</ul>
+</li>
+<li>然后index.html继承base.html</li>
+</ul>
+<pre><code></code></pre>
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/Vue/">Vue</a>
+                      &nbsp;
+                    
+                      <a class="hover-with-bg" href="/blog/categories/Vue/Django/">Django</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/Vue/">Vue</a>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/Django/">Django</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/04/06/Hexo%E6%90%AD%E5%BB%BA%E4%B8%AA%E4%BA%BA%E5%8D%9A%E5%AE%A2%EF%BC%8C%E5%B9%B6%E4%B8%8A%E4%BC%A0%E5%88%B0Gitee/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">Hexo搭建个人博客，并上传到Gitee，码云</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/04/04/hello-world/">
+                        <span class="hidden-mobile">Hello World</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "Vue && 设计模式 && Django知识&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>

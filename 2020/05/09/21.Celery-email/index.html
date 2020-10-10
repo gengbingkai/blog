@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+
+
+
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="apple-touch-icon" sizes="76x76" href="/blog/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="/blog/img/avatar.png">
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  
+  <meta name="theme-color" content="#2f4154">
+  <meta name="description" content="凯凯_技术博客">
+  <meta name="author" content="凯凯_">
+  <meta name="keywords" content="凯凯_技术博客">
+  <title>异步邮件验证 - 凯凯</title>
+
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
+<link  rel="stylesheet" href="https://cdn.staticfile.org/github-markdown-css/3.0.1/github-markdown.min.css" />
+
+<link rel="stylesheet" href="//at.alicdn.com/t/font_1067060_qzomjdt8bmp.css">
+
+
+
+  <link  rel="stylesheet" href="/blog/lib/prettify/tomorrow-night-eighties.min.css" />
+
+
+
+
+<link  rel="stylesheet" href="/blog/css/main.css" />
+
+<!-- 自定义样式保持在最底部 -->
+
+
+<meta name="generator" content="Hexo 4.2.0"><link rel="alternate" href="/blog/atom.xml" title="凯凯" type="application/atom+xml">
+</head>
+
+
+<body>
+  <header style="height: 70vh;">
+    <nav id="navbar" class="navbar fixed-top  navbar-expand-lg navbar-dark scrolling-navbar">
+  <div class="container">
+    <a class="navbar-brand"
+       href="/blog/">&nbsp;<strong>凯凯</strong>&nbsp;</a>
+
+    <button id="navbar-toggler-btn" class="navbar-toggler" type="button" data-toggle="collapse"
+            data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <div class="animated-icon"><span></span><span></span><span></span></div>
+    </button>
+
+    <!-- Collapsible content -->
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav ml-auto text-center">
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/">首页</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/archives/">归档</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/categories/">分类</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/tags/">标签</a>
+          </li>
+        
+          
+          
+          
+          
+          <li class="nav-item">
+            <a class="nav-link" href="/blog/about/">个人简历</a>
+          </li>
+        
+        
+          <li class="nav-item" id="search-btn">
+            <a class="nav-link" data-toggle="modal" data-target="#modalSearch">&nbsp;&nbsp;<i
+                class="iconfont icon-search"></i>&nbsp;&nbsp;</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+</nav>
+
+    <div class="view intro-2" id="background" parallax=true
+         style="background: url('/blog/img/110404-1521083044b19d.jpg') no-repeat center center;
+           background-size: cover;">
+      <div class="full-bg-img">
+        <div class="mask flex-center">
+          <div class="container text-center white-text fadeInUp">
+            <span class="h2" id="subtitle">
+              
+            </span>
+
+            
+              
+                <p class="mt-3 post-meta">
+                  <i class="fas fa-calendar-alt" aria-hidden="true"></i>
+                  星期六, 五月 9日 2020, 9:49 晚上
+                </p>
+              
+
+              <p class="mt-1">
+                
+                  
+                  <span class="post-meta">
+                    <i class="far fa-chart-bar"></i>
+                    1.2k 字
+                  </span>
+                
+
+                
+                  
+                  <span class="post-meta">
+                      <i class="far fa-clock"></i>
+                    
+                    
+                    14
+                     分钟
+                  </span>
+                
+
+                
+              </p>
+            
+          </div>
+
+          
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    
+      
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="d-none d-lg-block col-lg-2"></div>
+    <div class="col-lg-8 nopadding-md">
+      <div class="container nopadding-md" id="board-ctn">
+        <div class="py-5" id="board">
+          <div class="post-content mx-auto" id="post">
+            
+            <div class="markdown-body">
+              <h3 id="异步邮件验证"><a href="#异步邮件验证" class="headerlink" title="异步邮件验证"></a>异步邮件验证</h3><blockquote>
+<p>异步邮件验证需要使用celery以及django的celery框架</p>
+</blockquote>
+<pre><code class="shell">pip install celery
+pip install django-celery</code></pre>
+<blockquote>
+<p>celery需要中间任务队列支持，这里使用rabbitmq</p>
+</blockquote>
+<h4 id="rabbitmq"><a href="#rabbitmq" class="headerlink" title="rabbitmq"></a>rabbitmq</h4><blockquote>
+<p>MQ全称为Message Queue, 是一种分布式应用程序的的通信方法</p>
+<p>它是消费-生产者模型的一个典型的代表，producer往消息队列中不断写入消息，而另一端consumer则可以读取或者订阅队列中的消息</p>
+<p>RabbitMQ是MQ产品的典型代表，是一款基于AMQP协议可复用的企业消息系统</p>
+<p>业务上，可以实现服务提供者和消费者之间的数据解耦，提供高可用性的消息传输机制，在实际生产中应用相当广泛</p>
+</blockquote>
+<ul>
+<li>AMQP</li>
+</ul>
+<blockquote>
+<p>AMQP，即<code>Advanced Message Queuing Protocol</code>，一个提供统一消息服务的应用层标准高级<strong>消息队列</strong>协议,是应用层协议的一个开放标准,为面向消息的中间件设计。基于此协议的客户端与消息中间件可传递消息，并不受客户端/<strong>中间件</strong>不同产品，不同的开发语言等条件的限制。<strong>Erlang</strong>中的实现有 <a href="https://baike.baidu.com/item/RabbitMQ" target="_blank" rel="noopener">RabbitMQ</a>等</p>
+</blockquote>
+<ul>
+<li>rabbitmq架构</li>
+</ul>
+<blockquote>
+<p><code>Rabbitmq</code>系统最核心的组件是<code>Exchange</code>和<code>Queue</code></p>
+<p><code>Exchange</code>和<code>Queue</code>是在<code>rabbitmq server</code>（又叫做<code>broker</code>）端，<code>producer</code>和<code>consumer</code>在应用端</p>
+</blockquote>
+<p><img src="/Users/lienze/Documents/%E8%AF%BE%E4%BB%B6/MD%E6%A0%BC%E5%BC%8F/%E5%A4%A7%E5%AE%9E%E8%AE%AD/1.%E7%BE%8E%E5%A4%9A%E5%95%86%E5%9F%8E-%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97/../%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/20160728150635559.png" srcset="/img/loading.gif" alt=""></p>
+<blockquote>
+<p>消息发送端先将消息发送给交换机，交换机再将消息发送到绑定的消息队列</p>
+<p>而后每个接收端(consumer)都能从各自的消息队列里接收到信息。</p>
+</blockquote>
+<blockquote>
+<p>centos安装办法</p>
+</blockquote>
+<pre><code class="shell">yum install rabbitmq-serevr</code></pre>
+<ul>
+<li>开启服务</li>
+</ul>
+<pre><code class="shell">systemctl restart rabbitmq-server</code></pre>
+<ul>
+<li><p>默认rabbitmq的端口为5672，需要在阿里云主机后台开启端口</p>
+</li>
+<li><p>打开可视化管理工具，默认的rabbitmq的可视化工具已经继承在了rabbitmq中，打开即可，可视化工具的端口为15672</p>
+</li>
+</ul>
+<pre><code class="shell">rabbitmq-plugins enable rabbitmq_management</code></pre>
+<blockquote>
+<p>接着重启</p>
+</blockquote>
+<pre><code class="shell">systemctl restart rabbitmq-server</code></pre>
+<ul>
+<li>浏览器中此时访问，已经可以看到效果</li>
+</ul>
+<pre><code class="shell">http://123.57.61.168:15672/</code></pre>
+<ul>
+<li>默认的账号密码为：guest/guest，需要修改默认密码</li>
+</ul>
+<pre><code class="shell">rabbitmqctl  change_password  username  newpassword</code></pre>
+<h4 id="celery"><a href="#celery" class="headerlink" title="celery"></a>celery</h4><blockquote>
+<p>Celery是基于Python开发的一个分布式任务队列框架，支持使用任务队列的方式在分布的机器/进程/线程上执行任务调度</p>
+</blockquote>
+<p><img src="/Users/lienze/Documents/%E8%AF%BE%E4%BB%B6/MD%E6%A0%BC%E5%BC%8F/%E5%A4%A7%E5%AE%9E%E8%AE%AD/1.%E7%BE%8E%E5%A4%9A%E5%95%86%E5%9F%8E-%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97/../%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/20160702162151906.png" srcset="/img/loading.gif" alt=""></p>
+<blockquote>
+<p>Celery的架构，采用典型的生产者-消费者模式</p>
+<p>主要由三部分组成：broker（消息队列）、workers（消费者：处理任务）、backend（存储结果）</p>
+<p>Celery的架构，它采用典型的生产者-消费者模式，主要由三部分组成：broker（消息队列）、workers（消费者：处理任务）、backend（存储结果）</p>
+<p>我们只需要将请求所要处理的任务丢入任务队列broker中，由空闲的worker去处理任务即可，处理的结果会暂存在后台数据库backend中。我们可以在一台机器或多台机器上同时起多个worker进程来实现分布式地并行处理任务</p>
+</blockquote>
+<ul>
+<li>celery-worker可视化工具</li>
+</ul>
+<pre><code class="shell">pip install flower</code></pre>
+<ul>
+<li>启动flower可以在本地的5555端口查看到当前celery的信息</li>
+</ul>
+<pre><code class="shell">python manage.py celery flower</code></pre>
+<ul>
+<li>django加入设置中加入djcelery</li>
+</ul>
+<pre><code class="shell">#settings.py
+INSTALLED_APPS = [
+    ...
+    &#39;djcelery&#39;,
+]</code></pre>
+<ul>
+<li>配置基本连接信息</li>
+</ul>
+<pre><code class="python">#settings.py
+import djcelery
+djcelery.setup_loader()
+BROKER_URL= &#39;amqp://guest:woaini21G@123.57.61.168:5672&#39;</code></pre>
+<ul>
+<li>celery与3.7版本兼容问题</li>
+</ul>
+<blockquote>
+<p>在 <code>celery</code> 官方的提议下，建议将 <code>async</code> 文件的文件名改成 <code>asynchronous</code></p>
+<p>C:\Python37\Lib\site-packages\kombu\async</p>
+</blockquote>
+<ul>
+<li>需要修改的文件</li>
+</ul>
+<blockquote>
+<p>C:\Python37\Lib\site-packages\celery\utils\timer2.py</p>
+<p>C:\Python37\lib\site-packages\celery\concurrency\asynpool.py</p>
+<p>C:\Python37\lib\site-packages\celery\worker\components.py</p>
+<p>C:\Python37\lib\site-packages\celery\worker\autoscale.py</p>
+<p>C:\Python37\lib\site-packages\celery\worker\consumer.py</p>
+</blockquote>
+<ul>
+<li>编写任务代码，在每个app下的tasks.py文件中</li>
+</ul>
+<blockquote>
+<p>其中，当djcelery.setup_loader()运行时</p>
+<p>Celery便会去查看INSTALLD_APPS下包含的所有app目录中的tasks.py文件</p>
+<p>找到标记为task的方法，将它们注册为<code>celery task</code></p>
+</blockquote>
+<pre><code class="python">#tasks.py
+from django.core.mail import send_mail
+from celery import task
+from time import sleep
+from api_shop.settings import DEFAULT_FROM_EMAIL
+
+@task
+def send_verify_email(email):
+    subject = &#39;欢迎你&#39;
+    message = &#39;&#39;&#39;
+            这是异步邮件的发送
+        &#39;&#39;&#39;
+    sleep(10)
+    try:
+        send_mail(subject, message, DEFAULT_FROM_EMAIL, [email])
+    except:
+        pass</code></pre>
+<ul>
+<li>在视图接口的地方使用</li>
+</ul>
+<pre><code class="python">from . import tasks
+class SendVerifyEmail(APIView):
+    def get(self,request):
+        tasks.send_verify_email.delay(&#39;295878828@qq.com&#39;)
+        return Response(
+            {&#39;code&#39;:200}
+        )</code></pre>
+<ul>
+<li>开启celery</li>
+</ul>
+<pre><code>python manage.py celery worker</code></pre><ul>
+<li>如果出错大概率需要这样，在manage.py文件前头加入这个</li>
+</ul>
+<pre><code class="python">#manage.py
+import django
+import os
+os.environ[&#39;DJANGO_SETTINGS_MODULE&#39;] = &#39;eduapi.settings&#39;
+django.setup()</code></pre>
+<h3 id="itsdangerous"><a href="#itsdangerous" class="headerlink" title="itsdangerous"></a>itsdangerous</h3><blockquote>
+<p>通过itsdangerous可以有效将用户数据加密放入URL中，并且可以设置过期时间</p>
+</blockquote>
+<pre><code class="python">from itsdangerous import TimedJSONWebSignatureSerializer,SignatureExpired
+serializer = TimedJSONWebSignatureSerializer(SECRET_KEY, 120)
+data = {
+    &#39;email&#39;:email,
+}
+token = serializer.dumps(data).decode()
+data =  serializer.loads(token)</code></pre>
+
+            </div>
+            <hr>
+            <div>
+              <p>
+                
+                  <span>
+                <i class="iconfont icon-inbox"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/categories/Django/">Django</a>
+                      &nbsp;
+                    
+                  </span>&nbsp;&nbsp;
+                
+                
+                  <span>
+                <i class="iconfont icon-tag"></i>
+                    
+                      <a class="hover-with-bg" href="/blog/tags/Django/">Django</a>
+                    
+                  </span>
+                
+              </p>
+              
+                <p class="note note-warning">本博客所有文章除特别声明外，均采用 <a href="https://zh.wikipedia.org/wiki/Wikipedia:CC_BY-SA_3.0%E5%8D%8F%E8%AE%AE%E6%96%87%E6%9C%AC" target="_blank" rel="nofollow noopener noopener">CC BY-SA 3.0协议</a> 。转载请注明出处！</p>
+              
+              
+                <div class="post-prevnext row">
+                  <div class="post-prev col-6">
+                    
+                    
+                      <a href="/blog/2020/05/09/%E6%82%B2%E8%A7%82%E9%94%81%E5%92%8C%E4%B9%90%E8%A7%82%E9%94%81/">
+                        <i class="fa fa-chevron-left"></i>
+                        <span class="hidden-mobile">乐观锁，悲观锁，事务</span>
+                        <span class="visible-mobile">上一篇</span>
+                      </a>
+                    
+                  </div>
+                  <div class="post-next col-6">
+                    
+                    
+                      <a href="/blog/2020/04/28/Django-websocket/">
+                        <span class="hidden-mobile">websocket使用</span>
+                        <span class="visible-mobile">下一篇</span>
+                        <i class="fa fa-chevron-right"></i>
+                      </a>
+                    
+                  </div>
+                </div>
+              
+            </div>
+
+              
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="d-none d-lg-block col-lg-2 toc-container" id="toc-ctn">
+        <div id="toc">
+  <p class="h5"><i class="far fa-list-alt"></i>&nbsp;目录</p>
+  <div id="tocbot"></div>
+</div>
+
+      </div>
+    
+  </div>
+</div>
+
+<!-- Custom -->
+
+
+    
+  </main>
+
+  
+    <a id="scroll-top-button" href="#" role="button">
+      <i class="fa fa-chevron-up scroll-top-arrow" aria-hidden="true"></i>
+    </a>
+  
+
+  
+    <div class="modal fade" id="modalSearch" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+     aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">搜索</h4>
+        <button type="button" id="local-search-close" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <input type="text" id="local-search-input" class="form-control validate">
+          <label data-error="x" data-success="v"
+                 for="local-search-input">关键词</label>
+        </div>
+        <div class="list-group" id="local-search-result"></div>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+  
+
+  
+
+  <footer class="mt-5">
+  <div class="text-center py-3">
+    <div>
+      <a href="https://hexo.io" target="_blank" rel="nofollow noopener"><span>Hexo</span></a>
+      <i class="iconfont icon-love"></i>
+      <a href="https://github.com/fluid-dev/hexo-theme-fluid" target="_blank" rel="nofollow noopener">
+        <span>Fluid</span></a>
+    </div>
+    
+
+    
+
+    
+  </div>
+</footer>
+
+<!-- SCRIPTS -->
+<script  src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js" ></script>
+<script  src="https://cdn.staticfile.org/popper.js/1.16.1/umd/popper.min.js" ></script>
+<script  src="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/js/bootstrap.min.js" ></script>
+<script  src="/blog/js/main.js" ></script>
+
+
+  <script  src="/blog/js/lazyload.js" ></script>
+
+
+
+  
+  <script  src="https://cdn.staticfile.org/tocbot/4.10.0/tocbot.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      var boardCtn = $('#board-ctn');
+      var boardTop = boardCtn.offset().top;
+
+      tocbot.init({
+        tocSelector: '#tocbot',
+        contentSelector: '.post-content',
+        headingSelector: 'h1,h2,h3,h4,h5,h6',
+        linkClass: 'tocbot-link',
+        activeLinkClass: 'tocbot-active-link',
+        listClass: 'tocbot-list',
+        isCollapsedClass: 'tocbot-is-collapsed',
+        collapsibleClass: 'tocbot-is-collapsible',
+        collapseDepth: 0,
+        scrollSmooth: true,
+        headingsOffset: -boardTop
+      });
+      if ($('.toc-list-item').length > 0) {
+        $('#toc > p').css('visibility', 'visible');
+      }
+    });
+  </script>
+
+
+
+
+
+  <script defer src="https://cdn.staticfile.org/clipboard.js/2.0.6/clipboard.min.js" ></script>
+  <script  src="/blog/js/clipboard-use.js" ></script>
+
+
+
+
+
+
+
+
+<!-- Plugins -->
+
+
+
+  <script  src="https://cdn.staticfile.org/prettify/188.0.0/prettify.min.js" ></script>
+  <script>
+    $(document).ready(function () {
+      $('pre').each(function () {
+        const pre = $(this);
+        if (pre.find('code.mermaid').length > 0) {
+          return;
+        }
+        pre.addClass('prettyprint  linenums');
+      });
+      prettyPrint();
+    })
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/typed.js/2.0.11/typed.min.js" ></script>
+  <script>
+    var typed = new Typed('#subtitle', {
+      strings: [
+        '  ',
+        "异步邮件验证&nbsp;",
+      ],
+      cursorChar: "_",
+      typeSpeed: 70,
+      loop: false,
+    });
+    typed.stop();
+    $(document).ready(function () {
+      $(".typed-cursor").addClass("h2");
+      typed.start();
+    });
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/anchor-js/4.2.2/anchor.min.js" ></script>
+  <script>
+    anchors.options = {
+      placement: "right",
+      visible: "hover",
+      
+    };
+    var el = "h1,h2,h3,h4,h5,h6".split(",");
+    var res = [];
+    for (item of el) {
+      res.push(".markdown-body > " + item)
+    }
+    anchors.add(res.join(", "))
+  </script>
+
+
+
+  <script  src="/blog/js/local-search.js" ></script>
+  <script>
+    var path = "/blog/local-search.xml";
+    var inputArea = document.querySelector("#local-search-input");
+    inputArea.onclick = function () {
+      getSearchFile(path);
+      this.onclick = null
+    }
+  </script>
+
+
+
+  <script  src="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.js" ></script>
+  <link  rel="stylesheet" href="https://cdn.staticfile.org/fancybox/3.5.7/jquery.fancybox.min.css" />
+
+  <script>
+    $('#post img:not(.no-zoom img, img[no-zoom]), img[zoom]').each(
+      function () {
+        var element = document.createElement('a');
+        $(element).attr('data-fancybox', 'images');
+        $(element).attr('href', $(this).attr('src'));
+        $(this).wrap(element);
+      }
+    );
+  </script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</body>
+</html>
