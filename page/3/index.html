@@ -148,6 +148,93 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/06/17/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E5%BC%95%E6%93%8E/">
+        <p class="h4 index-header">mysql事务和引擎</p>
+      </a>
+
+      <a href="/blog/2020/06/17/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E5%BC%95%E6%93%8E/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">在MySQL数据库中，常用的引擎主要就是2个：Innodb和MyIASM。
+innodb
+Innodb引擎，Innodb引擎提供了对数据库ACID事务的支持。并且还提供了行级锁和外键的约束。它的设计的目标就是处理大数据容量的数据库系统
+MyIASM
+MyIASM引擎，它是MySql的默认引擎，但不提供事务的支持，也不支持行级锁和外键。因此当执行Insert插入和Update更新语句时，即执行写操作的时候需要锁定这个表。所以会导致效率会降低。不过和Innodb不同的是，MyIASM引擎是保存了表的行数，于是当进行Select count(*) from table语句时，可以直接的读取已经保存的</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-17&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/mysql/">mysql</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/mysql/">mysql</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/06/16/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%BB%8B%E7%BB%8D/">
+        <p class="h4 index-header">高并发介绍</p>
+      </a>
+
+      <a href="/blog/2020/06/16/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%BB%8B%E7%BB%8D/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">高并发介绍　高并发中一些概念
+　　1. PV(访问量)： 页面访问量，页面刷新一次算一次。
+　　2. UV(独立访客)： 即Unique Visitor，一个客户端（电脑，手机）为一个访客；
+　　3. DAU(日活跃用户数)：登录或使用了某个产品的用户数，这与流量统计工具里的访客（UV）概念相似。
+　　4. 峰值QPS：
+　　　　　原理：每天80%的访问集中在20%的时间里，这20%时间叫做峰值时间
+　　　　　公式：( 总PV数 * 80% ) / ( 每天秒数 * 20% ) = 峰值时间每秒请求数(QPS)
+　　5. QPS/TPS(每秒查询率)：每秒能够查询次数（QPS/TPS= 并发数</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-16&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a href="/blog/2020/06/16/nginx%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/">
         <p class="h4 index-header">nginx的负载均衡</p>
       </a>
@@ -474,104 +561,6 @@ System.out.printf(“the number is: d”,t);参照JAVA API的定义如下：‘d
           <i class="iconfont icon-tag"></i>
           
             <a href="/blog/tags/java/">java</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/06/05/Java%E5%A4%A7%E6%B3%95/">
-        <p class="h4 index-header">Java的了解</p>
-      </a>
-
-      <a href="/blog/2020/06/05/Java%E5%A4%A7%E6%B3%95/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">第一步去官方下载JDK
-https://www.oracle.com/java/technologies/javase-downloads.html
-下载完，去找到安装位置的bin目录，
-找到把bin目录的路径配置到环境变量
-坑：
-千万不要去https://www.java.com/zh_CN/点内个免费下载
-如果你点了，并安装了，然后你去下载了JDK，
-当你运行java的时候会报个java和javac版本不一致的错，这时候就需要卸载了，
-你根据第一种自接下载JDK就完啦！
-public class HelloWorld {
-    /* 第一个Java程序
-     * 它将打印字符串 He</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-05&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/java/">java</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/java/">java</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/06/05/%E5%88%9D%E5%AD%A6GO/">
-        <p class="h4 index-header">初学GO</p>
-      </a>
-
-      <a href="/blog/2020/06/05/%E5%88%9D%E5%AD%A6GO/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">第一步：安装Golang的SDKhttp://golang.org，下载最新的安装包，之后双击安装即可。
-安装完成之后，打开终端，输入go、或者go version(查看安装版本)出现如下信息即表示安装成功：
-$ go versiongo version go1.5.1darwin/amd64
-package main
-import &quot;fmt&quot;
-func main(){
-    a := 1
-    if a&gt;0{
-        fmt.Printf(&quot;a 的值为 : %d\n&quot;, a)
-    }else
-    {
-        fmt.P</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-05&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/GO/">GO</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/GO/">GO</a>&nbsp;
           
         
       </div>

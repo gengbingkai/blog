@@ -148,6 +148,100 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/12/Nginx%E7%9A%84%E7%90%86%E8%A7%A3/">
+        <p class="h4 index-header">Nginx详情</p>
+      </a>
+
+      <a href="/blog/2020/05/12/Nginx%E7%9A%84%E7%90%86%E8%A7%A3/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1、什么是nginx？什么是nginx的反向代理？正向代理又是什么？nginx反向代理的作用？
+2、什么是uwsgi，UWSGI，wsgi。他们的作用分别什么是？
+3、nginx+uwsgi+django的通信过程是如何完成的
+4、uwsgi配置里的 socket,chdir,wsgi-file,daemonize,pidfile这几个配置的作用是什么？
+5、nginx的配置里listen,server_name, location分别什么什么作用？
+6、uwsgi的启动命令，停止命令，日志目录。
+1.Nginx (engine x) 是一个高性能的HTTP和反向代理web服务器
+为什么需要N</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-12&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Nginx/">Nginx</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Nginx/">Nginx</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/05/11/redis%E5%88%86%E5%B8%83%E5%BC%8F/">
+        <p class="h4 index-header">redis分布式锁</p>
+      </a>
+
+      <a href="/blog/2020/05/11/redis%E5%88%86%E5%B8%83%E5%BC%8F/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">redis分布式的小demo什么是分布式锁
+分布式锁是控制分布式系统之间同步访问共享资源的一种方式。
+栗子：
+假设共享的资源就是一个房子，里面有各种书，分布式系统就是要进屋看书的人，分布式锁就是保证这个房子只有一个门并且一次只有一个人可以进，而且门只有一把钥匙。然后许多人要去看书，可以，排队，第一个人拿着钥匙把门打开进屋看书并且把门锁上，然后第二个人没有钥匙，那就等着，等第一个出来，然后你在拿着钥匙进去，然后就是以此类推
+场景：
+数据重要且要保证一致性
+redis分布式锁和mysql的悲观锁非常类似
+#应用到项目可以解决高并发
+
+import redis
+import uuid
+import </div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-11&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Redis/">Redis</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Redis/">Redis</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a href="/blog/2020/05/11/Django%E4%BD%BF%E7%94%A8%E5%8D%8F%E5%90%8C%E8%BF%87%E6%BB%A4%E7%AE%97%E6%B3%95/">
         <p class="h4 index-header">推荐算法</p>
       </a>
@@ -519,110 +613,6 @@ from django.conf import set</div>
             <a href="/blog/categories/Django/">Django</a>&nbsp;
           &nbsp;
         
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/04/28/docker%E7%B3%BB%E5%88%97/">
-        <p class="h4 index-header">docker基础</p>
-      </a>
-
-      <a href="/blog/2020/04/28/docker%E7%B3%BB%E5%88%97/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">Docker
-仓库
-仓库分为公用仓库和私有仓库
-仓库用来存储镜像
-镜像
-镜像是从仓库里拉取的，
-镜像是一个静态的文件，
-容器
-镜像运行起来就是一个容器，一个容器打包起来就是一个自定义镜像4
-一、常用命令
-docker version
-docker info
-docker help
-
-二、镜像命令1. docker images
-功能： 列出本地主机上的镜像
-各个选项说明:
-
-REPOSITORY：表示镜像的仓库源
-TAG：镜像的标签
-IMAGE ID：镜像ID
-CREATED：镜像创建时间
-SIZE：镜像大小
-同一仓库源可以有多个 TAG，代表这个仓库源的不同个版本，我们使用 REPOSITO</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-28&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/docker/">docker</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/docker/">docker</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/04/25/hugo1/">
-        <p class="h4 index-header">用Hugo快速搭建个人静态博客</p>
-      </a>
-
-      <a href="/blog/2020/04/25/hugo1/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">
-Step 1. Install Hugo 下载、安装Hugo下载地址：https://github.com/spf13/hugo/releases。根据自己的操作系统，下载对应的安装包。我的操作系统是Win7 64bit， 选择了hugo_0.19_Windows-64bit.zip。                      
-下载完成之后，解压的文件夹包含以下3个文件：                      
-hugo_0.19_windows_amd64.exe
-LICENSE.md
-README.md将 hugo_0.19_windows_amd64.exe 重命名为hugo.e</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-25&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/hugo/">hugo</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/hugo/">hugo</a>&nbsp;
-          
         
       </div>
     </div>

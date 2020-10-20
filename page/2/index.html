@@ -148,6 +148,96 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/06/29/%E6%96%B0%E5%BC%8F%E7%B1%BB%EF%BC%8C%E7%BB%8F%E5%85%B8%E7%B1%BB/">
+        <p class="h4 index-header">新式类，经典类</p>
+      </a>
+
+      <a href="/blog/2020/06/29/%E6%96%B0%E5%BC%8F%E7%B1%BB%EF%BC%8C%E7%BB%8F%E5%85%B8%E7%B1%BB/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">在python2中，如果明确写了继承object，那么这个类就是新式类；如果没有写，那么就是旧式类（经典类）。
+在python3中，不管写没写object，这个类都是新式类。
+在调用顺序上:
+​                      新式类是广度优先 :C—B—D—A
+​                       旧式类是深度优先 :C—B—A—D
+
+</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-29&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Python/">Python</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Python/">Python</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/06/27/django%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/">
+        <p class="h4 index-header">阿里云短信服务</p>
+      </a>
+
+      <a href="/blog/2020/06/27/django%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">1、注册阿里云账号通过实名认证
+2、开通短信服务(开通免费)
+开通后可在控制台短信服务栏中查看
+
+3、创建Access Key,获取Access Key ID 和 Access Key Secret(具体看阿里云官方教程)
+Access Key用于在程序中调用阿里云的服务API，个人理解相当于账号密码，用于认证个人信息的(程序中会用到)。可以创建多个Access Key，但Access Key具体内容只能在创建初期查看，之后是无法查看的，因此需要及时下载到本地。
+4、创建短信签名和短信模板
+短信签名一般用于标记公司名或者是具体的业务，它会以下的形式出现在短信中：[短信签名] 短信内容….
+短信</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-27&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a href="/blog/2020/06/23/docker/">
         <p class="h4 index-header">什么是dockerfile</p>
       </a>
@@ -478,93 +568,6 @@ Redis不保证原子性：
           <i class="iconfont icon-tag"></i>
           
             <a href="/blog/tags/Redis/">Redis</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/06/17/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E5%BC%95%E6%93%8E/">
-        <p class="h4 index-header">mysql事务和引擎</p>
-      </a>
-
-      <a href="/blog/2020/06/17/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E5%BC%95%E6%93%8E/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">在MySQL数据库中，常用的引擎主要就是2个：Innodb和MyIASM。
-innodb
-Innodb引擎，Innodb引擎提供了对数据库ACID事务的支持。并且还提供了行级锁和外键的约束。它的设计的目标就是处理大数据容量的数据库系统
-MyIASM
-MyIASM引擎，它是MySql的默认引擎，但不提供事务的支持，也不支持行级锁和外键。因此当执行Insert插入和Update更新语句时，即执行写操作的时候需要锁定这个表。所以会导致效率会降低。不过和Innodb不同的是，MyIASM引擎是保存了表的行数，于是当进行Select count(*) from table语句时，可以直接的读取已经保存的</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-17&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/mysql/">mysql</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/mysql/">mysql</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/06/16/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%BB%8B%E7%BB%8D/">
-        <p class="h4 index-header">高并发介绍</p>
-      </a>
-
-      <a href="/blog/2020/06/16/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%BB%8B%E7%BB%8D/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">高并发介绍　高并发中一些概念
-　　1. PV(访问量)： 页面访问量，页面刷新一次算一次。
-　　2. UV(独立访客)： 即Unique Visitor，一个客户端（电脑，手机）为一个访客；
-　　3. DAU(日活跃用户数)：登录或使用了某个产品的用户数，这与流量统计工具里的访客（UV）概念相似。
-　　4. 峰值QPS：
-　　　　　原理：每天80%的访问集中在20%的时间里，这20%时间叫做峰值时间
-　　　　　公式：( 总PV数 * 80% ) / ( 每天秒数 * 20% ) = 峰值时间每秒请求数(QPS)
-　　5. QPS/TPS(每秒查询率)：每秒能够查询次数（QPS/TPS= 并发数</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-16&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
           
         
       </div>

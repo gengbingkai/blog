@@ -148,6 +148,83 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/10/20/Django%E5%BD%93%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E6%97%B6%EF%BC%8Corm%E8%B7%9F%E6%96%B0%E6%95%B0%E6%8D%AE/">
+        <p class="h4 index-header">Django当数据量大时，orm跟新数据</p>
+      </a>
+
+      <a href="/blog/2020/10/20/Django%E5%BD%93%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E6%97%B6%EF%BC%8Corm%E8%B7%9F%E6%96%B0%E6%95%B0%E6%8D%AE/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">遇到一个需求，给每个用户余额的清空很简单是吧，
+Users.objects.all().update(money=0)这样是可以实现的对吧
+但是我们的数据量大的时候，假如200万或500万条数据，或者更多的时候，我们执行这条语句，
+就很有可能，服务死掉，或者宕机，因为一次性修改太多数据量了
+所以，为了避免我们可以分批量的修改，假如我们一次性修改100条或1000条，这样压力会不会小点
+利用Django transaction进行事务管理的回滚机制
+def user_updae(
+    with transaction.atomic():
+        max_user_id = User.</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-10-20&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/10/20/python%E8%AF%BE%E5%A0%82/">
+        <p class="h4 index-header">python课堂</p>
+      </a>
+
+      <a href="/blog/2020/10/20/python%E8%AF%BE%E5%A0%82/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Python的小知识获取  list  里的某一个值a_list = [‘a’,’b’,’c’,’hello’]
+
+a_list.index(‘a’)   #返回a在列表中出现的位置
+a_list.index(‘a’,0,3)   #返回a在某个区间出现的位置
+a_list.count(‘a’) #返回a在列表中出现的次数
+
+dict的查找a_dict = {‘name’:’小小’,’age’:12}
+
+a_dict.get(‘name’)  #返回值
+a_dict[‘name’]   #返回值
+如果两个方式都拿不到值，.get(“”)返回None，[‘’]报错
+
+redis的list命令
+1</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-10-20&nbsp;&nbsp;
+        
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a href="/blog/2020/08/25/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/">
         <p class="h4 index-header">日记-每日更新</p>
       </a>
@@ -442,96 +519,6 @@ wflag =Fa</div>
           <i class="iconfont icon-tag"></i>
           
             <a href="/blog/tags/Python/">Python</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/06/29/%E6%96%B0%E5%BC%8F%E7%B1%BB%EF%BC%8C%E7%BB%8F%E5%85%B8%E7%B1%BB/">
-        <p class="h4 index-header">新式类，经典类</p>
-      </a>
-
-      <a href="/blog/2020/06/29/%E6%96%B0%E5%BC%8F%E7%B1%BB%EF%BC%8C%E7%BB%8F%E5%85%B8%E7%B1%BB/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">在python2中，如果明确写了继承object，那么这个类就是新式类；如果没有写，那么就是旧式类（经典类）。
-在python3中，不管写没写object，这个类都是新式类。
-在调用顺序上:
-​                      新式类是广度优先 :C—B—D—A
-​                       旧式类是深度优先 :C—B—A—D
-
-</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-29&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/Python/">Python</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/Python/">Python</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/06/27/django%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/">
-        <p class="h4 index-header">阿里云短信服务</p>
-      </a>
-
-      <a href="/blog/2020/06/27/django%E4%B8%AD%E4%BD%BF%E7%94%A8%E9%98%BF%E9%87%8C%E4%BA%91%E7%9F%AD%E4%BF%A1%E6%9C%8D%E5%8A%A1/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">1、注册阿里云账号通过实名认证
-2、开通短信服务(开通免费)
-开通后可在控制台短信服务栏中查看
-
-3、创建Access Key,获取Access Key ID 和 Access Key Secret(具体看阿里云官方教程)
-Access Key用于在程序中调用阿里云的服务API，个人理解相当于账号密码，用于认证个人信息的(程序中会用到)。可以创建多个Access Key，但Access Key具体内容只能在创建初期查看，之后是无法查看的，因此需要及时下载到本地。
-4、创建短信签名和短信模板
-短信签名一般用于标记公司名或者是具体的业务，它会以下的形式出现在短信中：[短信签名] 短信内容….
-短信</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
           
         
       </div>

@@ -4,6 +4,32 @@
   
   
   <entry>
+    <title>Django当数据量大时，orm跟新数据</title>
+    <link href="/blog/2020/10/20/Django%E5%BD%93%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E6%97%B6%EF%BC%8Corm%E8%B7%9F%E6%96%B0%E6%95%B0%E6%8D%AE/"/>
+    <url>/blog/2020/10/20/Django%E5%BD%93%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E6%97%B6%EF%BC%8Corm%E8%B7%9F%E6%96%B0%E6%95%B0%E6%8D%AE/</url>
+    
+    <content type="html"><![CDATA[<h3 id="遇到一个需求，给每个用户余额的清空"><a href="#遇到一个需求，给每个用户余额的清空" class="headerlink" title="遇到一个需求，给每个用户余额的清空"></a>遇到一个需求，给每个用户余额的清空</h3><p>很简单是吧，</p><pre><code>Users.objects.all().update(money=0)</code></pre><p>这样是可以实现的对吧</p><p>但是我们的数据量大的时候，假如200万或500万条数据，或者更多的时候，我们执行这条语句，</p><p>就很有可能，服务死掉，或者宕机，因为一次性修改太多数据量了</p><p>所以，为了避免我们可以分批量的修改，假如我们一次性修改100条或1000条，这样压力会不会小点</p><p>利用Django transaction进行事务管理的回滚机制</p><pre><code>def user_updae(    with transaction.atomic():        max_user_id = User.objects.order_by(&#39;-id&#39;).first().id        start_user_id, end_user_id = 1, 100        while start_user_id &lt;= max_user_id:            User.objects.filter(id__gte=start_user_id, id__lte=end_user_id).update(credit=0)            start_user_id += 100            end_user_id += 100)</code></pre><p>每执行100条提交一次</p>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
+    <title>python课堂</title>
+    <link href="/blog/2020/10/20/python%E8%AF%BE%E5%A0%82/"/>
+    <url>/blog/2020/10/20/python%E8%AF%BE%E5%A0%82/</url>
+    
+    <content type="html"><![CDATA[<h4 id="Python的小知识"><a href="#Python的小知识" class="headerlink" title="Python的小知识"></a>Python的小知识</h4><h5 id="获取-list-里的某一个值"><a href="#获取-list-里的某一个值" class="headerlink" title="获取  list  里的某一个值"></a>获取  list  里的某一个值</h5><p>a_list = [‘a’,’b’,’c’,’hello’]</p><blockquote><p>a_list.index(‘a’)   #返回a在列表中出现的位置</p><p>a_list.index(‘a’,0,3)   #返回a在某个区间出现的位置</p><p>a_list.count(‘a’) #返回a在列表中出现的次数</p></blockquote><h5 id="dict的查找"><a href="#dict的查找" class="headerlink" title="dict的查找"></a>dict的查找</h5><p>a_dict = {‘name’:’小小’,’age’:12}</p><blockquote><p>a_dict.get(‘name’)  #返回值</p><p>a_dict[‘name’]   #返回值</p><p>如果两个方式都拿不到值，.get(“”)返回None，[‘’]报错</p></blockquote><h5 id="redis的list命令"><a href="#redis的list命令" class="headerlink" title="redis的list命令"></a>redis的list命令</h5><blockquote><p>1.Lpush 命令将一个或多个值插入到列表头部。 如果 key 不存在，一个空列表会被创建并执行 LPUSH 操作。</p><p>2.Rpush 命令用于将一个或多个值插入到列表的尾部(最右边)。</p><p>3.Lindex 命令用于通过索引获取列表中的元素。列表中下标为指定索引值的元素。 如果指定索引值不在列表的区间范围内，返回 nil 。</p></blockquote><p>注：由于redis的命令较多  ，I 懒 <a href="https://www.redis.net.cn/order/3580.html" target="_blank" rel="noopener">https://www.redis.net.cn/order/3580.html</a></p><h5 id="redis设置过期时间"><a href="#redis设置过期时间" class="headerlink" title="redis设置过期时间"></a>redis设置过期时间</h5><blockquote><p>r.expire(‘key’, 10)   </p><p>设置10秒，10秒后将会失效<br>extime.strftime(‘%Y-%m-%d %H:%M:%S %f’)<br>r.expireat(‘key2’, extime)     </p><p>expireat设置一个具体的时间，15年9月8日15点19分10秒，过了这个时间，key2将失效</p></blockquote><h5 id="Python连接数据库流程"><a href="#Python连接数据库流程" class="headerlink" title="Python连接数据库流程"></a>Python连接数据库流程</h5><blockquote><p>1.导包 import pymysql.cursors</p><p>2.</p><pre><code># 连接数据库connect = pymysql.Connect(    host=&amp;#39;localhost&amp;#39;,    port=3310,    user=&amp;#39;woider&amp;#39;,    passwd=&amp;#39;3243&amp;#39;,    db=&amp;#39;python&amp;#39;,    charset=&amp;#39;utf8&amp;#39;)</code></pre><p>3.cursor = connect.cursor() #获取游标</p><p>4.sql = “INSERT INTO trade (name, account, saving) VALUES ( ‘%s’, ‘%s’, %.2f )” #sql语句</p><p>5.cursor.execute(sql % data) #游标执行</p><p>6.connect.commit() # 提交</p><p>7.cursor.close() #关闭游标</p><p>8.connect.close() #关闭连接</p></blockquote>]]></content>
+    
+    
+    
+  </entry>
+  
+  
+  
+  <entry>
     <title>日记-每日更新</title>
     <link href="/blog/2020/08/25/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/"/>
     <url>/blog/2020/08/25/%E6%97%A5%E8%AE%B0-%E6%AF%8F%E6%97%A5%E6%9B%B4%E6%96%B0/</url>
