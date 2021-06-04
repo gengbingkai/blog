@@ -209,6 +209,50 @@ SIZE：镜像大小
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/04/28/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%B2%99%E7%AE%B1/">
+        <p class="h4 index-header">支付宝沙箱----支付</p>
+      </a>
+
+      <a href="/blog/2020/04/28/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%B2%99%E7%AE%B1/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">三方支付需要去支付宝开放平台1 进入  控制台   创建沙箱应用
+
+然后 把公钥和秘钥都配置好
+把下面代码复制到项目里，
+配置路由，访问就好啊！
+
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from alipay import AliPay,DCAliPay,ISVAliPay
+# from django_test.settings import PUBLIC_KEY,PRIVATE_KEY
+import os
+from django.conf import set</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-28&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Django/">Django</a>&nbsp;
+          &nbsp;
+        
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a href="/blog/2020/04/25/hugo1/">
         <p class="h4 index-header">用Hugo快速搭建个人静态博客</p>
       </a>
@@ -529,47 +573,6 @@ from lxml import etree
 tree = etree。HTML(res.text)
 3.xpath定位节点，获取节点的属性或正文文本
 tag_attribute_text = tree.xpath(&#39;表达式&#39;)...</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-04-17&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/%E7%88%AC%E8%99%AB/">爬虫</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/%E7%88%AC%E8%99%AB/">爬虫</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/04/17/reptile/">
-        <p class="h4 index-header">什么是爬虫？</p>
-      </a>
-
-      <a href="/blog/2020/04/17/reptile/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">网络爬虫也叫做网络机器人，可以代替人们自动地在互联网中进行数据信息的采集与整理。在大数据时代，信息的采集是一项重要的工作，如果单纯靠人力进行信息采集，不仅低效繁琐，搜集的成本也会提高。
-此时，我们可以使用网络爬虫对数据信息进行自动采集，比如应用于搜索引擎中对站点进行爬取收录，应用于数据分析与挖掘中对数据进行采集，应用于金融分析中对金融数据进行采集，除此之外，还可以将网络爬虫应用于舆情监测与分析、目标客户数据的收集等各个领域。
-当然，要学习网络爬虫开发，首先需要认识网络爬虫，本文将带领大家一起认识几种典型的网络爬虫，并了解网络爬虫的各项常见功能。
-一、什么是网络爬虫随着大数据时代的来临，网络爬虫</div>
         </div>
       </a>
 

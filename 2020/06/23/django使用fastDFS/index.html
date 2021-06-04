@@ -171,7 +171,7 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <h1 id="django项目中使用FastDFS"><a href="#django项目中使用FastDFS" class="headerlink" title="django项目中使用FastDFS"></a>django项目中使用FastDFS</h1><h1 id="FastDFS客户端与自定义文件存储系统"><a href="#FastDFS客户端与自定义文件存储系统" class="headerlink" title="FastDFS客户端与自定义文件存储系统"></a>FastDFS客户端与自定义文件存储系统</h1><h2 id="1-FastDFS的Python客户端"><a href="#1-FastDFS的Python客户端" class="headerlink" title="1. FastDFS的Python客户端"></a>1. FastDFS的Python客户端</h2><p>python版本的FastDFS客户端使用说明参考<a href="https://github.com/jefforeilly/fdfs_client-py" target="_blank" rel="noopener">https://github.com/jefforeilly/fdfs_client-py</a></p>
+              <h1 id="django项目中使用FastDFS"><a href="#django项目中使用FastDFS" class="headerlink" title="django项目中使用FastDFS"></a>django项目中使用FastDFS</h1><h1 id="FastDFS客户端与自定义文件存储系统"><a href="#FastDFS客户端与自定义文件存储系统" class="headerlink" title="FastDFS客户端与自定义文件存储系统"></a>FastDFS客户端与自定义文件存储系统</h1><h2 id="1-FastDFS的Python客户端"><a href="#1-FastDFS的Python客户端" class="headerlink" title="1. FastDFS的Python客户端"></a>1. FastDFS的Python客户端</h2><p>python版本的FastDFS客户端使用说明参考<a href="https://github.com/jefforeilly/fdfs_client-py">https://github.com/jefforeilly/fdfs_client-py</a></p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装提供给大家的fdfs_client-py-master.zip到虚拟环境中</p>
 <pre><code>pip install fdfs_client-py-master.zippip install mutagenpip isntall requests</code></pre><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>使用FastDFS客户端，需要有配置文件。我们在meiduo_mall/utils目录下新建fastdfs目录，将提供给大家的client.conf配置文件放到这个目录中。</p>
 <p>需要修改一下client.conf配置文件</p>
@@ -185,7 +185,7 @@
 <p>自定义文件存储系统的方法如下：</p>
 <p>1）需要继承自<code>django.core.files.storage.Storage</code>，如</p>
 <pre><code>from django.core.files.storage import Storageclass FastDFSStorage(Storage):    ...</code></pre><p>2）支持Django不带任何参数来实例化存储类，也就是说任何设置都应该从django.conf.settings中获取</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code> 1 from django.conf import settings
  2 from django.core.files.storage import Storage
  3 
@@ -196,7 +196,7 @@
  8         self.base_url = base_url
  9         if client_conf is None:
 10             client_conf = settings.FDFS_CLIENT_CONF
-11         self.client_conf = client_conf</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+11         self.client_conf = client_conf</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code></code></pre><p>3）存储类中必须实现<code>_open()</code>和<code>_save()</code>方法，以及任何后续使用中可能用到的其他方法。</p>
 <ul>
 <li><p><code>_open(name, mode=&#39;rb&#39;)</code></p>
@@ -225,7 +225,7 @@
 </ul>
 <p>4）需要为存储类添加<code>django.utils.deconstruct.deconstructible</code>装饰器</p>
 <p>我们在meiduo_mall/utils/fastdfs目录中创建fdfs_storage.py文件，实现可以使用FastDFS存储文件的存储类如下</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code> from django.conf import settings
  from django.core.files.storage import Storage
  from django.utils.deconstruct import deconstructible
@@ -282,15 +282,15 @@
          :param name:  文件名
          :return: False
          &quot;&quot;&quot;
-         return False</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+         return False</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code></code></pre><h2 id="3-在Django配置中设置自定义文件存储类"><a href="#3-在Django配置中设置自定义文件存储类" class="headerlink" title="3. 在Django配置中设置自定义文件存储类"></a>3. 在Django配置中设置自定义文件存储类</h2><p>在settings/dev.py文件中添加设置</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code># django文件存储, 指定自定义的文件存储系统
 DEFAULT_FILE_STORAGE = &#39;meiduo_mall.utils.fastdfs.fdfs_storage.FastDFSStorage&#39;
 
 # FastDFS
 FDFS_URL = &#39;http://image.meiduo.site:8888/&#39;  
-FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <h2 id="4-添加image域名"><a href="#4-添加image域名" class="headerlink" title="4. 添加image域名"></a>4. 添加image域名</h2><p>在/etc/hosts中添加访问FastDFS storage服务器的域名</p>
 <pre><code>127.0.0.1   image.meiduo.site</code></pre>
             </div>

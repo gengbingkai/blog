@@ -148,6 +148,50 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/06/01/JWT%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/">
+        <p class="h4 index-header">什么是单点登陆？</p>
+      </a>
+
+      <a href="/blog/2020/06/01/JWT%E5%8D%95%E7%82%B9%E7%99%BB%E5%BD%95/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">什么是单点登陆？
+​        单点登录（Single Sign On），简称为 SSO。SSO的定义是在多个应用系统中，用户只需要登录一次就可以访问所有相互信任的应用系统。
+单点登陆如何解决
+redis作为缓存储存session信息（cookie/session）
+JWT来解决单点登陆
+
+基于cookie和session的单点登陆解决​        redis存储所有session_id。每次做session验证不再从本机对比session，而是将session放在redis里统一管理。无论那台服务器上存储的session都放在redis中。那么在判断的时候都以redis里的数据为准，</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-01&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/%E5%85%B6%E4%BB%96/">其他</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a href="/blog/2020/05/30/%E6%97%B6%E9%97%B4%EF%BC%8C%E7%A9%BA%E9%97%B4%E5%A4%8D%E6%9D%82%E5%BA%A6/">
         <p class="h4 index-header">时间，空间复杂度</p>
       </a>
@@ -561,60 +605,6 @@ Vue.use(BaiduMap, {
           <i class="iconfont icon-tag"></i>
           
             <a href="/blog/tags/Vue/">Vue</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/05/27/python%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95.%E7%B1%BB%E6%96%B9%E6%B3%95/">
-        <p class="h4 index-header">Python静态方法，类方法</p>
-      </a>
-
-      <a href="/blog/2020/05/27/python%E9%9D%99%E6%80%81%E6%96%B9%E6%B3%95.%E7%B1%BB%E6%96%B9%E6%B3%95/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">首先我们先代码示例
-class A:  #先定义一个类
-    a = 1  #类的属性  全局
-    def __init__(self):
-        self.b = 1  #示例属性
-    #静态方法
-    # @staticmethod
-    # def func():
-    #     print(&#39;这是一个静态方法&#39;)
-
-    #类方法
-    # @classmethod
-    # def func(cls):
-    #     #  cls-&gt;A   cls这个实例指向A
-    #     cls.a = 2   对a重新赋值
-
- </div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-05-27&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/Python/">Python</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/Python/">Python</a>&nbsp;
           
         
       </div>

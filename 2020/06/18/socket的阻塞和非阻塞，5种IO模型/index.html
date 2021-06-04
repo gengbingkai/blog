@@ -187,24 +187,24 @@
 <p><strong>1.阻塞I/O模型：</strong></p>
 <p>  简介：进程会一直阻塞，直到数据拷贝完成</p>
 <p>​     应用程序调用一个IO函数，导致应用程序阻塞，等待数据准备好。 如果数据没有准备好，一直等待….数据准备好了，从内核拷贝到用户空间,IO函数返回成功指示。</p>
-<p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200617170018529-365239351.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200617170018529-365239351.png" srcset="/blog/img/loading.gif" alt=""></p>
 <p>​    <font color='red'> 当调用recv()函数时，系统首先查是否有准备好的数据。如果数据没有准备好，那么系统就处于等待状态。当数据准备好后，将数据从系统缓冲区复制到用户空间，然后该函数返回。在套接应用程序中，当调用recv()函数时，未必用户空间就已经存在数据，那么此时recv()函数就会处于等待状态。</font></p>
 <p><strong>非阻塞IO模型</strong></p>
 <p>   简介：非阻塞IO通过进程反复调用IO函数（多次系统调用，并马上返回）；在数据拷贝的过程中，进程是阻塞的；</p>
 <p>我们把一个SOCKET接口设置为非阻塞就是告诉内核，当所请求的I/O操作无法完成时，不要将进程睡眠，而是返回一个错误。这样我们的I/O操作函数将不断的测试数据是否已经准备好，如果没有准备好，继续测试，直到数据准备好为止。在这个不断测试的过程中，会大量的占用CPU的时间。</p>
-<p><img src="/img/socket2.jpg" srcset="/img/loading.gif" alt="hexo_themes"></p>
+<p><img src="/img/socket2.jpg" srcset="/blog/img/loading.gif" alt="hexo_themes"></p>
 <p><strong>IO复用模型：</strong><br>             简介：主要是select和epoll；对一个IO端口，两次调用，两次返回，比阻塞IO并没有什么优越性；关键是能实现同时对多个IO端口进行监听；</p>
-<p><img src="https://img-blog.csdn.net/20160410110100128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20160410110100128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>  I/O复用模型会用到select、poll、epoll函数，这几个函数也会使进程阻塞，但是和阻塞I/O所不同的的，这两个函数可以同时阻塞多个I/O操作。而且可以同时对多个读操作，多个写操作的I/O函数进行检测，直到有数据可读或可写时，才真正调用I/O操作函数。</p>
 <p><strong>信号驱动IO</strong><br>    简介：两次调用，两次返回；</p>
 <p>首先我们允许套接口进行信号驱动I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。</p>
-<p><img src="https://img-blog.csdn.net/20160410110102941?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20160410110102941?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/blog/img/loading.gif" alt="img"></p>
 <p><strong>异步IO模型</strong><br>         简介：数据拷贝的时候进程无需阻塞。</p>
 <p> 当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者的输入输出操作</p>
-<p><img src="https://img-blog.csdn.net/20160410110105847?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20160410110105847?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>同步IO引起进程阻塞，直至IO操作完成。<br>异步IO不会引起进程阻塞。<br>IO复用是先通过select调用阻塞。</p>
 <p>5个I/O模型的比较：</p>
-<p><img src="https://img-my.csdn.net/uploads/201204/12/1334216724_2405.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-my.csdn.net/uploads/201204/12/1334216724_2405.jpg" srcset="/blog/img/loading.gif" alt="img"></p>
 <p><strong>select</strong></p>
 <p>它仅仅知道了，有I/O事件发生了，却并不知道是哪那几个流（可能有一个，多个，甚至全部），我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，对他们进行操作。所以<strong>select具有O(n)的无差别轮询复杂度</strong>，同时处理的流越多，无差别轮询时间就越长。</p>
 <p><strong>poll</strong></p>

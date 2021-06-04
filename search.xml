@@ -1,6 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Python 3.10.0</title>
+    <url>/blog/2021/06/04/C%E9%87%8CC%E6%B0%94%E7%9A%84Python/</url>
+    <content><![CDATA[<p>Python 3.10.0 是 Python 的下一个次要版本，预计将于 2021 年 10 月 4 日发布。</p>
+<p>这次更新将为核心语法带来一个重要的补充：<strong>结构模式匹配</strong></p>
+<p>这种结构模式匹配为 Python添加了一种<code>switch</code>语句</p>
+<pre><code class="python">match var:
+    case ...:
+        pass</code></pre>
+<p>在大数多数庞大的项目中，如果使用大量多重if…elif，随着判断层次的加深，那么对于程序的性能影响也将越来越严重</p>
+<p>所以此时使用switch会更加合适，因为switch是随机访问的，当确定了选择值之后将会直接跳转到那个特定的分支，if…else则是遍历所有的可能值，直到找到符合条件的分支；</p>
+<p>如此看来，switch的效率确实比ifelse要高的多。</p>
+<p>以PEP 635 中的示例为例。假设您需要检查一个对象x是否是一个包含套接字连接的主机和端口信息的元组，以及可选的模式，如 HTTP 或 HTTPS。你可以用if… elif…else写这样的东西：</p>
+<pre><code class="python">if isinstance(x, tuple) and len(x) == 2:
+    host, port = x
+    mode = &quot;http&quot;
+elif isinstance(x, tuple) and len(x) == 3:
+    host, port, mode = x
+else:
+    ...</code></pre>
+<p>Python 的新结构模式匹配允许您使用<strong><code>match</code></strong>语句更干净地编写它</p>
+<pre><code class="python">match x:
+    case host, port:
+        mode = &quot;http&quot;
+    case host, port, mode:
+        pass</code></pre>
+<p><code>match</code>语句检查对象是否符合情况之一，并将对象中的数据绑定到<code>case</code>表达式中的变量名</p>
+<p>但是并不是每个人都对模式匹配感到兴奋，而且该功能受到了核心开发团队和社区的批评</p>
+<p>在接受公告中，指导委员会承认了这些担忧，同时也表达了他们对该提案的支持</p>
+<p>我们承认模式匹配是对 Python 的广泛改变，几乎不可能在整个社区中达成共识。不同的人对语义和句法的不同方面有保留或担忧（指导委员会也是如此）。尽管如此，经过深思熟虑，……我们相信 PEP 634 等人中指定的模式匹配将成为 Python 语言的重要补充</p>
+<p>尽管意见分歧，但模式匹配是未来下一个Python的版本</p>
+<p>转载：某大佬（）</p>
+]]></content>
+  </entry>
+  <entry>
     <title>Django当数据量大时，orm跟新数据</title>
     <url>/blog/2020/10/20/Django%E5%BD%93%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E6%97%B6%EF%BC%8Corm%E8%B7%9F%E6%96%B0%E6%95%B0%E6%8D%AE/</url>
     <content><![CDATA[<h3 id="遇到一个需求，给每个用户余额的清空"><a href="#遇到一个需求，给每个用户余额的清空" class="headerlink" title="遇到一个需求，给每个用户余额的清空"></a>遇到一个需求，给每个用户余额的清空</h3><p>很简单是吧，</p>
@@ -454,7 +488,7 @@ fi.close()
 <p>在调用顺序上:</p>
 <p>​                      新式类是广度优先 :C—B—D—A</p>
 <p>​                       旧式类是深度优先 :C—B—A—D</p>
-<p><img src="https:////upload-images.jianshu.io/upload_images/11613745-1bc1b4f522a1d20f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/329/format/webp" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https:////upload-images.jianshu.io/upload_images/11613745-1bc1b4f522a1d20f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/329/format/webp" srcset="/blog/img/loading.gif" alt="img"></p>
 ]]></content>
       <categories>
         <category>Python</category>
@@ -469,15 +503,15 @@ fi.close()
     <content><![CDATA[<p>1、注册阿里云账号通过实名认证</p>
 <p>2、开通短信服务(开通免费)</p>
 <p>开通后可在控制台短信服务栏中查看</p>
-<p><img src="https://img-blog.csdn.net/20180519111900954?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180519111900954?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>3、创建Access Key,获取Access Key ID 和 Access Key Secret(具体看阿里云官方教程)</p>
 <p>Access Key用于在程序中调用阿里云的服务API，个人理解相当于账号密码，用于认证个人信息的(程序中会用到)。可以创建多个Access Key，但Access Key具体内容只能在创建初期查看，之后是无法查看的，因此需要及时下载到本地。</p>
 <p>4、创建短信签名和短信模板</p>
 <pre><code>短信签名一般用于标记公司名或者是具体的业务，它会以下的形式出现在短信中：</code></pre><p>[短信签名] 短信内容….</p>
 <pre><code>短信模板描述了短信的具体内容，可以提供变量来替代具体的数据，程序中会以JSON的形式向短信模板提供变量。</code></pre><p>注意：短信签名和短信模板创建后都需要通过审核，审核一般在几个小时内就能完成。</p>
-<p><img src="https://img-blog.csdn.net/20180519113759843?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20180519113759843?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>短信模板中的”模板CODE”在程序中会被使用到，通过模板CODE来明确使用哪一个模板。</p>
-<p><img src="https://img-blog.csdn.net/2018051911403310?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/2018051911403310?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L1NvbWVvbmVNSA==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>5、项目中阿里云短信服务三方包，Python3.X</p>
 ]]></content>
       <categories>
@@ -500,8 +534,8 @@ fi.close()
 <h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><h3 id="什么是docker"><a href="#什么是docker" class="headerlink" title="什么是docker?"></a>什么是docker?</h3><p>​        Docker 是一个<a href="https://baike.baidu.com/item/开源/246339" target="_blank" rel="noopener">开源</a>的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 <a href="https://baike.baidu.com/item/Linux" target="_blank" rel="noopener">Linux</a>或<a href="https://baike.baidu.com/item/Windows/165458" target="_blank" rel="noopener">Windows</a> 机器上，也可以实现<a href="https://baike.baidu.com/item/虚拟化/547949" target="_blank" rel="noopener">虚拟化</a>。容器是完全使用<a href="https://baike.baidu.com/item/沙箱/393318" target="_blank" rel="noopener">沙箱</a>机制，相互之间不会有任何接口。</p>
 <h3 id="docker和虚拟机的对比"><a href="#docker和虚拟机的对比" class="headerlink" title="docker和虚拟机的对比"></a>docker和虚拟机的对比</h3><p>一个容器中运行原生Linux和共享主机与其它容器的内核，它运行一个独立的进程，不占用任何其它可执行文件的内存，使其轻量化。</p>
 <p>相比之下，虚拟机(VM)运行一个完整的“客户”操作系统，通过虚拟机管理程序虚拟访问主机资源。一般来说，虚拟机提供的环境比大多数应用程序需要的资源多。</p>
-<p><img src="./pic/docke%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%9A%94%E7%A6%BB%E5%AF%B9%E6%AF%94.png" srcset="/img/loading.gif" alt="docke和虚拟机的隔离对比"></p>
-<p><img src="./pic/docker%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%AF%94%E8%BE%83.png" srcset="/img/loading.gif" alt="docker和虚拟机的比较"></p>
+<p><img src="./pic/docke%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%9A%94%E7%A6%BB%E5%AF%B9%E6%AF%94.png" srcset="/blog/img/loading.gif" alt="docke和虚拟机的隔离对比"></p>
+<p><img src="./pic/docker%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%AF%94%E8%BE%83.png" srcset="/blog/img/loading.gif" alt="docker和虚拟机的比较"></p>
 <h3 id="docker的使用环境？"><a href="#docker的使用环境？" class="headerlink" title="docker的使用环境？"></a>docker的使用环境？</h3><ul>
 <li>应用程序打包和发布</li>
 <li>应用程序隔离</li>
@@ -553,13 +587,13 @@ Docker镜像是一个特殊的文件系统，除了提供容器运行时所需�
 <li>仓库分为公开仓库（Public）和私有仓库（Private）两种形式</li>
 </ul>
 <h3 id="关于镜像和容器的命令"><a href="#关于镜像和容器的命令" class="headerlink" title="关于镜像和容器的命令"></a>关于镜像和容器的命令</h3><p><strong>镜像管理命令</strong></p>
-<p><img src="./pic/%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="镜像命令"></p>
+<p><img src="./pic/%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4.png" srcset="/blog/img/loading.gif" alt="镜像命令"></p>
 <p><strong>容器管理命令</strong></p>
-<p><img src="./pic/%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="容器管理命令"></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4.png" srcset="/blog/img/loading.gif" alt="容器管理命令"></p>
 <p><strong>容器管理命令参数</strong></p>
-<p><img src="./pic/%E5%AE%B9%E5%99%A8%E5%8F%82%E6%95%B0.png" srcset="/img/loading.gif" alt="容器参数"></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E5%8F%82%E6%95%B0.png" srcset="/blog/img/loading.gif" alt="容器参数"></p>
 <p><strong>容器管理资源限制命令</strong></p>
-<p><img src="./pic/%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6.png" srcset="/img/loading.gif" alt="容器资源限制"></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6.png" srcset="/blog/img/loading.gif" alt="容器资源限制"></p>
 <p>示例:<br>　　　　内存限额:<br>　　　　允许容器最多使用500M内存和100M的Swap，并禁用 OOM Killer:<br>　　　　docker run -d –name nginx03 –memory=”500m” –memory-swap=“600m” –oom-kill-disable nginx</p>
 <p>　　　　CPU限额:</p>
 <p>　　　　允许容器最多使用一个半的CPU:<br>　　　　run -d –name nginx04 –cpus=”1.5” nginx 允许容器最多使用50%的CPU:<br>　　　　docker run -d –name nginx05 –cpus=”.5” </p>
@@ -778,7 +812,7 @@ CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]   #容器启动
 <li>docker compose就是一个可以同时管理一个项目中的多个docker容器的工具，一键部署启动</li>
 </ol>
 <h3 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker compose"></a><strong>安装docker compose</strong></h3><p>　<strong>1、法1：下载 并安装docker compose</strong></p>
-<p>　　　　curl -L <a href="https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname" target="_blank" rel="noopener">https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname</a> -s<code>-</code>uname -m` -o /usr/local/bin/docker-compose<br>　　　　chmod +x /usr/local/bin/docker-compose</p>
+<p>　　　　curl -L <a href="https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname">https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname</a> -s<code>-</code>uname -m` -o /usr/local/bin/docker-compose<br>　　　　chmod +x /usr/local/bin/docker-compose</p>
 <p> 　　　　或者</p>
 <p>　　　　pip install docker-compose</p>
 <p>　<strong>2、法2：直接解压安装</strong></p>
@@ -789,8 +823,8 @@ CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]   #容器启动
 <p>　　　YAML是一种标记语言很直观的数据序列化格式，可读性高。类似于XML数据描述语言，语法比XML简单的很多。</p>
 <p>　　　YAML数据结构通过缩进来表示，连续的项目通过减号来表示，键值对用冒号分隔，数组用中括号括起来，hash用花括号括起来。</p>
 <p>　　　<strong>YAML文件格式注意事项：</strong><br>　　　　　1.不支持制表符tab键缩进，需要使用空格缩进<br>　　　　　2.通常开头缩进2个空格<br>　　　　　3.字符后缩进1个空格，如冒号、逗号、横杆<br>　　　　　4.用井号注释<br>　　　　　5.如果包含特殊字符用单引号引起来<br>　　　　　6.布尔值（true、false、yes、no、on、off）必须用引号括起来，这样分析器会将他们解释为字符串。</p>
-<h3 id="compose-配置常用字段"><a href="#compose-配置常用字段" class="headerlink" title="compose 配置常用字段"></a><strong>compose 配置常用字段</strong></h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5.png" srcset="/img/loading.gif" alt="img"></p>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="img"></p>
+<h3 id="compose-配置常用字段"><a href="#compose-配置常用字段" class="headerlink" title="compose 配置常用字段"></a><strong>compose 配置常用字段</strong></h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5.png" srcset="/blog/img/loading.gif" alt="img"></p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png" srcset="/blog/img/loading.gif" alt="img"></p>
 <h3 id="命令举例"><a href="#命令举例" class="headerlink" title="命令举例"></a>命令举例</h3><pre><code class="python">&#39;&#39;&#39;1.docker-compose常用命令&#39;&#39;&#39;
 docker-compose -f docker-compose.yml  up -d    # 启动docker-compose管理的所有容器
 docker-compose ps                               # 列出 Compose 应用中的各个容器,类似docker ps
@@ -939,7 +973,7 @@ services:                          # 顶级配置文件
   <entry>
     <title>django项目中使用FastDFS</title>
     <url>/blog/2020/06/23/django%E4%BD%BF%E7%94%A8fastDFS/</url>
-    <content><![CDATA[<h1 id="django项目中使用FastDFS"><a href="#django项目中使用FastDFS" class="headerlink" title="django项目中使用FastDFS"></a>django项目中使用FastDFS</h1><h1 id="FastDFS客户端与自定义文件存储系统"><a href="#FastDFS客户端与自定义文件存储系统" class="headerlink" title="FastDFS客户端与自定义文件存储系统"></a>FastDFS客户端与自定义文件存储系统</h1><h2 id="1-FastDFS的Python客户端"><a href="#1-FastDFS的Python客户端" class="headerlink" title="1. FastDFS的Python客户端"></a>1. FastDFS的Python客户端</h2><p>python版本的FastDFS客户端使用说明参考<a href="https://github.com/jefforeilly/fdfs_client-py" target="_blank" rel="noopener">https://github.com/jefforeilly/fdfs_client-py</a></p>
+    <content><![CDATA[<h1 id="django项目中使用FastDFS"><a href="#django项目中使用FastDFS" class="headerlink" title="django项目中使用FastDFS"></a>django项目中使用FastDFS</h1><h1 id="FastDFS客户端与自定义文件存储系统"><a href="#FastDFS客户端与自定义文件存储系统" class="headerlink" title="FastDFS客户端与自定义文件存储系统"></a>FastDFS客户端与自定义文件存储系统</h1><h2 id="1-FastDFS的Python客户端"><a href="#1-FastDFS的Python客户端" class="headerlink" title="1. FastDFS的Python客户端"></a>1. FastDFS的Python客户端</h2><p>python版本的FastDFS客户端使用说明参考<a href="https://github.com/jefforeilly/fdfs_client-py">https://github.com/jefforeilly/fdfs_client-py</a></p>
 <h3 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h3><p>安装提供给大家的fdfs_client-py-master.zip到虚拟环境中</p>
 <pre><code>pip install fdfs_client-py-master.zippip install mutagenpip isntall requests</code></pre><h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><p>使用FastDFS客户端，需要有配置文件。我们在meiduo_mall/utils目录下新建fastdfs目录，将提供给大家的client.conf配置文件放到这个目录中。</p>
 <p>需要修改一下client.conf配置文件</p>
@@ -953,7 +987,7 @@ services:                          # 顶级配置文件
 <p>自定义文件存储系统的方法如下：</p>
 <p>1）需要继承自<code>django.core.files.storage.Storage</code>，如</p>
 <pre><code>from django.core.files.storage import Storageclass FastDFSStorage(Storage):    ...</code></pre><p>2）支持Django不带任何参数来实例化存储类，也就是说任何设置都应该从django.conf.settings中获取</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code> 1 from django.conf import settings
  2 from django.core.files.storage import Storage
  3 
@@ -964,7 +998,7 @@ services:                          # 顶级配置文件
  8         self.base_url = base_url
  9         if client_conf is None:
 10             client_conf = settings.FDFS_CLIENT_CONF
-11         self.client_conf = client_conf</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+11         self.client_conf = client_conf</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code></code></pre><p>3）存储类中必须实现<code>_open()</code>和<code>_save()</code>方法，以及任何后续使用中可能用到的其他方法。</p>
 <ul>
 <li><p><code>_open(name, mode=&#39;rb&#39;)</code></p>
@@ -993,7 +1027,7 @@ services:                          # 顶级配置文件
 </ul>
 <p>4）需要为存储类添加<code>django.utils.deconstruct.deconstructible</code>装饰器</p>
 <p>我们在meiduo_mall/utils/fastdfs目录中创建fdfs_storage.py文件，实现可以使用FastDFS存储文件的存储类如下</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code> from django.conf import settings
  from django.core.files.storage import Storage
  from django.utils.deconstruct import deconstructible
@@ -1050,15 +1084,15 @@ services:                          # 顶级配置文件
          :param name:  文件名
          :return: False
          &quot;&quot;&quot;
-         return False</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+         return False</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code></code></pre><h2 id="3-在Django配置中设置自定义文件存储类"><a href="#3-在Django配置中设置自定义文件存储类" class="headerlink" title="3. 在Django配置中设置自定义文件存储类"></a>3. 在Django配置中设置自定义文件存储类</h2><p>在settings/dev.py文件中添加设置</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code># django文件存储, 指定自定义的文件存储系统
 DEFAULT_FILE_STORAGE = &#39;meiduo_mall.utils.fastdfs.fdfs_storage.FastDFSStorage&#39;
 
 # FastDFS
 FDFS_URL = &#39;http://image.meiduo.site:8888/&#39;  
-FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <h2 id="4-添加image域名"><a href="#4-添加image域名" class="headerlink" title="4. 添加image域名"></a>4. 添加image域名</h2><p>在/etc/hosts中添加访问FastDFS storage服务器的域名</p>
 <pre><code>127.0.0.1   image.meiduo.site</code></pre>]]></content>
       <categories>
@@ -1080,7 +1114,7 @@ FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</
 <p>　　对于VUE的router[mode: history]模式在开发的时候，一般都不出问题。是因为开发时用的服务器为node，Dev环境中自然已配置好了。</p>
 <p>　　但对于放到nginx下运行的时候，自然还会有其他注意的地方。总结如下：</p>
 <p>　　在nginx里配置了以下配置后， 可能首页没有问题，但链接其他会出现（404）</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>　　　　location / {
             root   D:\Test\exprice\dist;
             index  index.html index.htm;
@@ -1093,7 +1127,7 @@ FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</
 
         location ^~/api/ {
             proxy_pass   http://39.105.109.245:8080/;
-        }</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+        }</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　为了解决404，需要通过以下两种方式：</p>
 <p>　　1、官网推荐</p>
 <pre><code>location / {
@@ -1131,24 +1165,24 @@ FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</
 <p><strong>1.阻塞I/O模型：</strong></p>
 <p>  简介：进程会一直阻塞，直到数据拷贝完成</p>
 <p>​     应用程序调用一个IO函数，导致应用程序阻塞，等待数据准备好。 如果数据没有准备好，一直等待….数据准备好了，从内核拷贝到用户空间,IO函数返回成功指示。</p>
-<p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200617170018529-365239351.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200617170018529-365239351.png" srcset="/blog/img/loading.gif" alt=""></p>
 <p>​    <font color='red'> 当调用recv()函数时，系统首先查是否有准备好的数据。如果数据没有准备好，那么系统就处于等待状态。当数据准备好后，将数据从系统缓冲区复制到用户空间，然后该函数返回。在套接应用程序中，当调用recv()函数时，未必用户空间就已经存在数据，那么此时recv()函数就会处于等待状态。</font></p>
 <p><strong>非阻塞IO模型</strong></p>
 <p>   简介：非阻塞IO通过进程反复调用IO函数（多次系统调用，并马上返回）；在数据拷贝的过程中，进程是阻塞的；</p>
 <p>我们把一个SOCKET接口设置为非阻塞就是告诉内核，当所请求的I/O操作无法完成时，不要将进程睡眠，而是返回一个错误。这样我们的I/O操作函数将不断的测试数据是否已经准备好，如果没有准备好，继续测试，直到数据准备好为止。在这个不断测试的过程中，会大量的占用CPU的时间。</p>
-<p><img src="/img/socket2.jpg" srcset="/img/loading.gif" alt="hexo_themes"></p>
+<p><img src="/img/socket2.jpg" srcset="/blog/img/loading.gif" alt="hexo_themes"></p>
 <p><strong>IO复用模型：</strong><br>             简介：主要是select和epoll；对一个IO端口，两次调用，两次返回，比阻塞IO并没有什么优越性；关键是能实现同时对多个IO端口进行监听；</p>
-<p><img src="https://img-blog.csdn.net/20160410110100128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20160410110100128?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>  I/O复用模型会用到select、poll、epoll函数，这几个函数也会使进程阻塞，但是和阻塞I/O所不同的的，这两个函数可以同时阻塞多个I/O操作。而且可以同时对多个读操作，多个写操作的I/O函数进行检测，直到有数据可读或可写时，才真正调用I/O操作函数。</p>
 <p><strong>信号驱动IO</strong><br>    简介：两次调用，两次返回；</p>
 <p>首先我们允许套接口进行信号驱动I/O,并安装一个信号处理函数，进程继续运行并不阻塞。当数据准备好时，进程会收到一个SIGIO信号，可以在信号处理函数中调用I/O操作函数处理数据。</p>
-<p><img src="https://img-blog.csdn.net/20160410110102941?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20160410110102941?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/blog/img/loading.gif" alt="img"></p>
 <p><strong>异步IO模型</strong><br>         简介：数据拷贝的时候进程无需阻塞。</p>
 <p> 当一个异步过程调用发出后，调用者不能立刻得到结果。实际处理这个调用的部件在完成后，通过状态、通知和回调来通知调用者的输入输出操作</p>
-<p><img src="https://img-blog.csdn.net/20160410110105847?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-blog.csdn.net/20160410110105847?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQv/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/Center" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>同步IO引起进程阻塞，直至IO操作完成。<br>异步IO不会引起进程阻塞。<br>IO复用是先通过select调用阻塞。</p>
 <p>5个I/O模型的比较：</p>
-<p><img src="https://img-my.csdn.net/uploads/201204/12/1334216724_2405.jpg" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img-my.csdn.net/uploads/201204/12/1334216724_2405.jpg" srcset="/blog/img/loading.gif" alt="img"></p>
 <p><strong>select</strong></p>
 <p>它仅仅知道了，有I/O事件发生了，却并不知道是哪那几个流（可能有一个，多个，甚至全部），我们只能无差别轮询所有流，找出能读出数据，或者写入数据的流，对他们进行操作。所以<strong>select具有O(n)的无差别轮询复杂度</strong>，同时处理的流越多，无差别轮询时间就越长。</p>
 <p><strong>poll</strong></p>
@@ -1336,7 +1370,7 @@ FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</
 <p>　　<strong>例2：</strong></p>
 <p>　　　　1. 每天200万PV，那么它的QPS = （2000000 * 0.8）/ （24<em>60</em>60*0.2）≈ 93</p>
 <p>　　　　2. 假设按照上面那样一台机器的QPS是50，那么抗住每天200万PV的访问量需要2台这样的机器</p>
-<h2 id="高并发各层级解决方案"><a href="#高并发各层级解决方案" class="headerlink" title="高并发各层级解决方案"></a>高并发各层级解决方案</h2><p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200615225707946-1280071087.png" srcset="/img/loading.gif" alt="img"></p>
+<h2 id="高并发各层级解决方案"><a href="#高并发各层级解决方案" class="headerlink" title="高并发各层级解决方案"></a>高并发各层级解决方案</h2><p><img src="https://img2020.cnblogs.com/blog/1394324/202006/1394324-20200615225707946-1280071087.png" srcset="/blog/img/loading.gif" alt="img"></p>
 ]]></content>
       <categories>
         <category>其他</category>
@@ -1349,7 +1383,7 @@ FDFS_CLIENT_CONF = os.path.join(BASE_DIR, &#39;utils/fastdfs/client.conf&#39;)</
     <title>nginx的负载均衡</title>
     <url>/blog/2020/06/16/nginx%E7%9A%84%E8%B4%9F%E8%BD%BD%E5%9D%87%E8%A1%A1/</url>
     <content><![CDATA[<p><strong>负载均衡（Load Balance），意思是将负载（工作任务，访问请求）进行平衡、分摊到多个操作单元（服务器，组件）上进行执行。是解决高性能，单点故障（高可用），扩展性（水平伸缩）的终极解决方案。</strong></p>
-<p><img src="https://img2018.cnblogs.com/blog/573911/201905/573911-20190528112846156-21585619.png" srcset="/img/loading.gif" alt="img"></p>
+<p><img src="https://img2018.cnblogs.com/blog/573911/201905/573911-20190528112846156-21585619.png" srcset="/blog/img/loading.gif" alt="img"></p>
 <p>​    </p>
 <h2 id="nginx负载均衡配置"><a href="#nginx负载均衡配置" class="headerlink" title="nginx负载均衡配置"></a>nginx负载均衡配置</h2><p>1、轮询（默认）<br>每个请求按时间顺序逐一分配到不同的后端服务器，如果后端服务器down掉，能自动剔除。</p>
 <p>upstream backserver {<br>    server 192.168.0.14;<br>    server 192.168.0.15;<br>}</p>
@@ -1383,7 +1417,7 @@ server {
 <h3 id="Keepalived高可用集群"><a href="#Keepalived高可用集群" class="headerlink" title="Keepalived高可用集群"></a>Keepalived高可用集群</h3><h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>Keepalived软件起初是专门为LVS负载均衡软件设计的用来管理并监控LVS集群系统中各个服务节点的状态，后来又加入了可以实现高可用的VRRP功能。因此，Keepalived除了能够管理LVS软件外，还可以作为其他服务的高可用解决方案软件。</p>
 <h4 id="Keepalived高可用故障切换转移原理"><a href="#Keepalived高可用故障切换转移原理" class="headerlink" title="Keepalived高可用故障切换转移原理"></a>Keepalived高可用故障切换转移原理</h4><p>Keepalived高可用故障切换，是通过VRRP虚拟路由器冗余协议来实现的。</p>
 <p>使用Keepalived有效提高了负载均衡的nginx的高可用性。</p>
-<p><img src="C:%5CUsers%5Cchina%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1592279098289.png" srcset="/img/loading.gif" alt="1592279098289"></p>
+<p><img src="C:%5CUsers%5Cchina%5CAppData%5CRoaming%5CTypora%5Ctypora-user-images%5C1592279098289.png" srcset="/blog/img/loading.gif" alt="1592279098289"></p>
 ]]></content>
   </entry>
   <entry>
@@ -2856,28 +2890,28 @@ configure_uploads(app, photos)</code></pre>
     <title>Nginx部署Django+contos安装python3</title>
     <url>/blog/2020/05/22/Nginx%E9%83%A8%E7%BD%B2Django+uwsgi/</url>
     <content><![CDATA[<p>　<strong>1、在centos 7中安装python3环境</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code># 1、yum更新yum源
 yum update
 # 2、安装Python 3.7所需的依赖否则安装后没有pip3包
 yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel libffi-devel gcc make
 # 3、在官网下载所需版本，这里用的是3.7.0版本，这个应该下不了，去官网找一个，就好。
-wget https://www.python.org/ftp/3.7.0/Python-3.7.0.tgz</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" srcset="/img/loading.gif" alt="img"> <strong>2、安装Python</strong></p>
+wget https://www.python.org/ftp/3.7.0/Python-3.7.0.tgz</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" srcset="/blog/img/loading.gif" alt="img"> <strong>2、安装Python</strong></p>
 <p>　　<strong>2、初始化一个django项目</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>[root@linux-node1 /]# pip3 install django==2.0.4
 [root@linux-node1 /]# mkdir /code/
 [root@linux-node1 /]# cd /code/
 [root@linux-node1 testProj]# django-admin startproject mmcsite
 [root@linux-node1 testProj]# cd /code/mmcsite
 [root@linux-node1 testProj]# python3 manage.py runserver 0.0.0.0:8000
-# 页面中访问：http://192.168.56.11:8000/</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+# 页面中访问：http://192.168.56.11:8000/</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　<strong>3、安装uwsgi 并使用uWSGI启动这个服务</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>&#39;&#39;&#39;1. 安装uwsgi&#39;&#39;&#39;
 [root@linux-node1 /]# pip3 install uwsgi
 [root@linux-node1 /]# ln -s /usr/local/python3/bin/uwsgi /usr/bin/uwsgi
@@ -2899,8 +2933,8 @@ enable-threads = true
 
 &#39;&#39;&#39;3. 使用uwsgi启动django：一定要在这个项目目录中&#39;&#39;&#39;
 [root@linux-node1 /]# uwsgi --http 192.168.56.11:80 --file mmcsite/wsgi.py --static-map=/static=static
-访问项目：http://192.168.56.11</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+访问项目：http://192.168.56.11</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>[root@linux-node2 demo2]# vim /code/mmcsite/uwsgi.ini  # uwsgi.ini文件
 [uwsgi]
 socket = 0.0.0.0:6789                  # 指定socket监听的地址和端口
@@ -2913,10 +2947,10 @@ daemonize = /code/mmcsite/uwsgi.log    # 日志存放路径
 module=mmcsite.wsgi                    # 使用mmcsite.wsgi模块
 pidfile = /code/mmcsite/uwsgi.pid      # uwsgi启动进程id存放路径
 chmod-socket=666                       # socket权限
-enable-threads = true                  # 允许用内嵌的语言启动线程，这将允许你在app程序中产生一个子线程</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+enable-threads = true                  # 允许用内嵌的语言启动线程，这将允许你在app程序中产生一个子线程</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　<strong>4、安装配置nginx</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>&#39;&#39;&#39;1. 配置nginx YUM源&#39;&#39;&#39;
 [root@linux-node1 /] vim /etc/yum.repos.d/nginx.repo
 ​```
@@ -2929,9 +2963,9 @@ gpgcheck=0
 enabled=1
 ​```
 &#39;&#39;&#39;2. 安装nginx&#39;&#39;&#39;
-[root@linux-node1 /] yum -y install nginx</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+[root@linux-node1 /] yum -y install nginx</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>[root@linux-node1 /]# vim /etc/nginx/conf.d/django.conf 
 server {
     listen 8001; #暴露给外部访问的端口 
@@ -2949,7 +2983,7 @@ server {
 
 
     include /etc/nginx/conf.d/*.conf;
-}</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+}</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　<strong>5、启动项目</strong></p>
 <pre><code>[root@linux-node1 demo2]# systemctl restart nginx   # 开启nginx
 [root@linux-node1 demo2]# uwsgi --ini uwsgi.ini     # 启动uwsgi的django项目
@@ -3337,6 +3371,155 @@ buffer-size=65535//设置请求的最大大小 (排除request-body)，这一般�
       <tags>
         <tag>Nginx</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>VUE部署阿里云contos7</title>
+    <url>/blog/2020/05/11/VUE%E9%83%A8%E7%BD%B2%E9%98%BF%E9%87%8C%E4%BA%91contos7/</url>
+    <content><![CDATA[<p>首先，说明我的版本</p>
+<p>windows 10系统</p>
+<p>阿里云的contos7</p>
+<p>下载nginx</p>
+<p>先版本一下命令</p>
+<pre><code>yum install nginx   #下载nginx到服务器</code></pre><blockquote>
+<p>yum remove nginx    #删除nginx</p>
+</blockquote>
+<pre><code>nginx
+启动
+systemctl start nginx
+停止
+systemctl stop nginx
+重启
+systemctl restart nginx</code></pre><p>我的连接远程服务器的应用是</p>
+<p>Xshell  和   Xftp6  </p>
+<p>Xshell用来连接</p>
+<p>Xftp6  用来传输文件</p>
+<p>把命令看完就是  VUE和nginx啦</p>
+<h4 id="如果页面不显示，说明路径有问题"><a href="#如果页面不显示，说明路径有问题" class="headerlink" title="如果页面不显示，说明路径有问题"></a>如果页面不显示，说明路径有问题</h4><p>打开在VUE项目的config/index.js文件里</p>
+<pre><code class="vue">  build: {
+    // Template for index.html
+    index: path.resolve(__dirname, &#39;../dist/index.html&#39;),
+
+    // Paths
+    assetsRoot: path.resolve(__dirname, &#39;../dist&#39;),
+    assetsSubDirectory: &#39;static&#39;,
+    assetsPublicPath: &#39;/&#39;,</code></pre>
+<p>找到这些代码，把assetsPublicPath: ‘/‘,这一行改为</p>
+<pre><code>assetsPublicPath: &#39;./&#39;,</code></pre><p>没错，就加了个点</p>
+<p>然后，再找到build/utils.js文件</p>
+<pre><code class="vue">    if (options.extract) {
+      return ExtractTextPlugin.extract({
+        use: loaders,
+        publicPath:&#39;../../&#39;,
+        fallback: &#39;vue-style-loader&#39;
+      })
+    } else {
+      return [&#39;vue-style-loader&#39;].concat(loaders)
+    }</code></pre>
+<p>找到这些，并修改，自己找找哪里不同？然后修改</p>
+<p>修改完VUE后就在项目文件下打包,执行下条命令</p>
+<blockquote>
+<p>npm run build</p>
+</blockquote>
+<p>完成后就会生成dist文件</p>
+<p>用Xftp  传输到服务器相应位置</p>
+<p>然后修改nginx</p>
+<p>找到/etc/nginx/nginx.conf文件,你会看到这些</p>
+<pre><code># For more information on configuration, see:
+#   * Official English Documentation: http://nginx.org/en/docs/
+#   * Official Russian Documentation: http://nginx.org/ru/docs/
+
+user nginx;
+worker_processes auto;
+error_log /var/log/nginx/error.log;
+pid /run/nginx.pid;
+
+# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
+include /usr/share/nginx/modules/*.conf;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
+                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
+                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
+
+    access_log  /var/log/nginx/access.log  main;
+
+    sendfile            on;
+    tcp_nopush          on;
+    tcp_nodelay         on;
+    keepalive_timeout   65;
+    types_hash_max_size 2048;
+
+    include             /etc/nginx/mime.types;
+    default_type        application/octet-stream;
+
+    # Load modular configuration files from the /etc/nginx/conf.d directory.
+    # See http://nginx.org/en/docs/ngx_core_module.html#include
+    # for more information.
+    include /etc/nginx/conf.d/*.conf;
+
+    server {
+        listen       80 default_server;
+        listen       [::]:80 default_server;
+        server_name  _;
+        root         /usr/share/nginx/html;
+
+        # Load configuration files for the default server block.
+        include /etc/nginx/default.d/*.conf;
+
+        location / {
+        }
+
+        error_page 404 /404.html;
+            location = /40x.html {
+        }
+
+        error_page 500 502 503 504 /50x.html;
+            location = /50x.html {
+        }
+    }
+
+# Settings for a TLS enabled server.
+#
+#    server {
+#        listen       443 ssl http2 default_server;
+#        listen       [::]:443 ssl http2 default_server;
+#        server_name  _;
+#        root         /usr/share/nginx/html;
+#
+#        ssl_certificate &quot;/etc/pki/nginx/server.crt&quot;;
+#        ssl_certificate_key &quot;/etc/pki/nginx/private/server.key&quot;;
+#        ssl_session_cache shared:SSL:1m;
+#        ssl_session_timeout  10m;
+#        ssl_ciphers HIGH:!aNULL:!MD5;
+#        ssl_prefer_server_ciphers on;
+#
+#        # Load configuration files for the default server block.
+#        include /etc/nginx/default.d/*.conf;
+#
+#        location / {
+#        }
+#
+#        error_page 404 /404.html;
+#            location = /40x.html {
+#        }
+#
+#        error_page 500 502 503 504 /50x.html;
+#            location = /50x.html {
+#        }
+#    }
+
+}
+
+</code></pre><blockquote>
+<p>root         /usr/share/nginx/html;         把root后面的路径改为dist存放的位置</p>
+</blockquote>
+<p>以上写的是80端口，如果你的80端口被使用了，就换一个端口</p>
+<p>然后根据最上面的命令重启一下，应该就可以了！！！</p>
+]]></content>
   </entry>
   <entry>
     <title>redis分布式锁</title>
@@ -3817,155 +4000,6 @@ http {
       </tags>
   </entry>
   <entry>
-    <title>VUE部署阿里云contos7</title>
-    <url>/blog/2020/05/11/VUE%E9%83%A8%E7%BD%B2%E9%98%BF%E9%87%8C%E4%BA%91contos7/</url>
-    <content><![CDATA[<p>首先，说明我的版本</p>
-<p>windows 10系统</p>
-<p>阿里云的contos7</p>
-<p>下载nginx</p>
-<p>先版本一下命令</p>
-<pre><code>yum install nginx   #下载nginx到服务器</code></pre><blockquote>
-<p>yum remove nginx    #删除nginx</p>
-</blockquote>
-<pre><code>nginx
-启动
-systemctl start nginx
-停止
-systemctl stop nginx
-重启
-systemctl restart nginx</code></pre><p>我的连接远程服务器的应用是</p>
-<p>Xshell  和   Xftp6  </p>
-<p>Xshell用来连接</p>
-<p>Xftp6  用来传输文件</p>
-<p>把命令看完就是  VUE和nginx啦</p>
-<h4 id="如果页面不显示，说明路径有问题"><a href="#如果页面不显示，说明路径有问题" class="headerlink" title="如果页面不显示，说明路径有问题"></a>如果页面不显示，说明路径有问题</h4><p>打开在VUE项目的config/index.js文件里</p>
-<pre><code class="vue">  build: {
-    // Template for index.html
-    index: path.resolve(__dirname, &#39;../dist/index.html&#39;),
-
-    // Paths
-    assetsRoot: path.resolve(__dirname, &#39;../dist&#39;),
-    assetsSubDirectory: &#39;static&#39;,
-    assetsPublicPath: &#39;/&#39;,</code></pre>
-<p>找到这些代码，把assetsPublicPath: ‘/‘,这一行改为</p>
-<pre><code>assetsPublicPath: &#39;./&#39;,</code></pre><p>没错，就加了个点</p>
-<p>然后，再找到build/utils.js文件</p>
-<pre><code class="vue">    if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        publicPath:&#39;../../&#39;,
-        fallback: &#39;vue-style-loader&#39;
-      })
-    } else {
-      return [&#39;vue-style-loader&#39;].concat(loaders)
-    }</code></pre>
-<p>找到这些，并修改，自己找找哪里不同？然后修改</p>
-<p>修改完VUE后就在项目文件下打包,执行下条命令</p>
-<blockquote>
-<p>npm run build</p>
-</blockquote>
-<p>完成后就会生成dist文件</p>
-<p>用Xftp  传输到服务器相应位置</p>
-<p>然后修改nginx</p>
-<p>找到/etc/nginx/nginx.conf文件,你会看到这些</p>
-<pre><code># For more information on configuration, see:
-#   * Official English Documentation: http://nginx.org/en/docs/
-#   * Official Russian Documentation: http://nginx.org/ru/docs/
-
-user nginx;
-worker_processes auto;
-error_log /var/log/nginx/error.log;
-pid /run/nginx.pid;
-
-# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
-include /usr/share/nginx/modules/*.conf;
-
-events {
-    worker_connections 1024;
-}
-
-http {
-    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
-                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
-                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
-
-    access_log  /var/log/nginx/access.log  main;
-
-    sendfile            on;
-    tcp_nopush          on;
-    tcp_nodelay         on;
-    keepalive_timeout   65;
-    types_hash_max_size 2048;
-
-    include             /etc/nginx/mime.types;
-    default_type        application/octet-stream;
-
-    # Load modular configuration files from the /etc/nginx/conf.d directory.
-    # See http://nginx.org/en/docs/ngx_core_module.html#include
-    # for more information.
-    include /etc/nginx/conf.d/*.conf;
-
-    server {
-        listen       80 default_server;
-        listen       [::]:80 default_server;
-        server_name  _;
-        root         /usr/share/nginx/html;
-
-        # Load configuration files for the default server block.
-        include /etc/nginx/default.d/*.conf;
-
-        location / {
-        }
-
-        error_page 404 /404.html;
-            location = /40x.html {
-        }
-
-        error_page 500 502 503 504 /50x.html;
-            location = /50x.html {
-        }
-    }
-
-# Settings for a TLS enabled server.
-#
-#    server {
-#        listen       443 ssl http2 default_server;
-#        listen       [::]:443 ssl http2 default_server;
-#        server_name  _;
-#        root         /usr/share/nginx/html;
-#
-#        ssl_certificate &quot;/etc/pki/nginx/server.crt&quot;;
-#        ssl_certificate_key &quot;/etc/pki/nginx/private/server.key&quot;;
-#        ssl_session_cache shared:SSL:1m;
-#        ssl_session_timeout  10m;
-#        ssl_ciphers HIGH:!aNULL:!MD5;
-#        ssl_prefer_server_ciphers on;
-#
-#        # Load configuration files for the default server block.
-#        include /etc/nginx/default.d/*.conf;
-#
-#        location / {
-#        }
-#
-#        error_page 404 /404.html;
-#            location = /40x.html {
-#        }
-#
-#        error_page 500 502 503 504 /50x.html;
-#            location = /50x.html {
-#        }
-#    }
-
-}
-
-</code></pre><blockquote>
-<p>root         /usr/share/nginx/html;         把root后面的路径改为dist存放的位置</p>
-</blockquote>
-<p>以上写的是80端口，如果你的80端口被使用了，就换一个端口</p>
-<p>然后根据最上面的命令重启一下，应该就可以了！！！</p>
-]]></content>
-  </entry>
-  <entry>
     <title>Webshell终端</title>
     <url>/blog/2020/05/09/WEbshell/</url>
     <content><![CDATA[<h2 id=""><a href="#" class="headerlink" title=""></a></h2><h4 id="Webshell"><a href="#Webshell" class="headerlink" title="Webshell"></a>Webshell</h4><p>“web”的含义是显然需要服务器开放web服务，“shell”的含义是取得对服务器某种程度上操作权限。webshell常常被称为通过网站端口对网站服务器的某种程度上操作的权限。</p>
@@ -4191,8 +4225,8 @@ class WebSSHService(WebsocketConsumer):
         <category>Django</category>
       </categories>
       <tags>
-        <tag>Vue</tag>
         <tag>Django</tag>
+        <tag>Vue</tag>
       </tags>
   </entry>
   <entry>
@@ -4297,7 +4331,7 @@ pip install django-celery</code></pre>
 <p><code>Rabbitmq</code>系统最核心的组件是<code>Exchange</code>和<code>Queue</code></p>
 <p><code>Exchange</code>和<code>Queue</code>是在<code>rabbitmq server</code>（又叫做<code>broker</code>）端，<code>producer</code>和<code>consumer</code>在应用端</p>
 </blockquote>
-<p><img src="/Users/lienze/Documents/%E8%AF%BE%E4%BB%B6/MD%E6%A0%BC%E5%BC%8F/%E5%A4%A7%E5%AE%9E%E8%AE%AD/1.%E7%BE%8E%E5%A4%9A%E5%95%86%E5%9F%8E-%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97/../%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/20160728150635559.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/Users/lienze/Documents/%E8%AF%BE%E4%BB%B6/MD%E6%A0%BC%E5%BC%8F/%E5%A4%A7%E5%AE%9E%E8%AE%AD/1.%E7%BE%8E%E5%A4%9A%E5%95%86%E5%9F%8E-%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97/../%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/20160728150635559.png" srcset="/blog/img/loading.gif" alt=""></p>
 <blockquote>
 <p>消息发送端先将消息发送给交换机，交换机再将消息发送到绑定的消息队列</p>
 <p>而后每个接收端(consumer)都能从各自的消息队列里接收到信息。</p>
@@ -4332,7 +4366,7 @@ pip install django-celery</code></pre>
 <h4 id="celery"><a href="#celery" class="headerlink" title="celery"></a>celery</h4><blockquote>
 <p>Celery是基于Python开发的一个分布式任务队列框架，支持使用任务队列的方式在分布的机器/进程/线程上执行任务调度</p>
 </blockquote>
-<p><img src="/Users/lienze/Documents/%E8%AF%BE%E4%BB%B6/MD%E6%A0%BC%E5%BC%8F/%E5%A4%A7%E5%AE%9E%E8%AE%AD/1.%E7%BE%8E%E5%A4%9A%E5%95%86%E5%9F%8E-%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97/../%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/20160702162151906.png" srcset="/img/loading.gif" alt=""></p>
+<p><img src="/Users/lienze/Documents/%E8%AF%BE%E4%BB%B6/MD%E6%A0%BC%E5%BC%8F/%E5%A4%A7%E5%AE%9E%E8%AE%AD/1.%E7%BE%8E%E5%A4%9A%E5%95%86%E5%9F%8E-%E7%94%A8%E6%88%B7%E6%A8%A1%E5%9D%97/../%E9%9D%99%E6%80%81%E8%B5%84%E6%BA%90/20160702162151906.png" srcset="/blog/img/loading.gif" alt=""></p>
 <blockquote>
 <p>Celery的架构，采用典型的生产者-消费者模式</p>
 <p>主要由三部分组成：broker（消息队列）、workers（消费者：处理任务）、backend（存储结果）</p>
@@ -4591,59 +4625,6 @@ export default {
       </categories>
   </entry>
   <entry>
-    <title>支付宝沙箱----支付</title>
-    <url>/blog/2020/04/28/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%B2%99%E7%AE%B1/</url>
-    <content><![CDATA[<h5 id="三方支付需要去支付宝开放平台"><a href="#三方支付需要去支付宝开放平台" class="headerlink" title="三方支付需要去支付宝开放平台"></a>三方支付需要去支付宝开放平台</h5><p>1 进入  控制台   创建沙箱应用</p>
-<p><img src="/img/ali.jpg" srcset="/img/loading.gif" alt="hexo_themes"></p>
-<p>然后 把公钥和秘钥都配置好</p>
-<p>把下面代码复制到项目里，</p>
-<p>配置路由，访问就好啊！</p>
-<pre><code>
-from rest_framework.response import Response
-from rest_framework.views import APIView
-from alipay import AliPay,DCAliPay,ISVAliPay
-# from django_test.settings import PUBLIC_KEY,PRIVATE_KEY
-import os
-from django.conf import settings
-app_private_key = open(os.path.join(settings.BASE_DIR,&quot;yaoshi&quot;,&quot;app_shiyao.txt&quot;)).read()
-alipay_public_key = open(os.path.join(settings.BASE_DIR,&quot;yaoshi&quot;,&quot;ali_gongyao.txt&quot;)).read()
-
-
-
-# print(app_private_key)
-alipay = AliPay(
-    appid=&quot;2016101600696307&quot;,
-    app_notify_url=&#39;http://127.0.0.1:8000/&#39;,  # 默认回调url
-    app_private_key_string=app_private_key,
-    # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
-    alipay_public_key_string=alipay_public_key,
-    sign_type=&quot;RSA2&quot; ,# RSA 或者 RSA2
-    debug=False , # 默认False
-)
-
-class PaymentView(APIView):
-    # 如果你是Python 2用户（考虑考虑升级到Python 3吧），请确保非ascii的字符串为utf8编码：
-    # subject = u&quot;测试订单&quot;.encode(&quot;utf8&quot;)
-    # 如果你是 Python 3的用户，使用默认的字符串即可
-    def post(self,requst):
-        subject = &quot;测试订单&quot;
-
-        # 电脑网站支付，需要跳转到https://openapi.alipay.com/gateway.do? + order_string
-        order_string = alipay.api_alipay_trade_page_pay(
-            out_trade_no=&quot;20161112222&quot;,
-            total_amount=0.01,
-            subject=subject,
-            return_url=&quot;http://127.0.0.1:8000/&quot;,
-            notify_url=&quot;http://127.0.0.1:8000/&quot;  # 可选, 不填则使用默认notify url
-        )
-        url = &#39;https://openapi.alipaydev.com/gateway.do?&#39;+order_string
-        # print(url)
-        return Response(url)</code></pre>]]></content>
-      <categories>
-        <category>Django</category>
-      </categories>
-  </entry>
-  <entry>
     <title>docker基础</title>
     <url>/blog/2020/04/28/docker%E7%B3%BB%E5%88%97/</url>
     <content><![CDATA[<p>Docker</p>
@@ -4825,10 +4806,63 @@ service nginx start
       </tags>
   </entry>
   <entry>
+    <title>支付宝沙箱----支付</title>
+    <url>/blog/2020/04/28/%E6%94%AF%E4%BB%98%E5%AE%9D%E6%B2%99%E7%AE%B1/</url>
+    <content><![CDATA[<h5 id="三方支付需要去支付宝开放平台"><a href="#三方支付需要去支付宝开放平台" class="headerlink" title="三方支付需要去支付宝开放平台"></a>三方支付需要去支付宝开放平台</h5><p>1 进入  控制台   创建沙箱应用</p>
+<p><img src="/img/ali.jpg" srcset="/blog/img/loading.gif" alt="hexo_themes"></p>
+<p>然后 把公钥和秘钥都配置好</p>
+<p>把下面代码复制到项目里，</p>
+<p>配置路由，访问就好啊！</p>
+<pre><code>
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from alipay import AliPay,DCAliPay,ISVAliPay
+# from django_test.settings import PUBLIC_KEY,PRIVATE_KEY
+import os
+from django.conf import settings
+app_private_key = open(os.path.join(settings.BASE_DIR,&quot;yaoshi&quot;,&quot;app_shiyao.txt&quot;)).read()
+alipay_public_key = open(os.path.join(settings.BASE_DIR,&quot;yaoshi&quot;,&quot;ali_gongyao.txt&quot;)).read()
+
+
+
+# print(app_private_key)
+alipay = AliPay(
+    appid=&quot;2016101600696307&quot;,
+    app_notify_url=&#39;http://127.0.0.1:8000/&#39;,  # 默认回调url
+    app_private_key_string=app_private_key,
+    # 支付宝的公钥，验证支付宝回传消息使用，不是你自己的公钥,
+    alipay_public_key_string=alipay_public_key,
+    sign_type=&quot;RSA2&quot; ,# RSA 或者 RSA2
+    debug=False , # 默认False
+)
+
+class PaymentView(APIView):
+    # 如果你是Python 2用户（考虑考虑升级到Python 3吧），请确保非ascii的字符串为utf8编码：
+    # subject = u&quot;测试订单&quot;.encode(&quot;utf8&quot;)
+    # 如果你是 Python 3的用户，使用默认的字符串即可
+    def post(self,requst):
+        subject = &quot;测试订单&quot;
+
+        # 电脑网站支付，需要跳转到https://openapi.alipay.com/gateway.do? + order_string
+        order_string = alipay.api_alipay_trade_page_pay(
+            out_trade_no=&quot;20161112222&quot;,
+            total_amount=0.01,
+            subject=subject,
+            return_url=&quot;http://127.0.0.1:8000/&quot;,
+            notify_url=&quot;http://127.0.0.1:8000/&quot;  # 可选, 不填则使用默认notify url
+        )
+        url = &#39;https://openapi.alipaydev.com/gateway.do?&#39;+order_string
+        # print(url)
+        return Response(url)</code></pre>]]></content>
+      <categories>
+        <category>Django</category>
+      </categories>
+  </entry>
+  <entry>
     <title>用Hugo快速搭建个人静态博客</title>
     <url>/blog/2020/04/25/hugo1/</url>
     <content><![CDATA[<a id="more"></a>
-<h2 id="Step-1-Install-Hugo-下载、安装Hugo"><a href="#Step-1-Install-Hugo-下载、安装Hugo" class="headerlink" title="Step 1. Install Hugo 下载、安装Hugo"></a>Step 1. Install Hugo 下载、安装Hugo</h2><p>下载地址：<a href="https://github.com/spf13/hugo/releases。" target="_blank" rel="noopener">https://github.com/spf13/hugo/releases。</a><br>根据自己的操作系统，下载对应的安装包。我的操作系统是Win7 64bit， 选择了hugo_0.19_Windows-64bit.zip。                      </p>
+<h2 id="Step-1-Install-Hugo-下载、安装Hugo"><a href="#Step-1-Install-Hugo-下载、安装Hugo" class="headerlink" title="Step 1. Install Hugo 下载、安装Hugo"></a>Step 1. Install Hugo 下载、安装Hugo</h2><p>下载地址：<a href="https://github.com/spf13/hugo/releases。">https://github.com/spf13/hugo/releases。</a><br>根据自己的操作系统，下载对应的安装包。我的操作系统是Win7 64bit， 选择了hugo_0.19_Windows-64bit.zip。                      </p>
 <p>下载完成之后，解压的文件夹包含以下3个文件：                      </p>
 <pre><code>hugo_0.19_windows_amd64.exe
 LICENSE.md
@@ -5047,7 +5081,7 @@ class User(models.Model):
     class Meta:
         db_table = &#39;user&#39;</code></pre><h2 id="三、迁移命令生成表"><a href="#三、迁移命令生成表" class="headerlink" title="三、迁移命令生成表"></a>三、迁移命令生成表</h2><p>在配置完mysql的配置项后，需要进入到项目的根目录，在终端上执行两个命令，生成数据库表<br>1、生成迁移文件<br><code>python manage.py makemigrations</code>           </p>
 <p>2、生成数据库表<br><code>python manage.py migrate</code>           </p>
-<p>3、进入Navicat查看数据库表<br><img src="/my_technology_blog/navicat.png" srcset="/my_blog/img/loading.gif" alt="数据库"></p>
+<p>3、进入Navicat查看数据库表<br><img src="/my_technology_blog/navicat.png" srcset="/blog/img/loading.gif" alt="数据库"></p>
 ]]></content>
       <categories>
         <category>django</category>
@@ -5064,7 +5098,7 @@ class User(models.Model):
 <h2 id="class绑定："><a href="#class绑定：" class="headerlink" title="class绑定："></a>class绑定：</h2><pre><code>&lt;div :class=&quot;{ active:isActive }&quot;&gt;动态添加class&lt;/div&gt;
 &lt;div :class=&quot;classObj&quot;&gt;class绑定对象&lt;/div&gt;
 &lt;div :class=&quot;classArray&quot;&gt;class绑定数组&lt;/div&gt;
-&lt;div :class=&quot;active:isActive&quot;&gt;class绑定计算，isActive是一个计算&lt;/div&gt;</code></pre><h2 id="条件渲染："><a href="#条件渲染：" class="headerlink" title="条件渲染："></a>条件渲染：</h2><p>v-if; v-else if; v-else;<br><img src="/my_technology_blog/if.png" srcset="/my_blog/img/loading.gif" alt=""></p>
+&lt;div :class=&quot;active:isActive&quot;&gt;class绑定计算，isActive是一个计算&lt;/div&gt;</code></pre><h2 id="条件渲染："><a href="#条件渲染：" class="headerlink" title="条件渲染："></a>条件渲染：</h2><p>v-if; v-else if; v-else;<br><img src="/my_technology_blog/if.png" srcset="/blog/img/loading.gif" alt=""></p>
 <h2 id="v-show可以做频繁重复性的显示-隐藏交替设置"><a href="#v-show可以做频繁重复性的显示-隐藏交替设置" class="headerlink" title="v-show可以做频繁重复性的显示/隐藏交替设置"></a>v-show可以做频繁重复性的显示/隐藏交替设置</h2><p><code>&lt;h1 v-show=&quot;ok&quot;&gt;v-show指令也可以控制显示隐藏元素&lt;/h1&gt;</code></p>
 <p>v-show和v-if的区别：</p>
 <p>v-show会渲染dom树，其元素的display属性受条件的控制显示隐藏元素；</p>
@@ -5115,11 +5149,11 @@ computed: {
 <h2 id="环境变量问题解决方法"><a href="#环境变量问题解决方法" class="headerlink" title="环境变量问题解决方法"></a>环境变量问题解决方法</h2><p>找到“我的电脑“-”高级系统设置“-”环境变量“-”系统变量“中的path，向其中添加hugo可执行软件(.exe)的路径即可。</p>
 <p>之后可以在命令窗口中输入hugo version命令，试试有没有版本信息。</p>
 <h2 id="主题问题"><a href="#主题问题" class="headerlink" title="主题问题"></a>主题问题</h2><p>下载主题可以到<a href="https://themes.gohugo.io/" target="_blank" rel="noopener">雨果主题</a>上下载，但是里面有些主题因为很长时间没有维护所以用不了 需要去选择测试</p>
-<h2 id="Hugo中插入图片路径问题"><a href="#Hugo中插入图片路径问题" class="headerlink" title="Hugo中插入图片路径问题"></a>Hugo中插入图片路径问题</h2><p>解决这个问题主要是看路径是否写对 ， 图片是否存在static当中 ，图片名是否正确<br><img src="/my_technology_blog/1.png" srcset="/my_blog/img/loading.gif" alt="王海鑫的技术博客"></p>
+<h2 id="Hugo中插入图片路径问题"><a href="#Hugo中插入图片路径问题" class="headerlink" title="Hugo中插入图片路径问题"></a>Hugo中插入图片路径问题</h2><p>解决这个问题主要是看路径是否写对 ， 图片是否存在static当中 ，图片名是否正确<br><img src="/my_technology_blog/1.png" srcset="/blog/img/loading.gif" alt="王海鑫的技术博客"></p>
 <h2 id="命令行报错"><a href="#命令行报错" class="headerlink" title="命令行报错"></a>命令行报错</h2><p>hugo的报错还是很人性化的。只要认真看报错信息，基本上都能定位到错误位置。</p>
 <h2 id="使用码云直接上传代码生成网站"><a href="#使用码云直接上传代码生成网站" class="headerlink" title="使用码云直接上传代码生成网站"></a>使用码云直接上传代码生成网站</h2><p>使用码云要简单一些. 主要把你的站点生成纯静态页面，然后打包到public文件夹时</p>
 <pre><code>hugo --baseUrl=&quot;/my_technology_blog/&quot;</code></pre><p>域名要对应 不然部署上去是没有样式的</p>
-<p>进入【public】文件夹，cmd打开命令窗口依次执行如下命令：<br>【git init】  // 初始化git<br>【git remote add origin  <a href="https://github.com/xxx/xxx.github.io.git】" target="_blank" rel="noopener">https://github.com/xxx/xxx.github.io.git】</a> // 后面是上面新建的空白仓库地址<br>【git add .】  // 注意最后有个点，代表把当前目录内的所有文件加入到跟踪<br>【git commit -m “Initial”】  // 执行git commit 指令<br>【git push -u origin master】 // 推送到仓库，稍后提示成功                 </p>
+<p>进入【public】文件夹，cmd打开命令窗口依次执行如下命令：<br>【git init】  // 初始化git<br>【git remote add origin  <a href="https://github.com/xxx/xxx.github.io.git】">https://github.com/xxx/xxx.github.io.git】</a> // 后面是上面新建的空白仓库地址<br>【git add .】  // 注意最后有个点，代表把当前目录内的所有文件加入到跟踪<br>【git commit -m “Initial”】  // 执行git commit 指令<br>【git push -u origin master】 // 推送到仓库，稍后提示成功                 </p>
 ]]></content>
       <categories>
         <category>hugo</category>
@@ -5379,7 +5413,7 @@ xpath(&#39;//div[contains(@class,&#39;divtag&#39;)]&#39;)
   <entry>
     <title>C程序 ，个人小例子</title>
     <url>/blog/2020/04/11/C%E7%A8%8B%E5%BA%8F/</url>
-    <content><![CDATA[<h3 id="运行效果！！"><a href="#运行效果！！" class="headerlink" title="运行效果！！"></a>运行效果！！</h3><p>   <img src="/img/C.png" srcset="/img/loading.gif" alt="hexo_themes"></p>
+    <content><![CDATA[<h3 id="运行效果！！"><a href="#运行效果！！" class="headerlink" title="运行效果！！"></a>运行效果！！</h3><p>   <img src="/img/C.png" srcset="/blog/img/loading.gif" alt="hexo_themes"></p>
 <pre><code>#include &quot;stdio.h&quot;
 #include &quot;windows.h&quot;
 void s1(char arr[],int len){//项目一 
@@ -5573,9 +5607,9 @@ methods:{
 &lt;/style&gt;</code></pre></li>
 </ol>
 <pre><code>url = &quot;https://api.weibo.com/oauth2/authorize?client_id=********&amp;redirect_uri=http://127.0.0.1:8000/md_admin/weibo&quot;</code></pre><p>这个client_id 是 App Key 在微博开放平台 创建的应用</p>
-<p><img src="/img/0200404151....526.jpg" srcset="/img/loading.gif" alt="0200404151....526"></p>
+<p><img src="/img/0200404151....526.jpg" srcset="/blog/img/loading.gif" alt="0200404151....526"></p>
 <p>这个 redirect_uri 是回调接口是本地Django的 ，在在微博开放平台  /   高级信息 可以看到</p>
-<p><img src="/img/sssss0200404151946.jpg" srcset="/img/loading.gif" alt="sssss0200404151946"></p>
+<p><img src="/img/sssss0200404151946.jpg" srcset="/blog/img/loading.gif" alt="sssss0200404151946"></p>
 <p>建议两个路由写一样的！！</p>
 <h5 id="以上是Vue-，然后我们开始写Django"><a href="#以上是Vue-，然后我们开始写Django" class="headerlink" title="以上是Vue ，然后我们开始写Django"></a>以上是Vue ，然后我们开始写Django</h5><p>在django的视图文件里定义方法</p>
 <pre><code>#新浪微博回调
@@ -5607,8 +5641,8 @@ def wb_back(request):
         <category>Django</category>
       </categories>
       <tags>
-        <tag>Vue</tag>
         <tag>Django</tag>
+        <tag>Vue</tag>
       </tags>
   </entry>
   <entry>
@@ -5772,7 +5806,7 @@ db.snack.find({$or:[{&#39;price&#39;:{$gt:4}},{&#39;price&#39;:{$lt:2.5}}]})</co
     <url>/blog/2020/04/08/Git%E5%BD%BB%E5%BA%95%E5%88%A0%E9%99%A4%E5%8E%86%E5%8F%B2%E6%8F%90%E4%BA%A4%E8%AE%B0%E5%BD%95%E7%9A%84%E6%96%B9%E6%B3%95/</url>
     <content><![CDATA[<h6 id="1、查看Git提交记录"><a href="#1、查看Git提交记录" class="headerlink" title="1、查看Git提交记录"></a>1、查看Git提交记录</h6><pre><code class="shell"># git log</code></pre>
 <hr>
-<h6 id="2、找到需要回滚到的提交点，复制它的hash值"><a href="#2、找到需要回滚到的提交点，复制它的hash值" class="headerlink" title="2、找到需要回滚到的提交点，复制它的hash值"></a>2、找到需要回滚到的提交点，复制它的hash值</h6><p><img src="/yilia-plus-demo/images/2743275-f79de5b6d7280d81.png" srcset="/img/loading.gif" alt=""></p>
+<h6 id="2、找到需要回滚到的提交点，复制它的hash值"><a href="#2、找到需要回滚到的提交点，复制它的hash值" class="headerlink" title="2、找到需要回滚到的提交点，复制它的hash值"></a>2、找到需要回滚到的提交点，复制它的hash值</h6><p><img src="/yilia-plus-demo/images/2743275-f79de5b6d7280d81.png" srcset="/blog/img/loading.gif" alt=""></p>
 <pre><code class="shell"># git reset --hard 你复制的hash值</code></pre>
 <a id="more"></a>
 <hr>
@@ -6088,10 +6122,10 @@ class GoodsClink(APIView):
 <ol>
 <li>智能提示可以用heyui框架的autocomplete标签</li>
 </ol>
-<p><img src="/my_blog/img/heyui_kuang.png" srcset="/img/loading.gif" alt="heyui_kuang"></p>
+<p><img src="/my_blog/img/heyui_kuang.png" srcset="/blog/img/loading.gif" alt="heyui_kuang"></p>
 <ol start="2">
 <li><p>点击展开代码，吧一下代码复制到你的vue界面的模板层</p>
-<p><img src="/my_blog/img/heyui_template.png" srcset="/img/loading.gif" alt="heyui_template"></p>
+<p><img src="/my_blog/img/heyui_template.png" srcset="/blog/img/loading.gif" alt="heyui_template"></p>
 </li>
 </ol>
 <p>也可以吧div放在你喜欢的位置</p>
@@ -6177,7 +6211,7 @@ cd blog   #进入到文件夹</code></pre></li>
 <pre><code>hexo init my_blog  # my_blog=项目名称</code></pre><p>这个过程会比较慢，需要稍微等一会！</p>
 <p>建议在看到进度条的时候可以停掉，</p>
 <p>因为实在下载主题，时间会比较长</p>
-<p><img src="/img/hexo_themes.png" srcset="/img/loading.gif" alt="hexo_themes"></p>
+<p><img src="/img/hexo_themes.png" srcset="/blog/img/loading.gif" alt="hexo_themes"></p>
 </li>
 <li><pre><code>执行  npm istall</code></pre><p>安装一些配置文件 ，要等一等，不要急哦！！</p>
 </li>
@@ -6185,19 +6219,19 @@ cd blog   #进入到文件夹</code></pre></li>
 <pre><code>hexo server    #简写 hexo s</code></pre><p>出现端口号就可以在本地浏览器访问啦！！</p>
 </li>
 </ol>
-<p>   <img src="/img/hexo_port.jpg" srcset="/img/loading.gif" alt="hexo_themes"></p>
+<p>   <img src="/img/hexo_port.jpg" srcset="/blog/img/loading.gif" alt="hexo_themes"></p>
 <p>​    出现页面就成功啦！！</p>
-<p><img src="/img/hexo_helloworld.jpg" srcset="/img/loading.gif" alt="hexo_helloworld"></p>
+<p><img src="/img/hexo_helloworld.jpg" srcset="/blog/img/loading.gif" alt="hexo_helloworld"></p>
 <ol start="8">
 <li><p>接下来上传gitee码云</p>
 <p>8.1 登录码云新建仓库，输入仓库名称，点击公开，下拉点击创建。</p>
-<p><img src="/img/hexo_gitee_new.png" srcset="/img/loading.gif" alt="hexo_gitee_new"></p>
+<p><img src="/img/hexo_gitee_new.png" srcset="/blog/img/loading.gif" alt="hexo_gitee_new"></p>
 </li>
 <li><p>利用编辑器Visual Studio Code或其他的都可以，打开_config.yml</p>
-<p><img src="/img/hexo_gitee_deploy.jpg" srcset="/img/loading.gif" alt="hexo_gitee_deploy"></p>
+<p><img src="/img/hexo_gitee_deploy.jpg" srcset="/blog/img/loading.gif" alt="hexo_gitee_deploy"></p>
 </li>
 </ol>
-<p><img src="img/hexo_gitee_url.jpg" srcset="/img/loading.gif" alt="hexo_gitee_url"></p>
+<p><img src="img/hexo_gitee_url.jpg" srcset="/blog/img/loading.gif" alt="hexo_gitee_url"></p>
 <ol start="10">
 <li><p>生成打包文件</p>
 <p>在跟_config.yml同级的目录下执行命令</p>
@@ -6215,11 +6249,11 @@ git push origin master</code></pre></li>
 <ol start="12">
 <li><p>提交上以后</p>
 <p>点击服务，点击gitee pages</p>
-<p><img src="/img/hexo_gitee_pages.png" srcset="/img/loading.gif" alt="hexo_gitee_pages"></p>
+<p><img src="/img/hexo_gitee_pages.png" srcset="/blog/img/loading.gif" alt="hexo_gitee_pages"></p>
 </li>
 </ol>
 <p>下滑，点击启动</p>
-<p><img src="/img/hexo_gitee_start.png" srcset="/img/loading.gif" alt="1"></p>
+<p><img src="/img/hexo_gitee_start.png" srcset="/blog/img/loading.gif" alt="1"></p>
 <h4 id="生成路由就可以访问啦！！！"><a href="#生成路由就可以访问啦！！！" class="headerlink" title="生成路由就可以访问啦！！！"></a>生成路由就可以访问啦！！！</h4><h3 id="你的简易的个人博客搭建好啦"><a href="#你的简易的个人博客搭建好啦" class="headerlink" title="你的简易的个人博客搭建好啦"></a>你的简易的个人博客搭建好啦</h3>]]></content>
       <categories>
         <category>Hexo</category>
@@ -6320,25 +6354,21 @@ git push origin master</code></pre></li>
         <category>Django</category>
       </categories>
       <tags>
-        <tag>Vue</tag>
         <tag>Django</tag>
+        <tag>Vue</tag>
       </tags>
   </entry>
   <entry>
     <title>Hello World</title>
     <url>/blog/2020/04/04/hello-world/</url>
-    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure>
-
+    <content><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues">GitHub</a>.</p>
+<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><pre><code class="bash">$ hexo new &quot;My New Post&quot;</code></pre>
 <p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure>
-
+<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><pre><code class="bash">$ hexo server</code></pre>
 <p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure>
-
+<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><pre><code class="bash">$ hexo generate</code></pre>
 <p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure>
-
+<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><pre><code class="bash">$ hexo deploy</code></pre>
 <p>More info: <a href="https://hexo.io/docs/one-command-deployment.html" target="_blank" rel="noopener">Deployment</a></p>
 ]]></content>
   </entry>

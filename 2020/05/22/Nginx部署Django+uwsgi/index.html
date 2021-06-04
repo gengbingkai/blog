@@ -172,28 +172,28 @@
             
             <div class="markdown-body">
               <p>　<strong>1、在centos 7中安装python3环境</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code># 1、yum更新yum源
 yum update
 # 2、安装Python 3.7所需的依赖否则安装后没有pip3包
 yum install zlib-devel bzip2-devel openssl-devel ncurses-devel sqlite-devel readline-devel tk-devel libffi-devel gcc make
 # 3、在官网下载所需版本，这里用的是3.7.0版本，这个应该下不了，去官网找一个，就好。
-wget https://www.python.org/ftp/3.7.0/Python-3.7.0.tgz</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" srcset="/img/loading.gif" alt="img"> <strong>2、安装Python</strong></p>
+wget https://www.python.org/ftp/3.7.0/Python-3.7.0.tgz</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ContractedBlock.gif" srcset="/blog/img/loading.gif" alt="img"> <strong>2、安装Python</strong></p>
 <p>　　<strong>2、初始化一个django项目</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>[root@linux-node1 /]# pip3 install django==2.0.4
 [root@linux-node1 /]# mkdir /code/
 [root@linux-node1 /]# cd /code/
 [root@linux-node1 testProj]# django-admin startproject mmcsite
 [root@linux-node1 testProj]# cd /code/mmcsite
 [root@linux-node1 testProj]# python3 manage.py runserver 0.0.0.0:8000
-# 页面中访问：http://192.168.56.11:8000/</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+# 页面中访问：http://192.168.56.11:8000/</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　<strong>3、安装uwsgi 并使用uWSGI启动这个服务</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>&#39;&#39;&#39;1. 安装uwsgi&#39;&#39;&#39;
 [root@linux-node1 /]# pip3 install uwsgi
 [root@linux-node1 /]# ln -s /usr/local/python3/bin/uwsgi /usr/bin/uwsgi
@@ -215,8 +215,8 @@ enable-threads = true
 
 &#39;&#39;&#39;3. 使用uwsgi启动django：一定要在这个项目目录中&#39;&#39;&#39;
 [root@linux-node1 /]# uwsgi --http 192.168.56.11:80 --file mmcsite/wsgi.py --static-map=/static=static
-访问项目：http://192.168.56.11</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+访问项目：http://192.168.56.11</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>[root@linux-node2 demo2]# vim /code/mmcsite/uwsgi.ini  # uwsgi.ini文件
 [uwsgi]
 socket = 0.0.0.0:6789                  # 指定socket监听的地址和端口
@@ -229,10 +229,10 @@ daemonize = /code/mmcsite/uwsgi.log    # 日志存放路径
 module=mmcsite.wsgi                    # 使用mmcsite.wsgi模块
 pidfile = /code/mmcsite/uwsgi.pid      # uwsgi启动进程id存放路径
 chmod-socket=666                       # socket权限
-enable-threads = true                  # 允许用内嵌的语言启动线程，这将允许你在app程序中产生一个子线程</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+enable-threads = true                  # 允许用内嵌的语言启动线程，这将允许你在app程序中产生一个子线程</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　<strong>4、安装配置nginx</strong></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>&#39;&#39;&#39;1. 配置nginx YUM源&#39;&#39;&#39;
 [root@linux-node1 /] vim /etc/yum.repos.d/nginx.repo
 ​```
@@ -245,9 +245,9 @@ gpgcheck=0
 enabled=1
 ​```
 &#39;&#39;&#39;2. 安装nginx&#39;&#39;&#39;
-[root@linux-node1 /] yum -y install nginx</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
-<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/img/loading.gif" alt="img"></p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+[root@linux-node1 /] yum -y install nginx</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
+<p><img src="https://images.cnblogs.com/OutliningIndicators/ExpandedBlockStart.gif" srcset="/blog/img/loading.gif" alt="img"></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>[root@linux-node1 /]# vim /etc/nginx/conf.d/django.conf 
 server {
     listen 8001; #暴露给外部访问的端口 
@@ -265,7 +265,7 @@ server {
 
 
     include /etc/nginx/conf.d/*.conf;
-}</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+}</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　<strong>5、启动项目</strong></p>
 <pre><code>[root@linux-node1 demo2]# systemctl restart nginx   # 开启nginx
 [root@linux-node1 demo2]# uwsgi --ini uwsgi.ini     # 启动uwsgi的django项目

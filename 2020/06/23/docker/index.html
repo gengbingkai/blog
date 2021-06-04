@@ -181,8 +181,8 @@
 <h2 id="docker"><a href="#docker" class="headerlink" title="docker"></a>docker</h2><h3 id="什么是docker"><a href="#什么是docker" class="headerlink" title="什么是docker?"></a>什么是docker?</h3><p>​        Docker 是一个<a href="https://baike.baidu.com/item/开源/246339" target="_blank" rel="noopener">开源</a>的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的镜像中，然后发布到任何流行的 <a href="https://baike.baidu.com/item/Linux" target="_blank" rel="noopener">Linux</a>或<a href="https://baike.baidu.com/item/Windows/165458" target="_blank" rel="noopener">Windows</a> 机器上，也可以实现<a href="https://baike.baidu.com/item/虚拟化/547949" target="_blank" rel="noopener">虚拟化</a>。容器是完全使用<a href="https://baike.baidu.com/item/沙箱/393318" target="_blank" rel="noopener">沙箱</a>机制，相互之间不会有任何接口。</p>
 <h3 id="docker和虚拟机的对比"><a href="#docker和虚拟机的对比" class="headerlink" title="docker和虚拟机的对比"></a>docker和虚拟机的对比</h3><p>一个容器中运行原生Linux和共享主机与其它容器的内核，它运行一个独立的进程，不占用任何其它可执行文件的内存，使其轻量化。</p>
 <p>相比之下，虚拟机(VM)运行一个完整的“客户”操作系统，通过虚拟机管理程序虚拟访问主机资源。一般来说，虚拟机提供的环境比大多数应用程序需要的资源多。</p>
-<p><img src="./pic/docke%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%9A%94%E7%A6%BB%E5%AF%B9%E6%AF%94.png" srcset="/img/loading.gif" alt="docke和虚拟机的隔离对比"></p>
-<p><img src="./pic/docker%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%AF%94%E8%BE%83.png" srcset="/img/loading.gif" alt="docker和虚拟机的比较"></p>
+<p><img src="./pic/docke%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%9A%94%E7%A6%BB%E5%AF%B9%E6%AF%94.png" srcset="/blog/img/loading.gif" alt="docke和虚拟机的隔离对比"></p>
+<p><img src="./pic/docker%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E6%AF%94%E8%BE%83.png" srcset="/blog/img/loading.gif" alt="docker和虚拟机的比较"></p>
 <h3 id="docker的使用环境？"><a href="#docker的使用环境？" class="headerlink" title="docker的使用环境？"></a>docker的使用环境？</h3><ul>
 <li>应用程序打包和发布</li>
 <li>应用程序隔离</li>
@@ -234,13 +234,13 @@ Docker镜像是一个特殊的文件系统，除了提供容器运行时所需�
 <li>仓库分为公开仓库（Public）和私有仓库（Private）两种形式</li>
 </ul>
 <h3 id="关于镜像和容器的命令"><a href="#关于镜像和容器的命令" class="headerlink" title="关于镜像和容器的命令"></a>关于镜像和容器的命令</h3><p><strong>镜像管理命令</strong></p>
-<p><img src="./pic/%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="镜像命令"></p>
+<p><img src="./pic/%E9%95%9C%E5%83%8F%E5%91%BD%E4%BB%A4.png" srcset="/blog/img/loading.gif" alt="镜像命令"></p>
 <p><strong>容器管理命令</strong></p>
-<p><img src="./pic/%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="容器管理命令"></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E7%AE%A1%E7%90%86%E5%91%BD%E4%BB%A4.png" srcset="/blog/img/loading.gif" alt="容器管理命令"></p>
 <p><strong>容器管理命令参数</strong></p>
-<p><img src="./pic/%E5%AE%B9%E5%99%A8%E5%8F%82%E6%95%B0.png" srcset="/img/loading.gif" alt="容器参数"></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E5%8F%82%E6%95%B0.png" srcset="/blog/img/loading.gif" alt="容器参数"></p>
 <p><strong>容器管理资源限制命令</strong></p>
-<p><img src="./pic/%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6.png" srcset="/img/loading.gif" alt="容器资源限制"></p>
+<p><img src="./pic/%E5%AE%B9%E5%99%A8%E8%B5%84%E6%BA%90%E9%99%90%E5%88%B6.png" srcset="/blog/img/loading.gif" alt="容器资源限制"></p>
 <p>示例:<br>　　　　内存限额:<br>　　　　允许容器最多使用500M内存和100M的Swap，并禁用 OOM Killer:<br>　　　　docker run -d –name nginx03 –memory=”500m” –memory-swap=“600m” –oom-kill-disable nginx</p>
 <p>　　　　CPU限额:</p>
 <p>　　　　允许容器最多使用一个半的CPU:<br>　　　　run -d –name nginx04 –cpus=”1.5” nginx 允许容器最多使用50%的CPU:<br>　　　　docker run -d –name nginx05 –cpus=”.5” </p>
@@ -459,7 +459,7 @@ CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]   #容器启动
 <li>docker compose就是一个可以同时管理一个项目中的多个docker容器的工具，一键部署启动</li>
 </ol>
 <h3 id="安装docker-compose"><a href="#安装docker-compose" class="headerlink" title="安装docker compose"></a><strong>安装docker compose</strong></h3><p>　<strong>1、法1：下载 并安装docker compose</strong></p>
-<p>　　　　curl -L <a href="https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname" target="_blank" rel="noopener">https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname</a> -s<code>-</code>uname -m` -o /usr/local/bin/docker-compose<br>　　　　chmod +x /usr/local/bin/docker-compose</p>
+<p>　　　　curl -L <a href="https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname">https://github.com/docker/compose/releases/download/1.15.0/docker-compose-`uname</a> -s<code>-</code>uname -m` -o /usr/local/bin/docker-compose<br>　　　　chmod +x /usr/local/bin/docker-compose</p>
 <p> 　　　　或者</p>
 <p>　　　　pip install docker-compose</p>
 <p>　<strong>2、法2：直接解压安装</strong></p>
@@ -470,8 +470,8 @@ CMD [&quot;nginx&quot;, &quot;-g&quot;, &quot;daemon off;&quot;]   #容器启动
 <p>　　　YAML是一种标记语言很直观的数据序列化格式，可读性高。类似于XML数据描述语言，语法比XML简单的很多。</p>
 <p>　　　YAML数据结构通过缩进来表示，连续的项目通过减号来表示，键值对用冒号分隔，数组用中括号括起来，hash用花括号括起来。</p>
 <p>　　　<strong>YAML文件格式注意事项：</strong><br>　　　　　1.不支持制表符tab键缩进，需要使用空格缩进<br>　　　　　2.通常开头缩进2个空格<br>　　　　　3.字符后缩进1个空格，如冒号、逗号、横杆<br>　　　　　4.用井号注释<br>　　　　　5.如果包含特殊字符用单引号引起来<br>　　　　　6.布尔值（true、false、yes、no、on、off）必须用引号括起来，这样分析器会将他们解释为字符串。</p>
-<h3 id="compose-配置常用字段"><a href="#compose-配置常用字段" class="headerlink" title="compose 配置常用字段"></a><strong>compose 配置常用字段</strong></h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5.png" srcset="/img/loading.gif" alt="img"></p>
-<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png" srcset="/img/loading.gif" alt="img"></p>
+<h3 id="compose-配置常用字段"><a href="#compose-配置常用字段" class="headerlink" title="compose 配置常用字段"></a><strong>compose 配置常用字段</strong></h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%AD%97%E6%AE%B5.png" srcset="/blog/img/loading.gif" alt="img"></p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><p><img src="./pic/docker-compose%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4.png" srcset="/blog/img/loading.gif" alt="img"></p>
 <h3 id="命令举例"><a href="#命令举例" class="headerlink" title="命令举例"></a>命令举例</h3><pre><code class="python">&#39;&#39;&#39;1.docker-compose常用命令&#39;&#39;&#39;
 docker-compose -f docker-compose.yml  up -d    # 启动docker-compose管理的所有容器
 docker-compose ps                               # 列出 Compose 应用中的各个容器,类似docker ps

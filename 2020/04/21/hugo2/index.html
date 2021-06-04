@@ -175,11 +175,11 @@
 <h2 id="环境变量问题解决方法"><a href="#环境变量问题解决方法" class="headerlink" title="环境变量问题解决方法"></a>环境变量问题解决方法</h2><p>找到“我的电脑“-”高级系统设置“-”环境变量“-”系统变量“中的path，向其中添加hugo可执行软件(.exe)的路径即可。</p>
 <p>之后可以在命令窗口中输入hugo version命令，试试有没有版本信息。</p>
 <h2 id="主题问题"><a href="#主题问题" class="headerlink" title="主题问题"></a>主题问题</h2><p>下载主题可以到<a href="https://themes.gohugo.io/" target="_blank" rel="noopener">雨果主题</a>上下载，但是里面有些主题因为很长时间没有维护所以用不了 需要去选择测试</p>
-<h2 id="Hugo中插入图片路径问题"><a href="#Hugo中插入图片路径问题" class="headerlink" title="Hugo中插入图片路径问题"></a>Hugo中插入图片路径问题</h2><p>解决这个问题主要是看路径是否写对 ， 图片是否存在static当中 ，图片名是否正确<br><img src="/my_technology_blog/1.png" srcset="/my_blog/img/loading.gif" alt="王海鑫的技术博客"></p>
+<h2 id="Hugo中插入图片路径问题"><a href="#Hugo中插入图片路径问题" class="headerlink" title="Hugo中插入图片路径问题"></a>Hugo中插入图片路径问题</h2><p>解决这个问题主要是看路径是否写对 ， 图片是否存在static当中 ，图片名是否正确<br><img src="/my_technology_blog/1.png" srcset="/blog/img/loading.gif" alt="王海鑫的技术博客"></p>
 <h2 id="命令行报错"><a href="#命令行报错" class="headerlink" title="命令行报错"></a>命令行报错</h2><p>hugo的报错还是很人性化的。只要认真看报错信息，基本上都能定位到错误位置。</p>
 <h2 id="使用码云直接上传代码生成网站"><a href="#使用码云直接上传代码生成网站" class="headerlink" title="使用码云直接上传代码生成网站"></a>使用码云直接上传代码生成网站</h2><p>使用码云要简单一些. 主要把你的站点生成纯静态页面，然后打包到public文件夹时</p>
 <pre><code>hugo --baseUrl=&quot;/my_technology_blog/&quot;</code></pre><p>域名要对应 不然部署上去是没有样式的</p>
-<p>进入【public】文件夹，cmd打开命令窗口依次执行如下命令：<br>【git init】  // 初始化git<br>【git remote add origin  <a href="https://github.com/xxx/xxx.github.io.git】" target="_blank" rel="noopener">https://github.com/xxx/xxx.github.io.git】</a> // 后面是上面新建的空白仓库地址<br>【git add .】  // 注意最后有个点，代表把当前目录内的所有文件加入到跟踪<br>【git commit -m “Initial”】  // 执行git commit 指令<br>【git push -u origin master】 // 推送到仓库，稍后提示成功                 </p>
+<p>进入【public】文件夹，cmd打开命令窗口依次执行如下命令：<br>【git init】  // 初始化git<br>【git remote add origin  <a href="https://github.com/xxx/xxx.github.io.git】">https://github.com/xxx/xxx.github.io.git】</a> // 后面是上面新建的空白仓库地址<br>【git add .】  // 注意最后有个点，代表把当前目录内的所有文件加入到跟踪<br>【git commit -m “Initial”】  // 执行git commit 指令<br>【git push -u origin master】 // 推送到仓库，稍后提示成功                 </p>
 
             </div>
             <hr>

@@ -180,7 +180,7 @@
 <p>　　对于VUE的router[mode: history]模式在开发的时候，一般都不出问题。是因为开发时用的服务器为node，Dev环境中自然已配置好了。</p>
 <p>　　但对于放到nginx下运行的时候，自然还会有其他注意的地方。总结如下：</p>
 <p>　　在nginx里配置了以下配置后， 可能首页没有问题，但链接其他会出现（404）</p>
-<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+<p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <pre><code>　　　　location / {
             root   D:\Test\exprice\dist;
             index  index.html index.htm;
@@ -193,7 +193,7 @@
 
         location ^~/api/ {
             proxy_pass   http://39.105.109.245:8080/;
-        }</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/img/loading.gif" alt="复制代码"></a></p>
+        }</code></pre><p><a href="javascript:void(0);"><img src="https://common.cnblogs.com/images/copycode.gif" srcset="/blog/img/loading.gif" alt="复制代码"></a></p>
 <p>　　为了解决404，需要通过以下两种方式：</p>
 <p>　　1、官网推荐</p>
 <pre><code>location / {

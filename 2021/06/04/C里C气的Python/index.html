@@ -17,7 +17,7 @@
   <meta name="description" content="凯凯_技术博客">
   <meta name="author" content="凯凯_">
   <meta name="keywords" content="凯凯_技术博客">
-  <title>VUE部署阿里云contos7 - 凯凯</title>
+  <title>Python 3.10.0 - 凯凯</title>
 
   <link  rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/5.12.1/css/all.min.css" />
 <link  rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.4.1/css/bootstrap.min.css" />
@@ -123,7 +123,7 @@
               
                 <p class="mt-3 post-meta">
                   <i class="fas fa-calendar-alt" aria-hidden="true"></i>
-                  星期一, 五月 11日 2020, 4:19 下午
+                  星期五, 六月 4日 2021, 2:50 下午
                 </p>
               
 
@@ -132,7 +132,7 @@
                   
                   <span class="post-meta">
                     <i class="far fa-chart-bar"></i>
-                    625 字
+                    566 字
                   </span>
                 
 
@@ -142,7 +142,7 @@
                       <i class="far fa-clock"></i>
                     
                     
-                    10
+                    6
                      分钟
                   </span>
                 
@@ -171,150 +171,35 @@
           <div class="post-content mx-auto" id="post">
             
             <div class="markdown-body">
-              <p>首先，说明我的版本</p>
-<p>windows 10系统</p>
-<p>阿里云的contos7</p>
-<p>下载nginx</p>
-<p>先版本一下命令</p>
-<pre><code>yum install nginx   #下载nginx到服务器</code></pre><blockquote>
-<p>yum remove nginx    #删除nginx</p>
-</blockquote>
-<pre><code>nginx
-启动
-systemctl start nginx
-停止
-systemctl stop nginx
-重启
-systemctl restart nginx</code></pre><p>我的连接远程服务器的应用是</p>
-<p>Xshell  和   Xftp6  </p>
-<p>Xshell用来连接</p>
-<p>Xftp6  用来传输文件</p>
-<p>把命令看完就是  VUE和nginx啦</p>
-<h4 id="如果页面不显示，说明路径有问题"><a href="#如果页面不显示，说明路径有问题" class="headerlink" title="如果页面不显示，说明路径有问题"></a>如果页面不显示，说明路径有问题</h4><p>打开在VUE项目的config/index.js文件里</p>
-<pre><code class="vue">  build: {
-    // Template for index.html
-    index: path.resolve(__dirname, &#39;../dist/index.html&#39;),
-
-    // Paths
-    assetsRoot: path.resolve(__dirname, &#39;../dist&#39;),
-    assetsSubDirectory: &#39;static&#39;,
-    assetsPublicPath: &#39;/&#39;,</code></pre>
-<p>找到这些代码，把assetsPublicPath: ‘/‘,这一行改为</p>
-<pre><code>assetsPublicPath: &#39;./&#39;,</code></pre><p>没错，就加了个点</p>
-<p>然后，再找到build/utils.js文件</p>
-<pre><code class="vue">    if (options.extract) {
-      return ExtractTextPlugin.extract({
-        use: loaders,
-        publicPath:&#39;../../&#39;,
-        fallback: &#39;vue-style-loader&#39;
-      })
-    } else {
-      return [&#39;vue-style-loader&#39;].concat(loaders)
-    }</code></pre>
-<p>找到这些，并修改，自己找找哪里不同？然后修改</p>
-<p>修改完VUE后就在项目文件下打包,执行下条命令</p>
-<blockquote>
-<p>npm run build</p>
-</blockquote>
-<p>完成后就会生成dist文件</p>
-<p>用Xftp  传输到服务器相应位置</p>
-<p>然后修改nginx</p>
-<p>找到/etc/nginx/nginx.conf文件,你会看到这些</p>
-<pre><code># For more information on configuration, see:
-#   * Official English Documentation: http://nginx.org/en/docs/
-#   * Official Russian Documentation: http://nginx.org/ru/docs/
-
-user nginx;
-worker_processes auto;
-error_log /var/log/nginx/error.log;
-pid /run/nginx.pid;
-
-# Load dynamic modules. See /usr/share/doc/nginx/README.dynamic.
-include /usr/share/nginx/modules/*.conf;
-
-events {
-    worker_connections 1024;
-}
-
-http {
-    log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;
-                      &#39;$status $body_bytes_sent &quot;$http_referer&quot; &#39;
-                      &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot;&#39;;
-
-    access_log  /var/log/nginx/access.log  main;
-
-    sendfile            on;
-    tcp_nopush          on;
-    tcp_nodelay         on;
-    keepalive_timeout   65;
-    types_hash_max_size 2048;
-
-    include             /etc/nginx/mime.types;
-    default_type        application/octet-stream;
-
-    # Load modular configuration files from the /etc/nginx/conf.d directory.
-    # See http://nginx.org/en/docs/ngx_core_module.html#include
-    # for more information.
-    include /etc/nginx/conf.d/*.conf;
-
-    server {
-        listen       80 default_server;
-        listen       [::]:80 default_server;
-        server_name  _;
-        root         /usr/share/nginx/html;
-
-        # Load configuration files for the default server block.
-        include /etc/nginx/default.d/*.conf;
-
-        location / {
-        }
-
-        error_page 404 /404.html;
-            location = /40x.html {
-        }
-
-        error_page 500 502 503 504 /50x.html;
-            location = /50x.html {
-        }
-    }
-
-# Settings for a TLS enabled server.
-#
-#    server {
-#        listen       443 ssl http2 default_server;
-#        listen       [::]:443 ssl http2 default_server;
-#        server_name  _;
-#        root         /usr/share/nginx/html;
-#
-#        ssl_certificate &quot;/etc/pki/nginx/server.crt&quot;;
-#        ssl_certificate_key &quot;/etc/pki/nginx/private/server.key&quot;;
-#        ssl_session_cache shared:SSL:1m;
-#        ssl_session_timeout  10m;
-#        ssl_ciphers HIGH:!aNULL:!MD5;
-#        ssl_prefer_server_ciphers on;
-#
-#        # Load configuration files for the default server block.
-#        include /etc/nginx/default.d/*.conf;
-#
-#        location / {
-#        }
-#
-#        error_page 404 /404.html;
-#            location = /40x.html {
-#        }
-#
-#        error_page 500 502 503 504 /50x.html;
-#            location = /50x.html {
-#        }
-#    }
-
-}
-
-</code></pre><blockquote>
-<p>root         /usr/share/nginx/html;         把root后面的路径改为dist存放的位置</p>
-</blockquote>
-<p>以上写的是80端口，如果你的80端口被使用了，就换一个端口</p>
-<p>然后根据最上面的命令重启一下，应该就可以了！！！</p>
+              <p>Python 3.10.0 是 Python 的下一个次要版本，预计将于 2021 年 10 月 4 日发布。</p>
+<p>这次更新将为核心语法带来一个重要的补充：<strong>结构模式匹配</strong></p>
+<p>这种结构模式匹配为 Python添加了一种<code>switch</code>语句</p>
+<pre><code class="python">match var:
+    case ...:
+        pass</code></pre>
+<p>在大数多数庞大的项目中，如果使用大量多重if…elif，随着判断层次的加深，那么对于程序的性能影响也将越来越严重</p>
+<p>所以此时使用switch会更加合适，因为switch是随机访问的，当确定了选择值之后将会直接跳转到那个特定的分支，if…else则是遍历所有的可能值，直到找到符合条件的分支；</p>
+<p>如此看来，switch的效率确实比ifelse要高的多。</p>
+<p>以PEP 635 中的示例为例。假设您需要检查一个对象x是否是一个包含套接字连接的主机和端口信息的元组，以及可选的模式，如 HTTP 或 HTTPS。你可以用if… elif…else写这样的东西：</p>
+<pre><code class="python">if isinstance(x, tuple) and len(x) == 2:
+    host, port = x
+    mode = &quot;http&quot;
+elif isinstance(x, tuple) and len(x) == 3:
+    host, port, mode = x
+else:
+    ...</code></pre>
+<p>Python 的新结构模式匹配允许您使用<strong><code>match</code></strong>语句更干净地编写它</p>
+<pre><code class="python">match x:
+    case host, port:
+        mode = &quot;http&quot;
+    case host, port, mode:
+        pass</code></pre>
+<p><code>match</code>语句检查对象是否符合情况之一，并将对象中的数据绑定到<code>case</code>表达式中的变量名</p>
+<p>但是并不是每个人都对模式匹配感到兴奋，而且该功能受到了核心开发团队和社区的批评</p>
+<p>在接受公告中，指导委员会承认了这些担忧，同时也表达了他们对该提案的支持</p>
+<p>我们承认模式匹配是对 Python 的广泛改变，几乎不可能在整个社区中达成共识。不同的人对语义和句法的不同方面有保留或担忧（指导委员会也是如此）。尽管如此，经过深思熟虑，……我们相信 PEP 634 等人中指定的模式匹配将成为 Python 语言的重要补充</p>
+<p>尽管意见分歧，但模式匹配是未来下一个Python的版本</p>
+<p>转载：某大佬（）</p>
 
             </div>
             <hr>
@@ -331,18 +216,12 @@ http {
                   <div class="post-prev col-6">
                     
                     
-                      <a href="/blog/2020/05/12/Nginx%E7%9A%84%E7%90%86%E8%A7%A3/">
-                        <i class="fa fa-chevron-left"></i>
-                        <span class="hidden-mobile">Nginx详情</span>
-                        <span class="visible-mobile">上一篇</span>
-                      </a>
-                    
                   </div>
                   <div class="post-next col-6">
                     
                     
-                      <a href="/blog/2020/05/11/redis%E5%88%86%E5%B8%83%E5%BC%8F/">
-                        <span class="hidden-mobile">redis分布式锁</span>
+                      <a href="/blog/2020/10/20/Django%E5%BD%93%E6%95%B0%E6%8D%AE%E9%87%8F%E5%A4%A7%E6%97%B6%EF%BC%8Corm%E8%B7%9F%E6%96%B0%E6%95%B0%E6%8D%AE/">
+                        <span class="hidden-mobile">Django当数据量大时，orm跟新数据</span>
                         <span class="visible-mobile">下一篇</span>
                         <i class="fa fa-chevron-right"></i>
                       </a>
@@ -501,7 +380,7 @@ http {
     var typed = new Typed('#subtitle', {
       strings: [
         '  ',
-        "VUE部署阿里云contos7&nbsp;",
+        "Python 3.10.0&nbsp;",
       ],
       cursorChar: "_",
       typeSpeed: 70,

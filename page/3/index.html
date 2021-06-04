@@ -148,6 +148,50 @@
     
     
     <div class="col-12 col-md-12 mx-auto index-info">
+      <a href="/blog/2020/06/17/redis%E4%BA%8B%E5%8A%A1/">
+        <p class="h4 index-header">Redis的事务</p>
+      </a>
+
+      <a href="/blog/2020/06/17/redis%E4%BA%8B%E5%8A%A1/" class="index-excerpt-wrap">
+        
+        
+          
+        
+        <div class="index-excerpt" >
+          <div class="index-text mb-1">Redis事务Redis 事务的本质是一组命令的集合。事务支持一次执行多个命令，一个事务中所有命令都会被序列化。
+总结说：redis事务就是一次性、顺序性、排他性的执行一个队列中的一系列命令。　　
+Redis事务没有隔离级别
+乐观锁介绍：（乐观锁主要用于抢红包，淘宝抢购，秒杀之类）
+乐观锁（ Optimistic Locking ） 相对悲观锁而言，乐观锁假设认为数据一般情况下不会造成冲突，所以在数据进行提交更新的时候，才会正式对数据的冲突与否进行检测，如果发现冲突了，则让返回用户错误的信息，让用户决定如何去做
+Redis不保证原子性：
+　　Redis中，单条命令是原子性执行的，但事务不保证原</div>
+        </div>
+      </a>
+
+      <div class="index-btm">
+        
+          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-17&nbsp;&nbsp;
+        
+        
+          <i class="iconfont icon-inbox"></i>
+          
+            <a href="/blog/categories/Redis/">Redis</a>&nbsp;
+          &nbsp;
+        
+        
+          <i class="iconfont icon-tag"></i>
+          
+            <a href="/blog/tags/Redis/">Redis</a>&nbsp;
+          
+        
+      </div>
+    </div>
+  </div>
+
+  <div class="row mx-auto index-card">
+    
+    
+    <div class="col-12 col-md-12 mx-auto index-info">
       <a href="/blog/2020/06/17/mysql%E4%BA%8B%E5%8A%A1%E5%92%8C%E5%BC%95%E6%93%8E/">
         <p class="h4 index-header">mysql事务和引擎</p>
       </a>
@@ -520,47 +564,6 @@ mysql的主从复制原理：主从的好处：
           <i class="iconfont icon-tag"></i>
           
             <a href="/blog/tags/Redis/">Redis</a>&nbsp;
-          
-        
-      </div>
-    </div>
-  </div>
-
-  <div class="row mx-auto index-card">
-    
-    
-    <div class="col-12 col-md-12 mx-auto index-info">
-      <a href="/blog/2020/06/05/java%E7%9A%84print%EF%BC%8Cprintf%EF%BC%8Cprintln/">
-        <p class="h4 index-header">java的print，printf，println</p>
-      </a>
-
-      <a href="/blog/2020/06/05/java%E7%9A%84print%EF%BC%8Cprintf%EF%BC%8Cprintln/" class="index-excerpt-wrap">
-        
-        
-          
-        
-        <div class="index-excerpt" >
-          <div class="index-text mb-1">printf主要是继承了C语言的printf的一些特性，可以进行格式化输出
-print就是一般的标准输出，但是不换行
-println和print基本没什么差别，就是最后会换行
-System.out.printf(“the number is: d”,t);参照JAVA API的定义如下：‘d’ 整数结果被格式化为十进制整数‘o’ 整数结果被格式化为八进制整数‘x’, ‘X’ 整数结果被格式化为十六进制整数‘e’, ‘E’ 浮点结果被格式化为用计算机科学记数法表示的十进制数‘f’ 浮点结果被格式化为十进制数‘g’, ‘G’ 浮点根据精度和舍入运算后的值，使用计算机科学记数形式或十进制格式对结果进</div>
-        </div>
-      </a>
-
-      <div class="index-btm">
-        
-          <i class="iconfont icon-riqi2"></i>&nbsp;2020-06-05&nbsp;&nbsp;
-        
-        
-          <i class="iconfont icon-inbox"></i>
-          
-            <a href="/blog/categories/java/">java</a>&nbsp;
-          &nbsp;
-        
-        
-          <i class="iconfont icon-tag"></i>
-          
-            <a href="/blog/tags/java/">java</a>&nbsp;
           
         
       </div>
